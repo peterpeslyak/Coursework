@@ -21,9 +21,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
+    //@Enumerated(EnumType.STRING)
+    //@Column(nullable = false)
+    //private Role role;
 
     public User() {
     }
@@ -33,7 +33,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.role = role;
+        //this.role = role;
     }
 
     public Long getId() {
@@ -76,6 +76,7 @@ public class User {
         this.password = password;
     }
 
+    /*
     public Role getRole() {
         return role;
     }
@@ -83,4 +84,6 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
+     */
 }
