@@ -1,6 +1,10 @@
 package com.peslayk.model;
 
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
+
+import lombok.Data;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
@@ -21,19 +25,19 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    //@Enumerated(EnumType.STRING)
-    //@Column(nullable = false)
-    //private Role role;
+
+    private String role;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String password, Role role) {
+    public User(Long id, String firstName, String lastName, String email, String password, String role) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        //this.role = role;
+        this.role = role;
     }
 
     public Long getId() {
@@ -76,14 +80,11 @@ public class User {
         this.password = password;
     }
 
-    /*
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
-
-     */
 }

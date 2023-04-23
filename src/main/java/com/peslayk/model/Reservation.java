@@ -1,6 +1,8 @@
 package com.peslayk.model;
 
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity

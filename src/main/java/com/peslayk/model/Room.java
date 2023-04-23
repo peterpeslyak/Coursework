@@ -1,6 +1,8 @@
 package com.peslayk.model;
 
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "rooms")
@@ -24,6 +26,9 @@ public class Room {
         this.roomNumber = roomNumber;
         this.capacity = capacity;
         this.price = price;
+    }
+
+    public Room() {
     }
 
     public Long getId() {

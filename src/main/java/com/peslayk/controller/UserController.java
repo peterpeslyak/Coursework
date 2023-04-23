@@ -1,31 +1,35 @@
 package com.peslayk.controller;
 
-import com.peslayk.service.UserService;
+import com.peslayk.model.User;
+import com.peslayk.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/users")
+import java.security.Principal;
+
+@Controller
+@RequestMapping("/user/")
 public class UserController {
 
-    private UserService userService;
-
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    private UserRepository userRepo;
+
+    @ModelAttribute
+    private void userDetails(Model m, Principal p){
+        String email = p.getName();
+        User user =userRepo.findByEmail(email);
+
+        m.addAttribute("user", user);
+
     }
 
-    /*
-    @PostMapping("/register")
-    public registerUser(){
-    }
 
-    @PostMapping("/login")
-    public loginUser(){
+    @GetMapping(value = "/")
+    public String home(){
+        return "user/home";
     }
-
-     */
 }
-
