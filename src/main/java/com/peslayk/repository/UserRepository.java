@@ -1,7 +1,13 @@
 package com.peslayk.repository;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import com.peslayk.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends JpaRepository<SecurityProperties.User, Long> {
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    User findByEmail(String email);
+
 }
+

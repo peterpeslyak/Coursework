@@ -1,21 +1,31 @@
 package com.peslayk.controller;
 
-import com.peslayk.entity.User;
 import com.peslayk.service.UserService;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
-@Controller
+@RestController
+@RequestMapping("/users")
 public class UserController {
 
     private UserService userService;
 
-    @GetMapping("/users")
-    public String findAll(){
-        List<User> users = null;
-
-        return "";
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
+
+    /*
+    @PostMapping("/register")
+    public registerUser(){
+    }
+
+    @PostMapping("/login")
+    public loginUser(){
+    }
+
+     */
 }
+
