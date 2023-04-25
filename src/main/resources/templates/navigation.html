@@ -15,25 +15,49 @@
 
 <body>
 <header>
-    <a href="/" class="logo"><i class="ri-home-line"></i><h1>Logo</h1></a>
+    <a href="/" class="logo"><i class="ri-home-line"></i><h1>HotReserve</h1></a>
 
-    <ul class="navbar">
-        <li><a href="/" class="active">Home</a></li>
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Contacts</a></li>
-        <li><a href="#">Blog</a></li>
-    </ul>
+    <th:block th:if="${user==NULL}">
 
-    <div class="main">
-        <a href="/signin">Login</a>
-        <a href="/register">Register</a>
-        <div class="bx bx-menu" id="menu-icon"></div>
-    </div>
+        <ul class="navbar">
+            <li><a href="/" class="active">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contacts</a></li>
+            <li><a href="#">Blog</a></li>
+        </ul>
+
+        <div class="main">
+            <a href="/signin">Login</a>
+            <a href="/register">Register</a>
+            <div class="bx bx-menu" id="menu-icon"></div>
+        </div>
+
+    </th:block>
+
+    <th:block th:if="${user!=NULL}">
+
+        <ul class="navbar">
+            <li><a href="/user/" class="active">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contacts</a></li>
+            <li><a href="#">Blog</a></li>
+        </ul>
+
+        <div class="user-menu">
+            <a class="user" [[${user.firstName}]></a>
+            <ul class="dropdown">
+                <li><a href="profile">My Profile</a></li>
+                <li><a href="#">Booking history</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+
+    </th:block>
+
 
 </header>
 
-<!--js link--->
-<script type="text/javascript" src="js/script.js"></script>
+<!--js--->
 <script>
     let menu = document.querySelector ('#menu-icon');
     let navbar = document.querySelector ('.navbar');
@@ -42,6 +66,8 @@
         menu.classList. toggle('bx-x');
         navbar.classList.toggle('open'); }
 </script>
+
+
 </body>
 </html>
 
