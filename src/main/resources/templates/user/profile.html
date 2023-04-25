@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xml:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="style.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <style>
+        .profile-card {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+        .profile-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <!-- Navigation menu -->
+    <div th:replace="navigation.html"></div>
+</header>
+
+<center><h2>My Profile</h2></center>
+
+<div class="profile-card">
+
+    <h3>[[${user.firstName}]]</h3>
+    <h3>[[${user.lastName}]]</h3>
+    <h3>[[${user.email}]]</h3>
+    <h3>[[${user.phoneNumber}]]</h3>
+    <a href="#" class="btn">Update Profile</a>
+    <a href="changePassword" class="btn">Change Password</a>
+</div>
+
+</body>
+
+</html>

@@ -33,6 +33,11 @@ public class UserController {
         return "user/home";
     }
 
+    @GetMapping(value = "/profile")
+    public String profile(){
+        return "user/profile";
+    }
+
     @GetMapping(value = "/changePassword")
     public String loadChangePassword(){
         return "user/change_password";

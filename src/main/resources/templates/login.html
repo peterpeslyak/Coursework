@@ -1,52 +1,69 @@
 <!DOCTYPE html>
-<html lang="en" xml:th="http://www.thymeleaf.org"
-      th:replace="base::layout(~{::section})">
+<html lang="en" dir="ltr" xml:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
+<header>
+    <!-- Navigation menu -->
+    <div th:replace="navigation.html"></div>
+</header>
 
 <section>
     <div class="container p-5">
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="card">
-                    <div class="card-header text-center fs-4">Log In</div>
 
-                    <div th:if="${param.error}" class="alert alert-danger">
-                        Invalid email or password</div>
+                    <div class="center">
+                        <h1>Login</h1>
 
-                    <div th:if="${param.logout}" class="alert alert-success">
-                        Logout Successfully</div>
+                        <form action="/login" method="post">
 
-                    <form action="/login" method="post">
-
-                    <th:block th:if="${session.msg}">
-                        <p class="text-center fs-4 text-success">[[${session.msg}]]</p>
-                        <th:block th:text="${#session.removeAttribute('msg')}"></th:block>
-                    </th:block>
-
-                            <div class="mb-3">
-                                <label>Email</label> <input type="text" name="username"
-                                                            class="form-control">
+                            <div class="txt_field">
+                                <input type="email" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" title="Please enter a correct email" name="username">
+                                <span></span>
+                                <label>Email</label>
                             </div>
 
-                            <div class="mb-3">
-                                <label>Password</label> <input type="password" name="password"
-                                                               class="form-control">
+                            <div class="txt_field">
+                                <input type="password" required name="password">
+                                <span></span>
+                                <label>Password</label>
                             </div>
-                            <button class="btn btn-primary col-md-12">Log In</button>
+
+                            <div class="pass" onclick="window.location.href='/forgotPassword'">
+                                Forgot Password?
+                            </div>
+
+                            <div th:if="${param.error}" class="error_msg">Invalid email or password</div>
+                            <div th:if="${param.logout}" class="success_msg">Logout successfully</div>
+
+                            <input type="submit" value="Login">
+
+                            <div class="signup_link">
+                                Not a member? <a href="/register">Create Account</a>
+                            </div>
+
+                            <th:block th:if="${session.msg}">
+                                <p class="text-center fs-4 text-success" th:text="${session.msg}"></p>
+                                <th:block th:text="${#session.removeAttribute('msg')}"></th:block>
+                            </th:block>
                         </form>
 
-                    <div class="text-center mt-2">
-                    <a href="forgotPassword" class="text-decoration-none fs-5">Forgot Password</a></div>
-
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 </section>
+
+
+
 
 </body>
 </html>

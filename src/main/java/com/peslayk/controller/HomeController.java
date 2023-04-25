@@ -6,7 +6,6 @@ import com.peslayk.service.UserService;
 //import jakarta.servlet.http.HttpSession;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,7 +58,7 @@ public class HomeController {
 
         if (userService.checkEmail(user.getEmail())){
             System.out.println("Email " + user.getEmail() + " is already used");
-            session.setAttribute("msg", "Email is already used");
+            session.setAttribute("msgEmail", "Email is already used");
         } else {
             User user1 = userService.createUser(user);
             if (user1!=null){
