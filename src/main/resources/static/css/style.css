@@ -128,4 +128,8 @@ input[type="submit"]:hover{
 .text-success {
     color: #008000;
 }
+.main-content {
+    margin-top: 100px;
+}
+
 

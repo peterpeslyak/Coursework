@@ -78,10 +78,10 @@ public class HomeController {
         return "forgotPassword";
     }
 
-    @GetMapping(value = "/resetPassword/{id}")
-    public String resetPassword(@PathVariable Long id, Model m){
-        System.out.println(id);
-        m.addAttribute("id", id);
+    @GetMapping(value = "/resetPassword/{idUser}")
+    public String resetPassword(@PathVariable Long idUser, Model m){
+        System.out.println(idUser);
+        m.addAttribute("idUser", idUser);
         return "resetPassword";
     }
 
@@ -90,7 +90,7 @@ public class HomeController {
         User user = userRepo.findByEmailAndPhoneNumber(email, phoneNumber);
 
         if (user!=null){
-            return "redirect:/resetPassword/" + user.getId();
+            return "redirect:/resetPassword/" + user.getIdUser();
         }else{
             session.setAttribute("msg", "Incorrect email or phone number");
             return "forgotPassword";
@@ -98,8 +98,8 @@ public class HomeController {
     }
 
     @PostMapping(value = "/changePassword")
-    public String changePassword(@RequestParam String psw, @RequestParam Long id, HttpSession session) {
-        User user = userRepo.findById(id).get();
+    public String changePassword(@RequestParam String psw, @RequestParam Long idUser, HttpSession session) {
+        User user = userRepo.findById(idUser).get();
         String encryptPsw = passwordEncoder.encode(psw);
         user.setPassword(encryptPsw);
 

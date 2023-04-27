@@ -35,7 +35,7 @@ public class UserController {
 
     @GetMapping(value = "/profile")
     public String profile(){
-        return "user/profile";
+        return "profile";
     }
 
     @GetMapping(value = "/changePassword")

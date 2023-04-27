@@ -2,8 +2,6 @@ package com.peslayk.model;
 
 //import jakarta.persistence.*;
 
-import lombok.Data;
-
 import javax.persistence.*;
 
 @Entity
@@ -11,7 +9,7 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue //(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idUser;
 
     @Column(nullable = false)
     private String firstName;
@@ -33,8 +31,7 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String firstName, String lastName, String email, String password, String phoneNumber, String role) {
-        this.id = id;
+    public User(String firstName, String lastName, String email, String password, String phoneNumber, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -43,12 +40,12 @@ public class User {
         this.role = role;
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdUser() {
+        return idUser;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 
     public String getFirstName() {

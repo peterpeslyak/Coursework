@@ -150,85 +150,127 @@
         }
     }
 
+
     #user-icon{
-        display: block;
+        font-size: 20px;
+        color: var(--main-color);
+        cursor: pointer;
+        z-index: 10001;
     }
-    .user-dropdown {
+
+    .dropdown {
         position: absolute;
         top: 100%;
         right: -100%;
         width: 270px;
-        height: 29vh;
+        height: 17vh;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         border-radius: 10px;
         transition: all .50s ease;
-    }
-    .user-dropdown a{
+        background: linear-gradient(90deg,rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.6));        }
+
+    .dropdown a {
         display: block;
         margin: 12px 0;
         padding: 0px 25px;
-        transition: all .50s ease;
+        transition: all .30s ease;
     }
-    .user-dropdown a:hover {
-        color: var(--hover-color);
-        transform: translateX(10px);
-    }
-    .user-dropdown.active{
+
+    .dropdown a:hover {
         color: var(--hover-color);
     }
-    .user-dropdown.open {
+
+    .dropdown.active {
+        color: var(--hover-color);
+    }
+
+    .dropdown.open {
         right: 2%;
     }
+
+    .ri-settings-4-line {
+        color: var(--main-color);
+        scale: 110%;
+    }
+
+
+    .ri-history-line {
+        color: var(--main-color);
+        scale: 110%;
+
+    }
+    .ri-logout-box-r-line {
+        color: var(--main-color);
+        scale: 110%;
+   }
+    .main2{
+        display: flex;
+        align-items: center;
+    }
+    .main2 a{
+        margin-right: 25px;
+        margin-left: 10px;
+        color: var(--main-color);
+    }
+    .main2 a:hover{
+        transition: all .50s ease;
+        color: var(--hover-color);
+    }
+
 </style>
 
 <body>
+
+<div>
 <header>
 
+    <a href="/" class="logo"><i class="ri-home-line"></i><h1>InfinityHotel</h1></a>
+
+    <ul class="navbar">
+        <li><a href="/" class="active">Home</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Contacts</a></li>
+        <li><a href="#">Blog</a></li>
+    </ul>
+
+    <div class="main">
+        <div class="bx bx-menu" id="menu-icon"></div>
+    </div>
+
     <th:block th:if="${user==NULL}">
-
-        <a href="/" class="logo"><i class="ri-home-line"></i><h1>InfinityHotel</h1></a>
-
-        <ul class="navbar">
-            <li><a href="/" class="active">Home</a></li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Contacts</a></li>
-            <li><a href="#">Blog</a></li>
-        </ul>
 
         <div class="main">
             <a href="/signin">Login</a>
             <a href="/register">Register</a>
-            <div class="bx bx-menu" id="menu-icon"></div>
         </div>
 
     </th:block>
 
     <th:block th:if="${user!=NULL}">
 
-        <a href="/user/" class="logo"><i class="ri-home-line"></i><h1>InfinityHotel</h1></a>
+        <div class="main2">
+            <div class="ri-user-line" id="user-icon"> </div>
+            <div class="user-menu">
+            <a class="user" href="#">[[${user.firstName}]]</a>
+                <ul class="dropdown">
+                    <li>
+                        <a class="ri-settings-4-line" href="profile"> My Profile</a> </li>
+                    <li>
+                        <a class="ri-history-line" href="#"> Booking history</a></li>
+                    <li>
+                        <a class="ri-logout-box-r-line" href="/logout"> Logout</a>
+                    </li>
 
-        <ul class="navbar">
-            <li><a href="/user/" class="active">Home</a></li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Contacts</a></li>
-            <li><a href="#">Blog</a></li>
-        </ul>
-
-        <div class="user-menu">
-            <a class="user" [[${user.firstName}]></a>
-            <ul class="dropdown">
-                <li><a href="profile">My Profile</a></li>
-                <li><a href="#">Booking history</a></li>
-                <li><a href="/logout">Logout</a></li>
-            </ul>
+                </ul>
+            </div>
         </div>
 
     </th:block>
 
-
 </header>
+</div>
 
 <!--js--->
 <script>
@@ -238,6 +280,15 @@
     menu.onclick = () => {
         menu.classList. toggle('bx-x');
         navbar.classList.toggle('open'); }
+</script>
+
+
+<script>
+    let userMenu = document.querySelector('.user-menu');
+    let userDropdown = document.querySelector('.dropdown');
+
+    userMenu.onclick = () => {
+        userDropdown.classList.toggle('open'); }
 </script>
 
 

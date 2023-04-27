@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
-                .antMatchers("/**").permitAll().and().formLogin().loginPage("/signin").loginProcessingUrl("/login")
+                .antMatchers("/**", "/addNewRoom").permitAll().and().formLogin().loginPage("/signin").loginProcessingUrl("/login")
                 .successHandler(customSuccessHandler).and().csrf().disable();
 
         }

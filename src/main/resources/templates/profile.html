@@ -1,17 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" xml:th="http://www.thymeleaf.org">
+<html lang="en" xml:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
-    <link rel="stylesheet" th:href="@{css/style.css}">
+    <title>Profile</title>
+    <link rel="stylesheet" th:href="@{../css/style.css}">
+    <style>
+        .profile-card {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+        .profile-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+        }
+    </style>
 </head>
-
 <body>
 
 <header>
     <!-- Navigation menu -->
     <div th:replace="navigation.html"></div>
 </header>
+
+<br>
+<br>
+<br>
+<br>
+
 
 <section id="main-content" class="main-content">
     <div class="container p-5">
@@ -20,18 +50,18 @@
                 <div class="card">
 
                     <div class="center">
-                        <h1>Create Account</h1>
+                        <h1>My Profile</h1>
 
                         <form action="createUser" method="post">
 
                             <div class="txt_field">
-                                <input type="text" required pattern="[A-Za-zА-Яа-яёЁ]{2,}" title="Please enter your name" name="firstName">
+                                <input type="text" required pattern="[A-Za-zА-Яа-яёЁ]{2,}" title="Please enter your name" name="firstName" th:value="${user.firstName}">
                                 <span></span>
                                 <label>First Name</label>
                             </div>
 
                             <div class="txt_field">
-                                <input type="text" required pattern="[A-Za-zА-Яа-яёЁ]{2,}" title="Please enter your last" name="lastName">
+                                <input type="text" required pattern="[A-Za-zА-Яа-яёЁ]{2,}" title="Please enter your last" name="lastName" th:value="${user.lastName}">
                                 <span></span>
                                 <label>Last Name</label>
                             </div>
@@ -42,21 +72,15 @@
                             </th:block>
 
                             <div class="txt_field">
-                                <input type="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a correct email" name="email">
+                                <input type="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a correct email" name="email" th:value="${user.email}">
                                 <span></span>
                                 <label>Email</label>
                             </div>
 
                             <div class="txt_field">
-                                <input type="tel" required pattern="^\+?\d{12,13}$" title="Please enter a correct phone number" name="phoneNumber">
+                                <input type="tel" required pattern="^\+?\d{12,13}$" title="Please enter a correct phone number" name="phoneNumber" th:value="${user.phoneNumber}">
                                 <span></span>
                                 <label>Phone number</label>
-                            </div>
-
-                            <div class="txt_field">
-                                <input type="password" required name="password">
-                                <span></span>
-                                <label>Password</label>
                             </div>
 
                             <th:block th:if="${session.msg}">
@@ -64,10 +88,12 @@
                                 <th:block th:text="${#session.removeAttribute('msg')}"></th:block>
                             </th:block>
 
-                            <input type="submit" value="Register" style="margin-bottom: 30px">
+                            <input type="submit" value="Update" style="margin-bottom: 30px">
 
-                            </form>
-                        </div>
+                        </form>
+
+                    <input type="url" href="changePassword" value="Change Password">
+                </div>
                 </div>
             </div>
         </div>
@@ -75,4 +101,5 @@
 </section>
 
 </body>
+
 </html>
