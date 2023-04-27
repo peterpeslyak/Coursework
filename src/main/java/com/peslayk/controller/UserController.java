@@ -26,6 +26,7 @@ public class UserController {
         String email = p.getName();
         User user =userRepo.findByEmail(email);
         m.addAttribute("user", user);
+        m.addAttribute("user_role", user.getRole());
     }
 
     @GetMapping(value = "/")

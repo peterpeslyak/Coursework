@@ -31,6 +31,7 @@ public class HomeController {
             String email = p.getName();
             User user = userRepo.findByEmail(email);
             m.addAttribute("user", user);
+            m.addAttribute("user_role", user.getRole());
         }
     }
 

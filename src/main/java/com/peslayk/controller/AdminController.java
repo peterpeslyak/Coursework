@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/")
 public class AdminController {
 
     @Autowired
@@ -22,8 +22,8 @@ public class AdminController {
     private BCryptPasswordEncoder passwordEncode;
 
     @GetMapping("/")
-    public String home(){
-        return "admin/home";
+    public String dashboard(){
+        return "admin/dashboard";
     }
 
     @ModelAttribute
@@ -31,6 +31,7 @@ public class AdminController {
         String email = p.getName();
         User user =userRepo.findByEmail(email);
         m.addAttribute("user", user);
+        m.addAttribute("user_role", user.getRole());
     }
 
     @GetMapping(value = "/profile")
