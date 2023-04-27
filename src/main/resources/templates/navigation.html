@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Booking</title>
-    <link rel="stylesheet" href="styleNavigation.css">
 
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
@@ -13,11 +12,183 @@
 
 </head>
 
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
+
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+        text-decoration: none;
+        list-style: none;
+    }
+    :root{
+        --hover-color: dodgerblue;
+        --main-color: #000000;
+    }
+    body{
+        min-height: 100vh;
+        color: var(--main-color);
+    }
+    header{
+        position: fixed;
+        width: 100%;
+        top: 0;
+        right: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: transparent;
+        padding: 15px 12%;
+        transition: all .50s ease;
+    }
+    .logo{
+        display: flex;
+        align-items: center;
+    }
+    .logo i{
+        font-size: 30px;
+        color: var(--hover-color);;
+    }
+    .logo h1{
+        font-size: 30px;
+        color: var(--main-color);
+        font-width: 600;
+    }
+    .logo h1:hover{
+        color: var(--hover-color);
+    }
+    .navbar{
+        display: flex;
+    }
+    .navbar a{
+        padding: 5px 0;
+        margin: 0px 30px;
+        transition: all .50s ease;
+        color: var(--main-color);
+    }
+    .navbar a:hover{
+        color: var(--hover-color);
+    }
+    .main{
+        display: flex;
+        align-items: center;
+    }
+    .main a{
+        margin-right: 25px;
+        margin-left: 10px;
+        color: var(--main-color);
+    }
+    .main a:hover{
+        transition: all .50s ease;
+        color: var(--hover-color);
+    }
+    .user{
+        display: flex;
+        align-items: center;
+    }
+    #menu-icon{
+        font-size: 35px;
+        color: var(--main-color);
+        cursor: pointer;
+        z-index: 10001;
+        display: none;
+    }
+    #menu-icon:hover{
+        color: var(--hover-color);
+    }
+
+    @media (max-width: 1280px) {
+        header {
+            padding: 14px 2%;
+            transition: .2s;
+        }
+
+        .navbar a {
+            padding: 5px 0;
+            margin: 0px 20px;
+        }
+    }
+
+    @media (max-width: 1090px) {
+        #menu-icon {
+            display: block;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 100%;
+            right: -100%;
+            width: 270px;
+            height: 29vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            border-radius: 10px;
+            transition: all .50s ease;
+            background: linear-gradient(90deg,rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.6));        }
+
+        .navbar a {
+            display: block;
+            margin: 12px 0;
+            padding: 0px 25px;
+            transition: all .30s ease;
+        }
+
+        .navbar a:hover {
+            color: var(--hover-color);
+        }
+
+        .navbar.active {
+            color: var(--hover-color);
+        }
+
+        .navbar.open {
+            right: 2%;
+        }
+    }
+
+    #user-icon{
+        display: block;
+    }
+    .user-dropdown {
+        position: absolute;
+        top: 100%;
+        right: -100%;
+        width: 270px;
+        height: 29vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        border-radius: 10px;
+        transition: all .50s ease;
+    }
+    .user-dropdown a{
+        display: block;
+        margin: 12px 0;
+        padding: 0px 25px;
+        transition: all .50s ease;
+    }
+    .user-dropdown a:hover {
+        color: var(--hover-color);
+        transform: translateX(10px);
+    }
+    .user-dropdown.active{
+        color: var(--hover-color);
+    }
+    .user-dropdown.open {
+        right: 2%;
+    }
+</style>
+
 <body>
 <header>
-    <a href="/" class="logo"><i class="ri-home-line"></i><h1>HotReserve</h1></a>
 
     <th:block th:if="${user==NULL}">
+
+        <a href="/" class="logo"><i class="ri-home-line"></i><h1>InfinityHotel</h1></a>
 
         <ul class="navbar">
             <li><a href="/" class="active">Home</a></li>
@@ -35,6 +206,8 @@
     </th:block>
 
     <th:block th:if="${user!=NULL}">
+
+        <a href="/user/" class="logo"><i class="ri-home-line"></i><h1>InfinityHotel</h1></a>
 
         <ul class="navbar">
             <li><a href="/user/" class="active">Home</a></li>

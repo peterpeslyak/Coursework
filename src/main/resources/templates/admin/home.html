@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xml:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Admin Home</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+
+<header>
+    <!-- Navigation menu -->
+    <div th:replace="navigation.html"></div>
+</header>
+
     <h1>ADMIN PAGE</h1>
     <a href="/logout">Logout</a>
 </body>

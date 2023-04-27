@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" th:href="@{css/style.css}">
 </head>
 
 <body>
@@ -12,6 +12,7 @@
     <!-- Navigation menu -->
     <div th:replace="navigation.html"></div>
 </header>
+
 
 <section>
     <div class="container p-5">
@@ -25,13 +26,13 @@
                         <form action="createUser" method="post">
 
                             <div class="txt_field">
-                                <input type="text" required name="firstName">
+                                <input type="text" required pattern="[A-Za-zА-Яа-яёЁ]{2,}" title="Please enter your name" name="firstName">
                                 <span></span>
                                 <label>First Name</label>
                             </div>
 
                             <div class="txt_field">
-                                <input type="text" required name="lastName">
+                                <input type="text" required pattern="[A-Za-zА-Яа-яёЁ]{2,}" title="Please enter your last" name="lastName">
                                 <span></span>
                                 <label>Last Name</label>
                             </div>

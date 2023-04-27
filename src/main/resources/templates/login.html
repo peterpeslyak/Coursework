@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" th:href="@{css/style.css}">
 </head>
 
 <body>
@@ -42,6 +42,7 @@
 
                             <div th:if="${param.error}" class="error_msg">Invalid email or password</div>
                             <div th:if="${param.logout}" class="success_msg">Logout successfully</div>
+
 
                             <input type="submit" value="Login">
 

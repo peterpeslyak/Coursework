@@ -109,7 +109,7 @@ public class HomeController {
             session.setAttribute("msg", "Password Changed");
             return "redirect:/forgotPassword";
         } else {
-            session.setAttribute("msg", "Something went wrong... Try again later");
+            session.setAttribute("msgErr", "Something went wrong... Try again later");
             return "/resetPassword";
         }
     }
