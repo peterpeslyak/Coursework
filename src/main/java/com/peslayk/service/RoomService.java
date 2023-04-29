@@ -1,17 +1,20 @@
 package com.peslayk.service;
 
 import com.peslayk.model.Room;
-import com.peslayk.repository.RoomRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class RoomService {
+public interface RoomService {
 
-    @Autowired
-    private RoomRepository roomRepository;
+    public Room saveRoom(Room room);
 
-    public Room addNewRoom(Room room){
-        return roomRepository.save(room);
-    }
+    public List<Room> getAllRooms();
+
+    public Room getRoomById(Long idRoom);
+
+    public String deleteRoom(Long idRoom);
+
+    public Room editRoom(Room room, Long idRoom);
 }

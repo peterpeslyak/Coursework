@@ -10,7 +10,7 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
           integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <title>ADMIN PAGE</title>
+    <title>Dashboard - Home</title>
 </head>
 
 <style>
@@ -36,11 +36,11 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-3 pt-3" >
-            <div class="card" style="background-color:rgba(255,255,255,0.5);">
+            <div class="card" style="background-color:rgba(255,255,255,0.5); ">
                 <div class="card-body">
                     <h4 class="card-title">Rooms</h4>
                     <p class="card-text">Manage rooms here</p>
-                    <a href="#" th:href="@{/admin/categories}" class="card-link btn btn-primary">Manage</a>
+                    <a href="#" th:href="@{/admin/rooms}" class="card-link btn btn-primary">Manage</a>
 
                 </div>
             </div>
@@ -50,7 +50,7 @@
                 <div class="card-body">
                     <h4 class="card-title">Reservations</h4>
                     <p class="card-text">View and manage reservations</p>
-                    <a href="#" th:href="@{/admin/products}" class="card-link btn btn-primary">Manage</a>
+                    <a href="#" th:href="@{/admin/reservations}" class="card-link btn btn-primary">Manage</a>
 
                 </div>
             </div>
@@ -60,7 +60,7 @@
                 <div class="card-body">
                     <h4 class="card-title">Users</h4>
                     <p class="card-text">View users data</p>
-                    <a href="#" th:href="@{/admin/products}" class="card-link btn btn-primary">View</a>
+                    <a href="#" th:href="@{/admin/users}" class="card-link btn btn-primary">View</a>
 
                 </div>
             </div>

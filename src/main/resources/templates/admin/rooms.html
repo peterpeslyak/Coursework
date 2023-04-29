@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <title>Dashboard - Users</title>
+</head>
+
+<body>
+
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(120deg,#2980b9, #8e44ad);
+            height: 100vh;
+            overflow: hidden;
+        }
+        #minus-btn:hover{
+            color: #2980b9;
+        }
+        #plus-btn:hover{
+            color: #2980b9;
+        }
+        #minus-btn2:hover{
+            color: #2980b9;
+        }
+        #plus-btn2:hover{
+            color: #2980b9;
+        }
+    </style>
+
+<header>
+    <!-- Navigation menu -->
+    <div th:replace="navigationAdmin.html"></div>
+</header>
+
+<div class="jumbotron text-center" style="background: rgba(255,255,255,0.3)">
+    <!-- Tittle -->
+    <h1 class="display-4">Rooms</h1>
+    <p>Manage all rooms on the dashboard</p>
+</div>
+
+<div class="container">
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRoomModal" style="color: white;">
+        Add room
+    </button>
+    
+    <a th:href="@{/admin/rooms/addRoom}" style="margin: 20px 0" class="btn btn-primary">Add Room</a>
+    
+    <table class="table" style="text-align: center">
+            <!-- Table -->
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Capacity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Available</th>
+            <th scope="col">Rating</th>
+            <th scope="col"></th>
+            
+
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="room : ${rooms}" style="background-color: rgba(245, 245, 245, 0.5)">
+            <td th:text="${room.idRoom}"></td>
+            <td th:text="${room.name}"></td>
+            <td th:text="${room.type}"></td>
+            <td th:text="${room.capacity}"></td>
+            <td th:text="${room.price}"></td>
+            <td th:text="${room.available} ? 'Yes' : 'No'"></td>
+            <td th:text="${room.description}"></td>
+
+            <td>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#roomInfoModal"
+                    data-name="${room.name}" data-type="${room.type}" data-description="${room.description}"
+                    data-rating="${room.rating}">
+                    Info
+            </button>
+
+
+            <!--
+            <td>
+                <button type="button" class="btn btn-warning" href="#"
+                        data-room-id="${room.idRoom}" data-toggle="modal" data-target="#editRoomModal">
+                    Edit
+                </button>
+            </td>
+            -->
+
+            
+            <td><a href="" th:href="@{/admin/rooms/editRoom/{id}(id=${room.idRoom})}" class="btn btn-warning">Update</a></td>
+             
+            <td><a href="" th:href="@{/admin/rooms/deleteRoom/{id}(id=${room.idRoom})}" class="btn btn-danger">Delete</a></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+</div>
+
+    <!-- Add Room Modal -->
+<div class="modal fade" id="addRoomModal" tabindex="-1" role="dialog" aria-labelledby="addRoomModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addRoomModalLabel">Add New Room</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addRoomForm" th:action="@{/saveRoom}" method="post">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        <select class="form-control" id="type" name="type" required>
+                            <option value="Standard">Standard</option>
+                            <option value="Lux">Lux</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="capacity" class="col-sm-2 col-form-label">Capacity</label>
+                        <div class="col-sm-4 input-group">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="minus-btn"><i class="fa fa-minus"></i></button>
+                            </span>
+                            <input type="number" class="form-control" id="capacity" name="capacity" value="1" required>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="plus-btn"><i class="fa fa-plus"></i></button>
+                            </span>
+                        </div>
+
+                        <label for="price" class="col-sm-2 col-form-label">Price</label>
+                        <div class="col-sm-4">
+                          <input type="number" class="form-control" id="price" name="price" step="0.01" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="available">Availability</label>
+                        <select class="form-control" id="available" name="available" required>
+                            <option value="true">Available</option>
+                            <option value="false">Not Available</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" form="addRoomForm">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Info Modal -->
+<div class="modal fade" id="roomInfoModal" tabindex="-1" role="dialog" aria-labelledby="roomInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="roomInfoModalLabel">Room Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Id:</strong> <span id="roomId"></span></p>
+                <p><strong>Name:</strong> <span id="roomName"></span></p>
+                <p><strong>Type:</strong> <span id="roomType"></span></p>
+                <p><strong>Capacity:</strong> <span id="roomCapacity"></span></p>
+                <p><strong>Price:</strong> <span id="roomPrice"></span></p>
+                <p><strong>Available:</strong> <span id="roomAvailable"></span></p>
+                <p><strong>Description:</strong> <span id="roomDescription"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        // получаем список кнопок "Info" из таблицы
+        const infoButtons = document.querySelectorAll('button[data-target="#roomInfoModal"]');
+
+        // добавляем обработчик клика на каждую кнопку "Info"
+        infoButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // получаем строку таблицы, которая содержит данные комнаты
+                const roomRow = button.closest('tr');
+
+                // получаем все значения ячеек строки
+                const cells = roomRow.querySelectorAll('td');
+
+                // получаем модальное окно, в которое будем выводить данные комнаты
+                const modal = document.getElementById('roomInfoModal');
+
+                // находим элементы в модальном окне, в которые будем выводить значения ячеек
+                const idElement = modal.querySelector('#roomId');
+                const nameElement = modal.querySelector('#roomName');
+                const typeElement = modal.querySelector('#roomType');
+                const capacityElement = modal.querySelector('#roomCapacity');
+                const priceElement = modal.querySelector('#roomPrice');
+                const availableElement = modal.querySelector('#roomAvailable');
+                const descriptionElement = modal.querySelector('#roomDescription');
+
+                // записываем значения ячеек в соответствующие элементы модального окна
+                idElement.textContent = cells[0].textContent;
+                nameElement.textContent = cells[1].textContent;
+                typeElement.textContent = cells[2].textContent;
+                capacityElement.textContent = cells[3].textContent;
+                priceElement.textContent = cells[4].textContent;
+                availableElement.textContent = cells[5].textContent;
+                descriptionElement.textContent = cells[6].textContent;
+            });
+        });
+    </script>
+
+
+    <script>
+        var minusBtn = document.getElementById("minus-btn");
+        var plusBtn = document.getElementById("plus-btn");
+        var capacityField = document.getElementById("capacity");
+
+        minusBtn.addEventListener("click", function() {
+        if (capacityField.value > 1) {
+            capacityField.value--;
+        }
+        });
+
+        plusBtn.addEventListener("click", function() {
+        capacityField.value++;
+        });
+    </script>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>

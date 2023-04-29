@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Room {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue //(strategy = GenerationType.AUTO)
     private Long idRoom;
     @Column(nullable = false)
     private String name;
@@ -34,11 +34,11 @@ public class Room {
     public Room() {
     }
 
-    public Long getId() {
+    public Long getIdRoom() {
         return idRoom;
     }
 
-    public void setId(Long idRoom) {
+    public void setIdRoom(Long idRoom) {
         this.idRoom = idRoom;
     }
 
