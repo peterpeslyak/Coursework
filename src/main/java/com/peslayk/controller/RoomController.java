@@ -44,17 +44,34 @@ public class RoomController {
         return "room-details";
     }
 
+    @RequestMapping(value = "admin/rooms/editRoom/{idRoom}")
+    public String editRoom(@PathVariable Long idRoom, Model model) {
+        model.addAttribute("room", roomService.getRoomById(idRoom));
+        return "admin/editRoom";
+    }
+
+    @PostMapping(value = "/admin/rooms/editRoom/update/{idRoom}")
+    public String updateRoom(@PathVariable Long idRoom,
+            @ModelAttribute("room") Room room,
+            Model model) {
+        // get room from DB
+        Room oldRoom = roomService.getRoomById(idRoom);
+        oldRoom.setIdRoom(idRoom);
+        oldRoom.setName(room.getName());
+        oldRoom.setType(room.getType());
+        oldRoom.setCapacity(room.getCapacity());
+        oldRoom.setPrice(room.getPrice());
+        oldRoom.setDescription(room.getDescription());
+        oldRoom.setAvailable(room.isAvailable());
+        // save updated object
+        roomService.editRoom(oldRoom);
+        return "redirect:/admin/rooms";
+    }
+
     @GetMapping(value = "admin/rooms/deleteRoom/{idRoom}")
     public String deleteRoom(@PathVariable Long idRoom) {
         roomService.deleteRoom(idRoom);
         return "redirect:/admin/rooms";
-    }
-
-    @RequestMapping(value = "admin/rooms/editRoom/{id}")
-    public String editRoom(@PathVariable("id") Long idRoom, @ModelAttribute Room room) {
-        room.setIdRoom(idRoom);
-        roomService.editRoom(room, idRoom);
-        return "redirect:/rooms";
     }
 
 }

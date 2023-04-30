@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr" xml:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
@@ -8,71 +9,76 @@
 
 <body>
 
-<header>
-    <!-- Navigation menu -->
-    <div th:replace="navigation.html"></div>
-</header>
+    <header>
+        <!-- Navigation menu -->
+        <div th:replace="navigation.html"></div>
+    </header>
 
-<section id="main-content" class="main-content">
-    <div class="container p-5">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="card">
+    <section id="main-content" class="main-content">
+        <div class="container p-5">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="card">
 
-                    <div class="center">
-                        <h1>Create Account</h1>
+                        <div class="center">
+                            <h1>Create Account</h1>
 
-                        <form action="createUser" method="post">
+                            <form action="createUser" method="post">
 
-                            <div class="txt_field">
-                                <input type="text" required pattern="[A-Za-zА-Яа-яёЁ]{2,}" title="Please enter your name" name="firstName">
-                                <span></span>
-                                <label>First Name</label>
-                            </div>
+                                <div class="txt_field">
+                                    <input type="text" required pattern="[A-Za-zА-Яа-яёЁ]{2,}"
+                                        title="Please enter your name" name="firstName">
+                                    <span></span>
+                                    <label>First Name</label>
+                                </div>
 
-                            <div class="txt_field">
-                                <input type="text" required pattern="[A-Za-zА-Яа-яёЁ]{2,}" title="Please enter your last" name="lastName">
-                                <span></span>
-                                <label>Last Name</label>
-                            </div>
+                                <div class="txt_field">
+                                    <input type="text" required pattern="[A-Za-zА-Яа-яёЁ]{2,}"
+                                        title="Please enter your last" name="lastName">
+                                    <span></span>
+                                    <label>Last Name</label>
+                                </div>
 
-                            <th:block th:if="${session.msgEmail}">
-                                <p class="fs-4 text-error" th:text="${session.msgEmail}"></p>
-                                <th:block th:text="${#session.removeAttribute('msgEmail')}"></th:block>
-                            </th:block>
+                                <th:block th:if="${session.msgEmail}">
+                                    <p class="fs-4 text-error" th:text="${session.msgEmail}"></p>
+                                    <th:block th:text="${#session.removeAttribute('msgEmail')}"></th:block>
+                                </th:block>
 
-                            <div class="txt_field">
-                                <input type="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a correct email" name="email">
-                                <span></span>
-                                <label>Email</label>
-                            </div>
+                                <div class="txt_field">
+                                    <input type="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                        title="Please enter a correct email" name="email">
+                                    <span></span>
+                                    <label>Email</label>
+                                </div>
 
-                            <div class="txt_field">
-                                <input type="tel" required pattern="^\+?\d{12,13}$" title="Please enter a correct phone number" name="phoneNumber">
-                                <span></span>
-                                <label>Phone number</label>
-                            </div>
+                                <div class="txt_field">
+                                    <input type="tel" required pattern="^\+?\d{12,13}$"
+                                        title="Please enter a correct phone number" name="phoneNumber">
+                                    <span></span>
+                                    <label>Phone number</label>
+                                </div>
 
-                            <div class="txt_field">
-                                <input type="password" required name="password">
-                                <span></span>
-                                <label>Password</label>
-                            </div>
+                                <div class="txt_field">
+                                    <input type="password" required name="password">
+                                    <span></span>
+                                    <label>Password</label>
+                                </div>
 
-                            <th:block th:if="${session.msg}">
-                                <p class="text-center fs-4 text-success" th:text="${session.msg}"></p>
-                                <th:block th:text="${#session.removeAttribute('msg')}"></th:block>
-                            </th:block>
+                                <th:block th:if="${session.msg}">
+                                    <p class="text-center fs-4 text-success" th:text="${session.msg}"></p>
+                                    <th:block th:text="${#session.removeAttribute('msg')}"></th:block>
+                                </th:block>
 
-                            <input type="submit" value="Register" style="margin-bottom: 30px">
+                                <input type="submit" value="Register" style="margin-bottom: 30px">
 
                             </form>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 </body>
+
 </html>

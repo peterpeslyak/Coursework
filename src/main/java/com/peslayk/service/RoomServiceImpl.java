@@ -40,16 +40,7 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public Room editRoom(Room room, Long idRoom) {
-        Room oldRoom = roomRepo.findById(idRoom).get();
-
-        oldRoom.setName(room.getName());
-        oldRoom.setCapacity(room.getCapacity());
-        oldRoom.setPrice(room.getPrice());
-        oldRoom.setAvailable(room.isAvailable());
-        oldRoom.setDescription(room.getDescription());
-        oldRoom.setPrice(room.getPrice());
-
-        return roomRepo.save(oldRoom);
+    public Room editRoom(Room room) {
+        return roomRepo.save(room);
     }
 }

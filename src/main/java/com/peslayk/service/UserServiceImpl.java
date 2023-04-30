@@ -34,4 +34,14 @@ public class UserServiceImpl implements UserService{
         return userRepo.existsByEmail(email);
     }
 
+    @Override
+    public User getUserById(Long idUser) {
+        return userRepo.findById(idUser).get();
+    }
+
+    @Override
+    public User editUserProfile(User user) {
+        return userRepo.save(user);
+    }
+
 }

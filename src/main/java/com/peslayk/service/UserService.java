@@ -10,4 +10,7 @@ public interface UserService {
 
     public boolean checkEmail(String email);
 
+    public User getUserById(Long idUser);
+
+    public User editUserProfile(User user);
 }

@@ -1,90 +1,101 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
-  *{
+
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
   }
-  .logo{
+
+  .logo {
     display: flex;
     align-items: center;
     margin-top: 10px;
   }
-  :root{
+
+  :root {
     --hover-color: dodgerblue;
     --main-color: #000000;
   }
-  .logo h1{
+
+  .logo h1 {
     font-size: 30px;
     color: var(--main-color);
     font-width: 600;
     text-decoration: none;
   }
-  .logo h1:hover{
+
+  .logo h1:hover {
     color: var(--hover-color);
     text-decoration: none;
   }
-  .nav-link:hover{
+
+  .nav-link:hover {
     color: var(--hover-color);
   }
 </style>
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light" >
-  <div class="container-fluid">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
 
-    <a href="/" class="logo"><i class="ri-home-line"></i><h1>InfinityHotel</h1></a>
+      <a href="/" class="logo"><i class="ri-home-line"></i>
+        <h1>InfinityHotel</h1>
+      </a>
 
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto"></ul>
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="/">Home</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="#">About Us</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Contacts</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Blog</a>
-        </li>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto"></ul>
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#">About Us</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Contacts</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Blog</a>
+          </li>
 
-        <li class="nav-item active">
-          <a class="nav-link" href="/admin/" style="color: red">Dashboard</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="profile" style="color: red">Profile</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="/logout" style="color: red">Logout</a>
-        </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/admin/" style="color: red">Dashboard</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="profile" style="color: red">Profile</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/logout" style="color: red">Logout</a>
+          </li>
 
-      </ul>
+        </ul>
 
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 </body>
+
 </html>

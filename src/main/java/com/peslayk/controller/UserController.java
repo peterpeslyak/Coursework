@@ -1,7 +1,9 @@
 package com.peslayk.controller;
 
+import com.peslayk.model.Room;
 import com.peslayk.model.User;
 import com.peslayk.repository.UserRepository;
+import com.peslayk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncode;
@@ -64,5 +69,32 @@ public class UserController {
             System.out.println("Old password is incorrect");
         }
         return "redirect:/user/changePassword";
+    }
+
+    @PostMapping(value = "/user/profile/editProfile/{idUser}")
+    public String updateUserProfile(@PathVariable Long idUser,
+                             @ModelAttribute("user") User user,
+                             Model model, HttpSession session) {
+
+        if (userService.checkEmail(user.getEmail())){
+            System.out.println("Email " + user.getEmail() + " is already used");
+            session.setAttribute("msgEmail", "Email is already used");
+        } else {
+            User oldUser = userService.getUserById(idUser);
+            oldUser.setIdUser(idUser);
+            oldUser.setFirstName(user.getFirstName());
+            oldUser.setLastName(user.getLastName());
+            oldUser.setEmail(user.getEmail());
+            oldUser.setPhoneNumber(user.getPhoneNumber());
+
+            if (userService.editUserProfile(oldUser)!=null){
+                System.out.println("Profile updated!");
+                session.setAttribute("msg", "Profile updated!");
+            } else {
+                System.out.println("Something went wrong...");
+                session.setAttribute("msg", "Something went wrong... Try again later.");
+            }
+        }
+        return "redirect:/user/profile";
     }
 }

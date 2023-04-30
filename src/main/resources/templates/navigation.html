@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
 
@@ -15,7 +16,7 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
 
-    *{
+    * {
         padding: 0;
         margin: 0;
         box-sizing: border-box;
@@ -23,15 +24,18 @@
         text-decoration: none;
         list-style: none;
     }
-    :root{
+
+    :root {
         --hover-color: dodgerblue;
         --main-color: #000000;
     }
-    body{
+
+    body {
         min-height: 100vh;
         color: var(--main-color);
     }
-    header{
+
+    header {
         position: fixed;
         width: 100%;
         top: 0;
@@ -44,59 +48,73 @@
         padding: 15px 12%;
         transition: all .50s ease;
     }
-    .logo{
+
+    .logo {
         display: flex;
         align-items: center;
     }
-    .logo i{
+
+    .logo i {
         font-size: 30px;
-        color: var(--hover-color);;
+        color: var(--hover-color);
+        ;
     }
-    .logo h1{
+
+    .logo h1 {
         font-size: 30px;
         color: var(--main-color);
         font-width: 600;
     }
-    .logo h1:hover{
+
+    .logo h1:hover {
         color: var(--hover-color);
     }
-    .navbar{
+
+    .navbar {
         display: flex;
     }
-    .navbar a{
+
+    .navbar a {
         padding: 5px 0;
         margin: 0px 30px;
         transition: all .50s ease;
         color: var(--main-color);
     }
-    .navbar a:hover{
+
+    .navbar a:hover {
         color: var(--hover-color);
     }
-    .main{
+
+    .main {
         display: flex;
         align-items: center;
     }
-    .main a{
+
+    .main a {
         margin-right: 25px;
         margin-left: 10px;
         color: var(--main-color);
     }
-    .main a:hover{
+
+    .main a:hover {
         transition: all .50s ease;
         color: var(--hover-color);
     }
-    .user{
+
+    .user {
         display: flex;
         align-items: center;
     }
-    #menu-icon{
+
+    #menu-icon {
         font-size: 35px;
         color: var(--main-color);
         cursor: pointer;
         z-index: 10001;
         display: none;
     }
-    #menu-icon:hover{
+
+    #menu-icon:hover {
         color: var(--hover-color);
     }
 
@@ -128,7 +146,8 @@
             justify-content: flex-start;
             border-radius: 10px;
             transition: all .50s ease;
-            background: linear-gradient(90deg,rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.6));        }
+            background: linear-gradient(90deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.6));
+        }
 
         .navbar a {
             display: block;
@@ -151,7 +170,7 @@
     }
 
 
-    #user-icon{
+    #user-icon {
         font-size: 20px;
         color: var(--main-color);
         cursor: pointer;
@@ -169,7 +188,8 @@
         justify-content: flex-start;
         border-radius: 10px;
         transition: all .50s ease;
-        background: linear-gradient(90deg,rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.6));        }
+        background: linear-gradient(90deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.6));
+    }
 
     .dropdown a {
         display: block;
@@ -201,108 +221,116 @@
         scale: 110%;
 
     }
+
     .ri-logout-box-r-line {
         color: var(--main-color);
         scale: 110%;
-   }
-    .main2{
+    }
+
+    .main2 {
         display: flex;
         align-items: center;
     }
-    .main2 a{
+
+    .main2 a {
         margin-right: 25px;
         margin-left: 10px;
         color: var(--main-color);
     }
-    .main2 a:hover{
+
+    .main2 a:hover {
         transition: all .50s ease;
         color: var(--hover-color);
     }
-
 </style>
 
 <body>
 
-<div>
-    <nav>
-<header>
+    <div>
+        <nav>
+            <header>
 
-    <a href="/" class="logo"><i class="ri-home-line"></i><h1>InfinityHotel</h1></a>
+                <a href="/" class="logo"><i class="ri-home-line"></i>
+                    <h1>InfinityHotel</h1>
+                </a>
 
-    <ul class="navbar">
-        <li><a href="/" class="active">Home</a></li>
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Contacts</a></li>
-        <li><a href="#">Blog</a></li>
+                <ul class="navbar">
+                    <li><a href="/" class="active">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contacts</a></li>
+                    <li><a href="#">Blog</a></li>
 
-        <li th:if="${user_role == 'ROLE_ADMIN'}">
-            <a href="/admin/" style="font-weight: bold"> Dashboard </a>
-        </li>
-
-
-
-
-    </ul>
-
-    <div class="main">
-        <div class="bx bx-menu" id="menu-icon"></div>
-    </div>
-
-    <th:block th:if="${user==NULL}">
-
-        <div class="main">
-            <a href="/signin">Login</a>
-            <a href="/register">Register</a>
-        </div>
-
-    </th:block>
-
-    <th:block th:if="${user!=NULL}">
-
-        <div class="main2">
-            <div class="ri-user-line" id="user-icon"> </div>
-            <div class="user-menu">
-            <a class="user" href="#">[[${user.firstName}]]</a>
-                <ul class="dropdown">
-                    <li>
-                        <a class="ri-settings-4-line" href="profile"> My Profile</a> </li>
-                    <li>
-                        <a class="ri-history-line" href="#"> Booking history</a></li>
-                    <li>
-                        <a class="ri-logout-box-r-line" href="/logout"> Logout</a>
+                    <li th:if="${user_role == 'ROLE_ADMIN'}">
+                        <a href="/admin/" style="font-weight: bold"> Dashboard </a>
                     </li>
 
+
+
+
                 </ul>
-            </div>
-        </div>
 
-    </th:block>
+                <div class="main">
+                    <div class="bx bx-menu" id="menu-icon"></div>
+                </div>
 
-</header>
-    </nav>
-</div>
+                <th:block th:if="${user==NULL}">
 
-<!--js--->
-<script>
-    let menu = document.querySelector ('#menu-icon');
-    let navbar = document.querySelector ('.navbar');
+                    <div class="main">
+                        <a href="/signin">Login</a>
+                        <a href="/register">Register</a>
+                    </div>
 
-    menu.onclick = () => {
-        menu.classList. toggle('bx-x');
-        navbar.classList.toggle('open'); }
-</script>
+                </th:block>
+
+                <th:block th:if="${user!=NULL}">
+
+                    <div class="main2">
+                        <div class="ri-user-line" id="user-icon"> </div>
+                        <div class="user-menu">
+                            <a class="user" href="#">[[${user.firstName}]]</a>
+                            <ul class="dropdown">
+                                <li>
+                                    <a class="ri-settings-4-line" href="profile"> My Profile</a>
+                                </li>
+                                <li>
+                                    <a class="ri-history-line" href="#"> Booking history</a>
+                                </li>
+                                <li>
+                                    <a class="ri-logout-box-r-line" href="/logout"> Logout</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </th:block>
+
+            </header>
+        </nav>
+    </div>
+
+    <!--js--->
+    <script>
+        let menu = document.querySelector('#menu-icon');
+        let navbar = document.querySelector('.navbar');
+
+        menu.onclick = () => {
+            menu.classList.toggle('bx-x');
+            navbar.classList.toggle('open');
+        }
+    </script>
 
 
-<script>
-    let userMenu = document.querySelector('.user-menu');
-    let userDropdown = document.querySelector('.dropdown');
+    <script>
+        let userMenu = document.querySelector('.user-menu');
+        let userDropdown = document.querySelector('.dropdown');
 
-    userMenu.onclick = () => {
-        userDropdown.classList.toggle('open'); }
-</script>
+        userMenu.onclick = () => {
+            userDropdown.classList.toggle('open');
+        }
+    </script>
 
 
 </body>
+
 </html>
-
-

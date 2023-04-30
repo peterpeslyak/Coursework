@@ -16,5 +16,5 @@ public interface RoomService {
 
     public String deleteRoom(Long idRoom);
 
-    public Room editRoom(Room room, Long idRoom);
+    public Room editRoom(Room room);
 }

@@ -1,212 +1,213 @@
 <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <form>
-          <div class="form-group">
-            <label for="checkin">Дата заселения:</label>
-            <input type="date" class="form-control" id="checkin" name="checkin">
-          </div>
-          <div class="form-group">
-            <label for="checkout">Дата выселения:</label>
-            <input type="date" class="form-control" id="checkout" name="checkout">
-          </div>
-          <div class="form-group">
-            <label for="guests">Количество человек:</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary" type="button" onclick="decrementGuests()">-</button>
-              </div>
-              <input type="number" class="form-control" id="guests" name="guests" min="1" value="1">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" onclick="incrementGuests()">+</button>
-              </div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form>
+        <div class="form-group">
+          <label for="checkin">Дата заселения:</label>
+          <input type="date" class="form-control" id="checkin" name="checkin">
+        </div>
+        <div class="form-group">
+          <label for="checkout">Дата выселения:</label>
+          <input type="date" class="form-control" id="checkout" name="checkout">
+        </div>
+        <div class="form-group">
+          <label for="guests">Количество человек:</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <button class="btn btn-outline-secondary" type="button" onclick="decrementGuests()">-</button>
+            </div>
+            <input type="number" class="form-control" id="guests" name="guests" min="1" value="1">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" onclick="incrementGuests()">+</button>
             </div>
           </div>
-          <div class="form-group">
-            <label for="roomtype">Тип комнаты:</label>
-            <select class="form-control" id="roomtype" name="roomtype">
-              <option value="standard">Стандарт</option>
-              <option value="luxury">Люкс</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-primary">Поиск</button>
-        </form>
-      </div>
-    </div>
-  
-    <div class="row justify-content-center">
-      <div class="col-md-10">
-        <div class="row" id="room-list">
-          <!-- здесь будут динамически добавляться карточки номеров -->
         </div>
+        <div class="form-group">
+          <label for="roomtype">Тип комнаты:</label>
+          <select class="form-control" id="roomtype" name="roomtype">
+            <option value="standard">Стандарт</option>
+            <option value="luxury">Люкс</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Поиск</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="row" id="room-list">
+        <!-- здесь будут динамически добавляться карточки номеров -->
       </div>
     </div>
   </div>
-  
-  <!-- скрипт для управления количеством гостей -->
-  <script>
-    function incrementGuests() {
-      var guests = document.getElementById('guests');
-      guests.value = parseInt(guests.value) + 1;
-    }
-  
-    function decrementGuests() {
-      var guests = document.getElementById('guests');
-      if (parseInt(guests.value) > 1) {
-        guests.value = parseInt(guests.value) - 1;
-      }
-    }
-  </script>
-  
-  <!-- скрипт для динамического отображения результатов поиска -->
-  <script>
-    var rooms = [
-      {
-        "id": 1,
-        "name": "Номер стандарт",
-        "type": "Стандарт",
-        "description": "Одноместный номер с одной кроватью",
-        "price": 5000,
-        "photo": "https://via.placeholder.com/150"
-      },
-    ]
-    </script>
+</div>
 
+<!-- скрипт для управления количеством гостей -->
 <script>
-    $(document).ready(function() {
-      $('#searchButton').click(function() {
-        var checkInDate = $('#checkInDate').val();
-        var checkOutDate = $('#checkOutDate').val();
-        var numGuests = $('#numGuests').val();
-        var roomType = $('#roomType').val();
-    
-        $.ajax({
-          url: "/search",
-          type: "POST",
-          data: { checkInDate: checkInDate, checkOutDate: checkOutDate, numGuests: numGuests, roomType: roomType },
-          success: function(result) {
-            // Очищаем предыдущие результаты поиска
-            $('#searchResults').empty();
-    
-            // Отображаем новые результаты
-            for (var i = 0; i < result.length; i++) {
-              var room = result[i];
-    
-              var card = '<div class="card">';
-              card += '<img src="' + room.photo + '" alt="' + room.name + '">';
-              card += '<div class="card-body">';
-              card += '<h5 class="card-title">' + room.name + '</h5>';
-              card += '<p class="card-text">' + room.description + '</p>';
-              card += '<button class="btn btn-primary" data-toggle="modal" data-target="#roomModal' + room.id + '">More Information</button>';
-              card += '<p class="card-price">' + room.price + '</p>';
-              card += '<button class="btn btn-success">Book Now</button>';
-              card += '</div>';
-              card += '</div>';
-    
-              $('#searchResults').append(card);
-    
-              // Отображаем модальное окно для подробной информации о номере
-              var modal = '<div class="modal fade" id="roomModal' + room.id + '" tabindex="-1" role="dialog" aria-labelledby="roomModalLabel" aria-hidden="true">';
-              modal += '<div class="modal-dialog" role="document">';
-              modal += '<div class="modal-content">';
-              modal += '<div class="modal-header">';
-              modal += '<h5 class="modal-title" id="roomModalLabel">' + room.name + '</h5>';
-              modal += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
-              modal += '<span aria-hidden="true">&times;</span>';
-              modal += '</button>';
-              modal += '</div>';
-              modal += '<div class="modal-body">';
-              modal += '<p>' + room.description + '</p>';
-              modal += '<p>Rating: ' + room.rating + '</p>';
-              modal += '</div>';
-              modal += '<div class="modal-footer">';
-              modal += '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
-              modal += '<button type="button" class="btn btn-primary">Book Now</button>';
-              modal += '</div>';
-              modal += '</div>';
-              modal += '</div>';
-              modal += '</div>';
-    
-              $('#searchResults').append(modal);
-            }
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-            alert('Error')}
-          }
-        )
-          </script>
-
-          <script>
-  // Функция для отображения результатов поиска
-  function showResults(results) {
-    // Очищаем контейнер для результатов поиска
-    $('#results-container').empty();
-
-    // Перебираем все результаты поиска и создаем для каждого карточку номера
-    results.forEach(function(result) {
-      // Создаем элемент div для карточки номера
-      var card = $('<div>').addClass('card');
-
-      // Создаем элемент img для фото номера
-      var img = $('<img>').addClass('card-img-top').attr('src', result.photo);
-
-      // Создаем элемент div для названия и характеристик номера
-      var cardBody = $('<div>').addClass('card-body');
-
-      // Создаем элемент h5 для названия номера
-      var title = $('<h5>').addClass('card-title').text(result.title);
-
-      // Создаем элемент p для характеристик номера
-      var characteristics = $('<p>').addClass('card-text').text(result.characteristics);
-
-      // Создаем элемент a для кнопки "больше информации"
-      var moreInfoButton = $('<a>').addClass('btn btn-primary').text('Больше информации');
-      moreInfoButton.on('click', function() {
-        // При нажатии на кнопку "больше информации" показываем дополнительный текст и кнопку "меньше информации"
-        characteristics.hide();
-        var moreInfoText = $('<p>').text(result.moreInfo);
-        var lessInfoButton = $('<a>').addClass('btn btn-secondary').text('Меньше информации');
-        lessInfoButton.on('click', function() {
-          // При нажатии на кнопку "меньше информации" скрываем дополнительный текст и кнопку "меньше информации"
-          moreInfoText.hide();
-          lessInfoButton.hide();
-          characteristics.show();
-        });
-        cardBody.append(moreInfoText, lessInfoButton);
-      });
-
-      // Создаем элемент p для цены номера
-      var price = $('<p>').addClass('card-text').text('Цена: ' + result.price);
-
-      // Создаем элемент a для кнопки "бронировать"
-      var bookButton = $('<a>').addClass('btn btn-success').text('Бронировать');
-
-      // Добавляем все элементы в карточку номера
-      cardBody.append(title, characteristics, moreInfoButton, price, bookButton);
-      card.append(img, cardBody);
-
-      // Добавляем карточку номера в контейнер для результатов поиска
-      $('#results-container').append(card);
-    });
+  function incrementGuests() {
+    var guests = document.getElementById('guests');
+    guests.value = parseInt(guests.value) + 1;
   }
 
-  // Обработчик события нажатия на кнопку "Поиск"
-  $('#search-button').on('click', function() {
-    // Получаем значения полей ввода
-    var checkInDate = $('#check-in-date').val();
-    var checkOutDate = $('#check-out-date').val();
-    var guests = $('#guests').val();
-    var roomType = $('#room-type').val();
+  function decrementGuests() {
+    var guests = document.getElementById('guests');
+    if (parseInt(guests.value) > 1) {
+      guests.value = parseInt(guests.value) - 1;
+    }
+  }
+</script>
 
-    // Отправляем запрос на сервер с помощью AJAX
-    $.ajax({
-      url: '/search',
-      method: 'GET',
-      data: {
-        checkInDate: checkInDate,
-        checkOutDate: checkOutDate,
-        guests: guests,
-        roomType: roomType
-      },
-      success: function(data
+<!-- скрипт для динамического отображения результатов поиска -->
+<script>
+  var rooms = [
+    {
+      "id": 1,
+      "name": "Номер стандарт",
+      "type": "Стандарт",
+      "description": "Одноместный номер с одной кроватью",
+      "price": 5000,
+      "photo": "https://via.placeholder.com/150"
+    },
+  ]
+</script>
+
+<script>
+  $(document).ready(function () {
+    $('#searchButton').click(function () {
+      var checkInDate = $('#checkInDate').val();
+      var checkOutDate = $('#checkOutDate').val();
+      var numGuests = $('#numGuests').val();
+      var roomType = $('#roomType').val();
+
+      $.ajax({
+        url: "/search",
+        type: "POST",
+        data: { checkInDate: checkInDate, checkOutDate: checkOutDate, numGuests: numGuests, roomType: roomType },
+        success: function (result) {
+          // Очищаем предыдущие результаты поиска
+          $('#searchResults').empty();
+
+          // Отображаем новые результаты
+          for (var i = 0; i < result.length; i++) {
+            var room = result[i];
+
+            var card = '<div class="card">';
+            card += '<img src="' + room.photo + '" alt="' + room.name + '">';
+            card += '<div class="card-body">';
+            card += '<h5 class="card-title">' + room.name + '</h5>';
+            card += '<p class="card-text">' + room.description + '</p>';
+            card += '<button class="btn btn-primary" data-toggle="modal" data-target="#roomModal' + room.id + '">More Information</button>';
+            card += '<p class="card-price">' + room.price + '</p>';
+            card += '<button class="btn btn-success">Book Now</button>';
+            card += '</div>';
+            card += '</div>';
+
+            $('#searchResults').append(card);
+
+            // Отображаем модальное окно для подробной информации о номере
+            var modal = '<div class="modal fade" id="roomModal' + room.id + '" tabindex="-1" role="dialog" aria-labelledby="roomModalLabel" aria-hidden="true">';
+            modal += '<div class="modal-dialog" role="document">';
+            modal += '<div class="modal-content">';
+            modal += '<div class="modal-header">';
+            modal += '<h5 class="modal-title" id="roomModalLabel">' + room.name + '</h5>';
+            modal += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
+            modal += '<span aria-hidden="true">&times;</span>';
+            modal += '</button>';
+            modal += '</div>';
+            modal += '<div class="modal-body">';
+            modal += '<p>' + room.description + '</p>';
+            modal += '<p>Rating: ' + room.rating + '</p>';
+            modal += '</div>';
+            modal += '<div class="modal-footer">';
+            modal += '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
+            modal += '<button type="button" class="btn btn-primary">Book Now</button>';
+            modal += '</div>';
+            modal += '</div>';
+            modal += '</div>';
+            modal += '</div>';
+
+            $('#searchResults').append(modal);
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          alert('Error')
+        }
+      }
       )
+</script>
+
+<script>
+        // Функция для отображения результатов поиска
+        function showResults(results) {
+          // Очищаем контейнер для результатов поиска
+          $('#results-container').empty();
+
+          // Перебираем все результаты поиска и создаем для каждого карточку номера
+          results.forEach(function (result) {
+            // Создаем элемент div для карточки номера
+            var card = $('<div>').addClass('card');
+
+            // Создаем элемент img для фото номера
+            var img = $('<img>').addClass('card-img-top').attr('src', result.photo);
+
+            // Создаем элемент div для названия и характеристик номера
+            var cardBody = $('<div>').addClass('card-body');
+
+            // Создаем элемент h5 для названия номера
+            var title = $('<h5>').addClass('card-title').text(result.title);
+
+            // Создаем элемент p для характеристик номера
+            var characteristics = $('<p>').addClass('card-text').text(result.characteristics);
+
+            // Создаем элемент a для кнопки "больше информации"
+            var moreInfoButton = $('<a>').addClass('btn btn-primary').text('Больше информации');
+            moreInfoButton.on('click', function () {
+              // При нажатии на кнопку "больше информации" показываем дополнительный текст и кнопку "меньше информации"
+              characteristics.hide();
+              var moreInfoText = $('<p>').text(result.moreInfo);
+              var lessInfoButton = $('<a>').addClass('btn btn-secondary').text('Меньше информации');
+              lessInfoButton.on('click', function () {
+                // При нажатии на кнопку "меньше информации" скрываем дополнительный текст и кнопку "меньше информации"
+                moreInfoText.hide();
+                lessInfoButton.hide();
+                characteristics.show();
+              });
+              cardBody.append(moreInfoText, lessInfoButton);
+            });
+
+            // Создаем элемент p для цены номера
+            var price = $('<p>').addClass('card-text').text('Цена: ' + result.price);
+
+            // Создаем элемент a для кнопки "бронировать"
+            var bookButton = $('<a>').addClass('btn btn-success').text('Бронировать');
+
+            // Добавляем все элементы в карточку номера
+            cardBody.append(title, characteristics, moreInfoButton, price, bookButton);
+            card.append(img, cardBody);
+
+            // Добавляем карточку номера в контейнер для результатов поиска
+            $('#results-container').append(card);
+          });
+        }
+
+        // Обработчик события нажатия на кнопку "Поиск"
+        $('#search-button').on('click', function () {
+          // Получаем значения полей ввода
+          var checkInDate = $('#check-in-date').val();
+          var checkOutDate = $('#check-out-date').val();
+          var guests = $('#guests').val();
+          var roomType = $('#room-type').val();
+
+          // Отправляем запрос на сервер с помощью AJAX
+          $.ajax({
+            url: '/search',
+            method: 'GET',
+            data: {
+              checkInDate: checkInDate,
+              checkOutDate: checkOutDate,
+              guests: guests,
+              roomType: roomType
+            },
+            success: function (data
+            )
