@@ -33,70 +33,79 @@
         #plus-btn:hover {
             color: #2980b9;
         }
+
+        .container1 {
+            margin-left: 110px;
+            margin-right: 110px;
+            max-width: 100%;
+        }
+
     </style>
 
-    <header>
         <!-- Navigation menu -->
-        <div th:replace="navigationAdmin.html"></div>
-    </header>
-
-    <div class="jumbotron text-center" style="background: rgba(255,255,255,0.3)">
-        <!-- Tittle -->
-        <h1 class="display-4">Rooms</h1>
-        <p>Manage all rooms on the dashboard</p>
-    </div>
-
-    <div class="container">
-
-        <a data-toggle="modal" data-target="#addRoomModal" style="margin: 20px 0; color: white"
-            class="btn btn-primary">Add Room</a>
-
-        <a th:href="@{/admin/}" style="margin: 20px 0" class="btn btn-primary">Check Reservations</a>
-
-        <table class="table" style="text-align: center">
-            <!-- Table -->
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Capacity</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Available</th>
-                    <th scope="col">Rating</th>
-                    <th scope="col"></th>
+        <div class="navBarAdmin" th:replace="navigationAdmin.html"></div>
 
 
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="room : ${rooms}" style="background-color: rgba(245, 245, 245, 0.5)">
-                    <td th:text="${room.idRoom}"></td>
-                    <td th:text="${room.name}"></td>
-                    <td th:text="${room.type}"></td>
-                    <td th:text="${room.capacity}"></td>
-                    <td th:text="${room.price}"></td>
-                    <td th:text="${room.available} ? 'Yes' : 'No'"></td>
-                    <td th:text="${room.description}"></td>
+    <div class="contentMain">
+        <div class="jumbotron text-center" style="background: rgba(255,255,255,0.3)">
+            <!-- Tittle -->
+            <h1 class="display-4">Rooms</h1>
+            <p>Manage all rooms on the dashboard</p>
+        </div>
 
-                    <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#roomInfoModal"
-                            data-name="${room.name}" data-type="${room.type}" data-description="${room.description}"
-                            data-rating="${room.rating}">
-                            Info
-                        </button>
-                    <td>
-                        <a href="#" class="btn btn-warning"
-                            th:href="@{/admin/rooms/editRoom/{idRoom}(idRoom=${room.idRoom})}">Update</a>
-                    </td>
-                    <td><a href="" th:href="@{/admin/rooms/deleteRoom/{idRoom}(idRoom=${room.idRoom})}"
-                            class="btn btn-danger">Delete</a></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="container1">
 
+            <a th:href="@{/admin/}" class="btn btn-light">Dashboard</a>
+            <a data-toggle="modal" data-target="#addRoomModal" style="margin: 20px 0; color: white"
+                class="btn btn-primary">Add Room</a>
+
+            <a th:href="@{/admin/}" style="margin: 20px 0" class="btn btn-primary">Check Reservations</a>
+
+            <table class="table" style="text-align: center">
+                <!-- Table -->
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Capacity</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Available</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col"></th>
+
+
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="room : ${rooms}" style="background-color: rgba(245, 245, 245, 0.5)">
+                        <td th:text="${room.idRoom}"></td>
+                        <td th:text="${room.name}"></td>
+                        <td th:text="${room.type}"></td>
+                        <td th:text="${room.capacity}"></td>
+                        <td th:text="${room.price}"></td>
+                        <td th:text="${room.available} ? 'Yes' : 'No'"></td>
+                        <td th:text="${room.description}"></td>
+
+                        <td>
+                            <button type="button" class="btn btn-light" data-toggle="modal"
+                                data-target="#roomInfoModal" data-name="${room.name}" data-type="${room.type}"
+                                data-description="${room.description}" data-rating="${room.rating}">
+                                Info
+                            </button>
+                        <td>
+                            <a href="#" class="btn btn-warning"
+                                th:href="@{/admin/rooms/editRoom/{idRoom}(idRoom=${room.idRoom})}">Update</a>
+                        </td>
+                        <td><a href="" th:href="@{/admin/rooms/deleteRoom/{idRoom}(idRoom=${room.idRoom})}"
+                                class="btn btn-danger">Delete</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
     </div>
 
     <script>
@@ -170,8 +179,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" form="addRoomForm">Add</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success" form="addRoomForm">Add</button>
                 </div>
             </div>
         </div>
@@ -198,7 +207,7 @@
                     <p><strong>Description:</strong> <span id="roomDescription"></span></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

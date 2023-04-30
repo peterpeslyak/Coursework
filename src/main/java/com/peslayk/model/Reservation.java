@@ -1,7 +1,5 @@
 package com.peslayk.model;
 
-//import jakarta.persistence.*;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -14,28 +12,35 @@ public class Reservation {
     private Long idReservation;
 
     @ManyToOne
-    @JoinColumn(name = "id_user", nullable = false)
+    @JoinColumn(name = "id_user")
     private User user;
-
     @ManyToOne
-    @JoinColumn(name = "id_room", nullable = false)
+    @JoinColumn(name = "id_room")
     private Room room;
 
-    @Column(nullable = false)
+    @Column(name = "check_in_date", nullable = false)
     private LocalDate checkInDate;
-
-    @Column(nullable = false)
+    @Column(name = "check_out_date", nullable = false)
     private LocalDate checkOutDate;
+    @Column(nullable = false)
+    private Boolean status;
+    @Column(name = "guests", nullable = false)
+    private Integer guestsCount;
+    @Column(nullable = false)
+    private Double totalCost;
 
-    public Reservation(Long idReservation, User user, Room room, LocalDate checkInDate, LocalDate checkOutDate) {
-        this.idReservation = idReservation;
+    public Reservation() {
+    }
+
+    public Reservation(User user, Room room, LocalDate checkInDate, LocalDate checkOutDate,
+                       Boolean status, Integer guestsCount, Double totalCost) {
         this.user = user;
         this.room = room;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
-    }
-
-    public Reservation() {
+        this.status = status;
+        this.guestsCount = guestsCount;
+        this.totalCost = totalCost;
     }
 
     public Long getIdReservation() {
@@ -77,5 +82,28 @@ public class Reservation {
     public void setCheckOutDate(LocalDate checkOutDate) {
         this.checkOutDate = checkOutDate;
     }
-}
 
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public Integer getGuestsCount() {
+        return guestsCount;
+    }
+
+    public void setGuestsCount(Integer guestsCount) {
+        this.guestsCount = guestsCount;
+    }
+
+    public Double getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(Double totalCost) {
+        this.totalCost = totalCost;
+    }
+}

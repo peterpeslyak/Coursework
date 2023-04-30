@@ -56,7 +56,7 @@
                         <div class="center">
                             <h1>My Profile</h1>
 
-                            <form th:action="@{/user/profile/editProfile/{idUser}(idUser=${user.idUser})}"
+                            <form th:action="@{user/profile/editProfile/{idUser}(idUser=${user.idUser})}"
                                 th:object="${user}" method="POST">
 
                                 <input type="hidden" name="idUser" th:value="${user.idUser}">
@@ -103,8 +103,11 @@
                                 <input type="submit" value="Update" style="margin-bottom: 30px">
 
                             </form>
+                            <center><div class="pass" onclick="window.location.href='/user/changePassword'">
+                                Change password
+                            </div></center>
 
-                            <input type="url" href="changePassword" value="Change Password">
+                            </div>
                         </div>
                     </div>
                 </div>

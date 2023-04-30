@@ -3,6 +3,7 @@ package com.peslayk.model;
 //import jakarta.persistence.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
@@ -10,6 +11,12 @@ public class User {
     @Id
     @GeneratedValue //(strategy = GenerationType.IDENTITY)
     private Long idUser;
+
+    @OneToMany(mappedBy = "user")
+    private List<Reservation> reservations;
+
+    @OneToMany(mappedBy = "user")
+    private List<Reviews> reviews;
 
     @Column(nullable = false)
     private String firstName;
@@ -31,7 +38,10 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String password, String phoneNumber, String role) {
+    public User(List<Reservation> reservations, List<Reviews> reviews, String firstName,
+                String lastName, String email, String password, String phoneNumber, String role) {
+        this.reservations = reservations;
+        this.reviews = reviews;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -94,5 +104,22 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public List<Reviews> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Reviews> reviews) {
+        this.reviews = reviews;
     }
 }

@@ -37,16 +37,6 @@
     #plus-btn:hover {
       color: #2980b9;
     }
-
-    .btn.btn-primary {
-      background-color: green;
-      border-color: green
-    }
-
-    .btn.btn-primary:hover {
-      background-color: #026b02;
-      border-color: #026b02;
-    }
   </style>
 
   <header>
@@ -58,7 +48,7 @@
     <div class="row">
       <div class="card">
         <div class="center">
-          <h1 class="text-center"> Edit Room th:field="*{idRoom}" </h1>
+          <h1 class="text-center">Edit Room id.<span th:text="${idRoom}"></span></h1>
           <div class="card-body">
             <form th:action="@{/admin/rooms/editRoom/update/{idRoom} (idRoom=${room.idRoom})}" th:object="${room}"
               method="POST">
@@ -114,7 +104,7 @@
               </div>
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-success">
                   Save
                 </button>
                 <a href="/admin/rooms" class="btn btn-danger">Cancel</a>

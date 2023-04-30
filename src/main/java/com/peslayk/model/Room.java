@@ -1,6 +1,7 @@
 package com.peslayk.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "rooms")
@@ -9,6 +10,16 @@ public class Room {
     @Id
     @GeneratedValue //(strategy = GenerationType.AUTO)
     private Long idRoom;
+    @OneToOne
+    @JoinColumn(name = "idAmenities")
+    private Amenities amenities;
+
+    @OneToMany(mappedBy = "room")
+    private List<Reservation> reservationList;
+
+    @OneToMany(mappedBy = "room")
+    private List<Reviews> reviews;
+
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
@@ -21,14 +32,22 @@ public class Room {
     private Double price;
     @Column(nullable = false)
     private boolean available;
+    @Column(nullable = false)
+    private String roomNumber;
 
-    public Room(String name, String type, String description, Integer capacity, Double price, boolean available) {
+
+    public Room(Amenities amenities, List<Reservation> reservationList, List<Reviews> reviews, String name,
+                String type, String description, Integer capacity, Double price, boolean available, String roomNumber) {
+        this.amenities = amenities;
+        this.reservationList = reservationList;
+        this.reviews = reviews;
         this.name = name;
         this.type = type;
         this.description = description;
         this.capacity = capacity;
         this.price = price;
         this.available = available;
+        this.roomNumber = roomNumber;
     }
 
     public Room() {
@@ -88,6 +107,38 @@ public class Room {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public Amenities getAmenities() {
+        return amenities;
+    }
+
+    public void setAmenities(Amenities amenities) {
+        this.amenities = amenities;
+    }
+
+    public List<Reservation> getReservationList() {
+        return reservationList;
+    }
+
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
+    }
+
+    public List<Reviews> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Reviews> reviews) {
+        this.reviews = reviews;
     }
 }
 

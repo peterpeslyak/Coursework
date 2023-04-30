@@ -20,14 +20,23 @@
             margin: 0;
             padding: 0;
             background: linear-gradient(120deg, #2980b9, #8e44ad);
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100px;
+            height: auto;
+            overflow: auto;
         }
+
+        .container1 {
+            margin-left: 100px;
+            margin-right: 100px;
+            max-width: 100%;
+            min-height: 100px;
+        }
+
     </style>
 
     <header>
         <!-- Navigation menu -->
-        <div th:replace="navigationAdmin.html"></div>
+        <div class="navBarAdmin" th:replace="navigationAdmin.html"></div>
     </header>
 
     <div class="jumbotron text-center" style="background: rgba(255,255,255,0.3)">
@@ -35,47 +44,71 @@
         <p>View all users on the dashboard</p>
     </div>
 
-    <div class="container">
+    <div class="container1">
 
+        <a th:href="@{/admin/}" class="btn btn-primary">Dashboard</a>
         <a th:href="@{/admin/rooms/addRoom}" style="margin: 20px 0" class="btn btn-primary">??????idk</a>
 
         <table class="table" style="text-align: center">
             <thead class="thead-light">
                 <tr>
+                    <th:block th:if="${session.msg}">
+                        <p class="text-center fs-4 text-success" th:text="${session.msg}"></p>
+                        <th:block th:text="${#session.removeAttribute('msg')}"></th:block>
+                    </th:block>
+                </tr>
+                <tr>
                     <th scope="col">ID</th>
                     <th scope="col">First Name</th>
-                    <th scope="col">Second Name</th>
+                    <th scope="col">Last Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone Number</th>
+                    <th scope="col">Booking History</th>
+                    <th scope="col">Info</th>
                     <th scope="col">Role</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
 
-
-                    <th scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody>
 
-
-
-
-                <tr th:each="user, iStat : ${users}" style="background-color: rgba(245, 245, 245, 0.5)">
-                    <th scope="row" th:text="${iStat.index + 1}">1</th>
-                    <td th:text="${user.firstName}">Peter</td>
-                    <td th:text="${user.secondName}">Peslyak</td>
-                    <td th:text="${user.Email}">petrpeslyak@gmail.com</td>
-                    <td th:text="${user.phoneNumber}">+375298480117</td>
-
-                    <td><a href="" th:href="@{/admin/rooms/info/{id}(id=${room.idRoom})}"
-                            class="btn btn-primary">th:text="${user.role}"</a></td>
-                    <td><a href="" th:href="@{/admin/rooms/delete/{id}(id=${room.idRoom})}"
-                            class="btn btn-danger">Delete</a></td>
+                <tr th:each="user : ${users}" style="background-color: rgba(245, 245, 245, 0.5)">
+                    <th th:text="${user.idUser}"></th>
+                    <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.phoneNumber}"></td>
+                    <td>
+                        <button type="button" class="btn btn-light">History</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-light">Info</button>
+                    </td>
+                    <form id="updateRoleForm" th:action="@{admin/users/updateRole}" method="post">
+                        <td>
+                            <input type="hidden" name="userId" th:value="${user.idUser}" />
+                            <select class="form-control" name="role" required>
+                                <option value="ROLE_USER" th:selected="${user.role == 'ROLE_USER'}">user</option>
+                                <option value="ROLE_ADMIN" th:selected="${user.role == 'ROLE_ADMIN'}">admin</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-warning">Update</button>
+                        </td>
+                    </form>
+                    <td>
+                        <form id="delete-user-form" method="POST" th:action="@{admin/users/deleteUser}">
+                            <input type="hidden" th:value="${user.idUser}" name="userId">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
                 </tr>
+
             </tbody>
         </table>
     </div>
-
-
-    </script>
+    
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
