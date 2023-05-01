@@ -102,5 +102,19 @@ public class UserController {
         return "redirect:/user/profile";
     }
 
+    @GetMapping(value = "/deleteAccount")
+    public String deleteUserPage(){
+        return "user/deleteAccount";
+    }
+
+
+    @PostMapping("deleteAccount/deleteUser")
+    public String deleteUser(@RequestParam ("idUser") Long idUser, HttpSession session) {
+        String message = userService.deleteUserById(idUser);
+        session.setAttribute("msg", message);
+        session.invalidate();
+        System.out.println("User Account " + idUser + " is DELETED!");
+        return  "redirect:/";
+    }
 
 }

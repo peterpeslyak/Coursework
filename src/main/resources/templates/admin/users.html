@@ -10,6 +10,7 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
         integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <title>Dashboard - Users</title>
 </head>
@@ -31,7 +32,6 @@
             max-width: 100%;
             min-height: 100px;
         }
-
     </style>
 
     <header>
@@ -46,8 +46,10 @@
 
     <div class="container1">
 
-        <a th:href="@{/admin/}" class="btn btn-primary">Dashboard</a>
-        <a th:href="@{/admin/rooms/addRoom}" style="margin: 20px 0" class="btn btn-primary">??????idk</a>
+        <a th:href="@{/admin/}" class="btn btn-light">Dashboard</a>
+        <a th:href="@{/admin/rooms/}" style="margin: 20px 0" class="btn btn-primary">Rooms</a>
+        <a th:href="@{/admin/reservations/}" style="margin: 20px 0" class="btn btn-primary">Reservations</a>
+        <a th:href="@{/admin/reviews/}" style="margin: 20px 0" class="btn btn-primary">Reviews</a>
 
         <table class="table" style="text-align: center">
             <thead class="thead-light">
@@ -98,9 +100,37 @@
                         </td>
                     </form>
                     <td>
-                        <form id="delete-user-form" method="POST" th:action="@{admin/users/deleteUser}">
-                            <input type="hidden" th:value="${user.idUser}" name="userId">
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                        <form id="delete-user-form-${user.idUser}" method="POST" th:action="@{/admin/users/deleteUser}">
+                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                data-target="#deleteUser-modal" data-user-id="${user.idUser}">
+                                Delete
+                            </button>
+
+                            <!-- Модальное окно для удаления пользователя -->
+                            <div class="modal" id="deleteUser-modal" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Delete user</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- Имя пользователя будет заменено JavaScript'ом -->
+                                            <p>Are you sure you want to delete user <span id="user-name"></span>? There
+                                                is no way back from this action.</p>
+                                                <input type="text" name="idUser" id="idUser-input">
+                                            <p>Type in user's ID to confirm action</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                data-userId="${user.idUser}">Cancel</button>
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </td>
                 </tr>
@@ -108,7 +138,42 @@
             </tbody>
         </table>
     </div>
-    
+
+    <script>
+        // Найти кнопку "Delete" и добавить обработчик события клика
+        var deleteButtons = document.querySelectorAll('.btn-danger');
+        deleteButtons.forEach(function (button) {
+            button.addEventListener('click', function (event) {
+                // Получить id пользователя из атрибута data-user-id
+                var idUser = event.target.dataset.userId;
+
+                // Получить имя пользователя из строки таблицы
+                var userName = event.target.closest('tr').querySelector('td:nth-child(2)').textContent.trim();
+
+                // Найти заголовок модального окна и установить имя пользователя в него
+                var modalTitle = document.querySelector('#deleteUser-modal .modal-title');
+                modalTitle.textContent = 'Delete user ' + userName;
+
+                // Найти текст модального окна и установить имя пользователя в него
+                var modalText = document.querySelector('#deleteUser-modal .modal-body p');
+                modalText.innerHTML = 'Are you sure you want to delete user <strong>' + userName + '</strong>?<br> There is no way back from this action.';
+
+                /* Найти скрытое поле "idUser" и установить значение в него
+                
+                var form = event.target.closest('form');
+                var idUserField = form.querySelector('input[name="idUser"]');
+                idUserField.value = idUser;
+
+                var idUserField = document.querySelector('input[name="idUser"]');
+                idUserField.value = idUser;
+                */
+            });
+        });
+
+    </script>
+
+
+
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

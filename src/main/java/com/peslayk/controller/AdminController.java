@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin/")
@@ -41,7 +42,7 @@ public class AdminController {
 
     @GetMapping(value = "/profile")
     public String profile(){
-        return "profile";
+        return "user/profile";
     }
 
     @GetMapping(value = "/changePassword")
@@ -68,7 +69,7 @@ public class AdminController {
             session.setAttribute("msg","Old password is incorrect");
             System.out.println("Old password is incorrect");
         }
-        return "redirect:/user/changePassword";
+        return "redirect:/admin/changePassword";
     }
 
     //user dashboard page//
@@ -104,11 +105,29 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
-    @PostMapping("/admin/users/deleteUser")
-    public String deleteUser(@RequestParam ("userId") Long idUser, HttpSession session) {
+    @GetMapping(value = "/deleteAccount")
+    public String deleteUserPage(){
+        return "user/deleteAccount";
+    }
+
+    @PostMapping("/users/deleteUser")
+    public String deleteUser(@RequestParam ("idUser") Long idUser,
+                             HttpSession session,
+                             Principal p) {
+        String email = p.getName();
+        Optional<User> currentUser = userService.getUserByEmail(email);
+        System.out.println(email+currentUser.get().getIdUser());
+
+
         String message = userService.deleteUserById(idUser);
         session.setAttribute("msg", message);
-        return  "redirect:/admin/users";
+
+        if(message.equals("Account is deleted!") && idUser.equals(currentUser.get().getIdUser())) {
+            session.invalidate();
+            return "redirect:/signin";
+        }else {
+            return "redirect:/admin/users";
+        }
     }
 
 }

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xml:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Account</title>
+  <title>Profile</title>
+  <link rel="stylesheet" href="../../css/style.css">
+
+</head>
+
+<style>
+  input[type="submit"] {
+    width: 100%;
+    height: 50px;
+    border: 1px solid;
+    background: red;
+    border-radius: 25px;
+    font-size: 18px;
+    color: #e9f4fb;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 30px;
+  }
+  input[type="submit"]:hover {
+    border-color: red;
+    background: #d20e0e;
+    transition: .5s;
+  }
+</style>
+<body>
+
+<header>
+  <!-- Navigation menu -->
+  <div th:replace="navigation.html"></div>
+</header>
+
+<br>
+<br>
+<br>
+<br>
+
+<section id="main-content" class="main-content">
+  <div class="container p-5">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="card">
+
+          <div class="center">
+            <h1 style="color: red">WARNING!</h1>
+
+            <th:block th:if="${session.msg}">
+              <p class="text-center fs-4 text-success" th:text="${session.msg}"></p>
+              <th:block th:text="${#session.removeAttribute('msg')}"></th:block>
+            </th:block>
+
+            <th:bloch th:if="${user_role == 'ROLE_USER'}">
+              <form th:action="@{deleteAccount/deleteUser}" method="post">
+                <input type="hidden" name="idUser" th:value="${user.idUser}">
+                <input type="hidden" name="role" th:value="${user.idUser}">
+                <h3>[[${user.firstName}]], are you sure you want to delete your account? There is no way back from this action</h3>
+                <br>
+                <input type="submit" value="Delete Account">
+              </form>
+            </th:bloch>
+
+            <th:bloch th:if="${user_role == 'ROLE_ADMIN'}">
+              <form th:action="@{users/deleteUser}" method="post">
+                <input type="hidden" name="idUser" th:value="${user.idUser}">
+                <input type="hidden" name="role" th:value="${user.role}">
+                <h3>[[${user.firstName}]], are you sure you want to delete your account? There is no way back from this action</h3>
+                <br>
+                <input type="submit" value="Delete Account">
+              </form>
+            </th:bloch>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+</body>
+</html>

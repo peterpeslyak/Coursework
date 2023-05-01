@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+
     <title>Profile</title>
     <link rel="stylesheet" th:href="@{../css/style.css}">
     <style>
@@ -103,9 +104,24 @@
                                 <input type="submit" value="Update" style="margin-bottom: 30px">
 
                             </form>
-                            <center><div class="pass" onclick="window.location.href='/user/changePassword'">
-                                Change password
-                            </div></center>
+                            <th:bloch th:if="${user_role == 'ROLE_USER'}">
+                                <center><div class="pass" onclick="window.location.href='/user/changePassword'">
+                                    Change password
+                                </div></center>
+                                <center><div class="pass" onclick="window.location.href='/user/deleteAccount'">
+                                    Delete Account
+                                </div></center>
+                            </th:bloch>
+
+                            <th:bloch th:if="${user_role == 'ROLE_ADMIN'}">
+                                <center><div class="pass" onclick="window.location.href='/admin/changePassword'">
+                                    Change password
+                                </div></center>
+
+                                <center><div class="pass" onclick="window.location.href='/admin/deleteAccount'">
+                                    Delete Account
+                                </div></center>
+                            </th:bloch>
 
                             </div>
                         </div>
@@ -114,6 +130,7 @@
             </div>
         </div>
     </section>
+
 
 </body>
 

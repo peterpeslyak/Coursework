@@ -39,11 +39,10 @@
             margin-right: 110px;
             max-width: 100%;
         }
-
     </style>
 
-        <!-- Navigation menu -->
-        <div class="navBarAdmin" th:replace="navigationAdmin.html"></div>
+    <!-- Navigation menu -->
+    <div class="navBarAdmin" th:replace="navigationAdmin.html"></div>
 
 
     <div class="contentMain">
@@ -58,8 +57,8 @@
             <a th:href="@{/admin/}" class="btn btn-light">Dashboard</a>
             <a data-toggle="modal" data-target="#addRoomModal" style="margin: 20px 0; color: white"
                 class="btn btn-primary">Add Room</a>
-
             <a th:href="@{/admin/}" style="margin: 20px 0" class="btn btn-primary">Check Reservations</a>
+            <a th:href="@{/admin/reviews/}" style="margin: 20px 0" class="btn btn-primary">Reviews</a>
 
             <table class="table" style="text-align: center">
                 <!-- Table -->
@@ -90,9 +89,9 @@
                         <td th:text="${room.description}"></td>
 
                         <td>
-                            <button type="button" class="btn btn-light" data-toggle="modal"
-                                data-target="#roomInfoModal" data-name="${room.name}" data-type="${room.type}"
-                                data-description="${room.description}" data-rating="${room.rating}">
+                            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#roomInfoModal"
+                                data-name="${room.name}" data-type="${room.type}" data-description="${room.description}"
+                                data-rating="${room.rating}">
                                 Info
                             </button>
                         <td>
