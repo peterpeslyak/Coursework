@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.Date;
 import java.util.Optional;
 
 @Controller
@@ -107,7 +108,6 @@ public class UserController {
         return "user/deleteAccount";
     }
 
-
     @PostMapping("deleteAccount/deleteUser")
     public String deleteUser(@RequestParam ("idUser") Long idUser, HttpSession session) {
         String message = userService.deleteUserById(idUser);
@@ -116,5 +116,7 @@ public class UserController {
         System.out.println("User Account " + idUser + " is DELETED!");
         return  "redirect:/";
     }
+
+
 
 }

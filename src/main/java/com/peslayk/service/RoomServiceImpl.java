@@ -1,10 +1,15 @@
 package com.peslayk.service;
 
+import com.peslayk.model.Reservation;
 import com.peslayk.model.Room;
+import com.peslayk.repository.ReservationRepository;
 import com.peslayk.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -12,6 +17,9 @@ public class RoomServiceImpl implements RoomService{
 
     @Autowired
     private RoomRepository roomRepo;
+
+    @Autowired
+    private ReservationRepository reservationRepo;
 
     @Override
     public Room saveRoom(Room room) {
@@ -40,7 +48,50 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
-    public Room editRoom(Room room) {
+    public Room editRoom(Long idRoom, Room room) {
+        // get room from DB
+        Room oldRoom = getRoomById(idRoom);
+        oldRoom.setIdRoom(idRoom);
+        oldRoom.setName(room.getName());
+        oldRoom.setBeds(room.getBeds());
+        oldRoom.setRoomNumber(room.getRoomNumber());
+        oldRoom.setType(room.getType());
+        oldRoom.setCapacity(room.getCapacity());
+        oldRoom.setPrice(room.getPrice());
+        oldRoom.setDescription(room.getDescription());
+        oldRoom.setAvailable(room.isAvailable());
+        // save updated object
         return roomRepo.save(room);
+    }
+
+
+    public List<Room> findAvailableRooms(Date checkInDate, Date checkOutDate, Integer capacity) {
+        List<Room> availableRooms = new ArrayList<>();
+
+        // Находим все номера без бронирований в указанный период
+        List<Room> rooms = roomRepo.findAll(); // Все номера
+        System.out.println(rooms);
+        for (Room room : rooms) {
+            if (room.isAvailable() && room.getCapacity() >= capacity) { // Проверка на соответствие параметрам поиска
+                System.out.println("Parameters ++ " + room);
+                boolean isBooked = false;
+                for (Reservation reservation : room.getReservationList()) {
+                    if ((checkInDate.before(reservation.getCheckOutDate()) && checkInDate.after(reservation.getCheckInDate())) ||
+                            (checkOutDate.before(reservation.getCheckOutDate()) && checkOutDate.after(reservation.getCheckInDate())) ||
+                            (checkInDate.before(reservation.getCheckInDate()) && checkOutDate.after(reservation.getCheckOutDate())) ||
+                            (checkInDate.equals(reservation.getCheckInDate()) && checkOutDate.equals(reservation.getCheckOutDate()))) {
+                        isBooked = true;
+                        System.out.println("Is booked" + room.getIdRoom());
+                        break;
+                    }
+                }
+                if (!isBooked) {
+                    availableRooms.add(room);
+                    System.out.println("Is available " + room.getIdRoom());
+                }
+            }
+        }
+        System.out.println(availableRooms);
+        return availableRooms;
     }
 }

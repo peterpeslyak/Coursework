@@ -1,213 +1,243 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <form>
-        <div class="form-group">
-          <label for="checkin">Дата заселения:</label>
-          <input type="date" class="form-control" id="checkin" name="checkin">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <title>Rooms - InfinityHotel</title>
+</head>
+
+<body>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(120deg, #2980b9, #8e44ad);
+      height: auto;
+      overflow: auto;
+    }
+
+    .container1 {
+      margin-left: 110px;
+      margin-right: 110px;
+      max-width: 100%;
+    }
+
+    .jumbotron.text-center {
+      height: 300px;
+    }
+
+    .resultContainer {
+      width: 100%;
+      align-self: center !important;
+      margin-left: 10%;
+      margin-right: 10%;
+    }
+
+    .card-img-top,
+    .carousel,
+    .carousel-item,
+    .d-block {
+      max-width: 430px;
+      max-height: 240px;
+      min-width: 430px;
+      align-self: center !important;
+      border-radius: 3%;
+      margin-top: 5px;
+
+    }
+
+    .card,
+    .card.mb-3 {
+      min-width: 460px;
+      max-width: 460px;
+      border-radius: 3%;
+      height: 500px;
+      margin: 1%;
+      box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.161);
+    }
+
+    .card-title {
+      line-height: 1;
+    }
+
+    .card-text-footer {
+      line-height: 0.3;
+      font-size: 17px;
+    }
+
+    .ri-user-line,
+    .ri-hotel-bed-line,
+    .card-footer {
+      font-size: 20px;
+    }
+
+    .resultContainer,
+    .container-fluid {
+      align-items: center !important;
+      align-content: center !important;
+      align-self: center !important;
+      margin-left: 10%;
+      margin-right: 10%;
+      max-width: 1000px;
+    }
+
+    .btn.btn-custom {
+      background: rgb(25, 33, 99);
+      color: white;
+    }
+
+    .btn.btn-custom:hover {
+      background: rgb(3, 3, 46);
+    }
+  </style>
+
+  <header>
+    <!-- Navigation menu -->
+    <div th:replace="navigation.html"></div>
+  </header>
+
+
+  <div class="contentMain">
+    <div class="jumbotron text-center" style="background: rgba(255,255,255,0.3)">
+      <!-- Tittle -->
+      <h1 class="display-4" style="margin-top: 80px">Rooms</h1>
+      <p>Manage all rooms on the dashboard</p>
+    </div>
+
+    <div class="container1">
+
+      <section class="booking">
+        <div class="container1">
+          <form action="/rooms/searchRoom" class="form">
+
+            <table class="table" style="text-align: center">
+              <!-- Table -->
+              <thead class="thead-light">
+                <tr>
+                  <th>
+                    <label for="checkIn" class="input-label">Check in</label>
+                  </th>
+                  <th>
+                    <label for="checkOut" class="input-label">Check out</label>
+                  </th>
+                  <th>
+                    <label for="capacity" class="input-label">Persons</label>
+                  </th>
+                  <th>
+                  </th>
+                </tr>
+              </thead>
+              <tbody style="background-color: rgba(245, 245, 245, 0.5)">
+                <tr>
+                  <th>
+                    <input type="date" class="input" id="checkIn" name="checkIn" placeholder="yyyy-MM-dd" required>
+                  </th>
+                  <th>
+                    <input type="date" class="input" id="checkOut" name="checkOut" placeholder="yyyy-MM-dd" required>
+                  </th>
+                  <th>
+                    <select class="options" id="capacity" name="capacity" required>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                    </select>
+                  </th>
+                  <th>
+                    <button type="submit" class="btn btn-custom">Search</button>
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </form>
         </div>
-        <div class="form-group">
-          <label for="checkout">Дата выселения:</label>
-          <input type="date" class="form-control" id="checkout" name="checkout">
-        </div>
-        <div class="form-group">
-          <label for="guests">Количество человек:</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <button class="btn btn-outline-secondary" type="button" onclick="decrementGuests()">-</button>
+      </section>
+
+
+
+
+      <div class="container-fluid">
+
+        <div class="row">
+          <div class="card" th:each="room : ${rooms}">
+            <div id="carouselExampleIndicators${room.idRoom}" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators${room.idRoom}" data-bs-slide-to="0"
+                  class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators${room.idRoom}" data-bs-slide-to="1"
+                  aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators${room.idRoom}" data-bs-slide-to="2"
+                  aria-label="Slide 3"></button>
+              </div>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="../images/image_1.png" class="d-block" alt="...">
+                </div>
+                <div class="carousel-item">
+                  <img src="../images/image_3.png" class="d-block" alt="...">
+                </div>
+                <div class="carousel-item">
+                  <img src="../images/image_4.png" class="d-block" alt="...">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button"
+                data-bs-target="#carouselExampleIndicators${room.idRoom}" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button"
+                data-bs-target="#carouselExampleIndicators${room.idRoom}" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
             </div>
-            <input type="number" class="form-control" id="guests" name="guests" min="1" value="1">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" onclick="incrementGuests()">+</button>
+            <div class="card-body">
+              <h5 class="card-title">[[${room.name}]]</h5>
+              <div class="row align-items-start">
+                <div class="col">
+                  <p class="card-text"><i class="ri-user-line"></i>Maximum persons: [[${room.capacity}]]</p>
+                </div>
+
+                <div class="col">
+                  <p class="card-text"><i class="ri-hotel-bed-line"></i>Beds available: [[${room.price}]]</p>
+                </div>
+              </div>
+              <p class="card-text">[[${room.description}]]</p>
+            </div>
+            <div class="card-footer" style="background-color: white;">
+              <p class="card-text-footer"><small class="text-muted">From</small></p>
+              <p class="card-text-footer"><strong class="price-text">€[[${room.price}]]</strong></p>
+              <p class="card-text-footer"><small class="text-muted">per room/nightly. [[${room.type}]] type
+                  room</small>
+              </p>
+              <a href="#" class="btn btn-custom">Book</a>
             </div>
           </div>
         </div>
-        <div class="form-group">
-          <label for="roomtype">Тип комнаты:</label>
-          <select class="form-control" id="roomtype" name="roomtype">
-            <option value="standard">Стандарт</option>
-            <option value="luxury">Люкс</option>
-          </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Поиск</button>
-      </form>
-    </div>
-  </div>
-
-  <div class="row justify-content-center">
-    <div class="col-md-10">
-      <div class="row" id="room-list">
-        <!-- здесь будут динамически добавляться карточки номеров -->
       </div>
     </div>
   </div>
-</div>
 
-<!-- скрипт для управления количеством гостей -->
-<script>
-  function incrementGuests() {
-    var guests = document.getElementById('guests');
-    guests.value = parseInt(guests.value) + 1;
-  }
 
-  function decrementGuests() {
-    var guests = document.getElementById('guests');
-    if (parseInt(guests.value) > 1) {
-      guests.value = parseInt(guests.value) - 1;
-    }
-  }
-</script>
 
-<!-- скрипт для динамического отображения результатов поиска -->
-<script>
-  var rooms = [
-    {
-      "id": 1,
-      "name": "Номер стандарт",
-      "type": "Стандарт",
-      "description": "Одноместный номер с одной кроватью",
-      "price": 5000,
-      "photo": "https://via.placeholder.com/150"
-    },
-  ]
-</script>
 
-<script>
-  $(document).ready(function () {
-    $('#searchButton').click(function () {
-      var checkInDate = $('#checkInDate').val();
-      var checkOutDate = $('#checkOutDate').val();
-      var numGuests = $('#numGuests').val();
-      var roomType = $('#roomType').val();
+  <!-- ROOM CARD WITH 3 PICTURES AND DESCRIPTION -->
+  <!-- <img src="../images/image_3.png" class="card-img-top" alt="..."> -->
 
-      $.ajax({
-        url: "/search",
-        type: "POST",
-        data: { checkInDate: checkInDate, checkOutDate: checkOutDate, numGuests: numGuests, roomType: roomType },
-        success: function (result) {
-          // Очищаем предыдущие результаты поиска
-          $('#searchResults').empty();
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
 
-          // Отображаем новые результаты
-          for (var i = 0; i < result.length; i++) {
-            var room = result[i];
+</body>
 
-            var card = '<div class="card">';
-            card += '<img src="' + room.photo + '" alt="' + room.name + '">';
-            card += '<div class="card-body">';
-            card += '<h5 class="card-title">' + room.name + '</h5>';
-            card += '<p class="card-text">' + room.description + '</p>';
-            card += '<button class="btn btn-primary" data-toggle="modal" data-target="#roomModal' + room.id + '">More Information</button>';
-            card += '<p class="card-price">' + room.price + '</p>';
-            card += '<button class="btn btn-success">Book Now</button>';
-            card += '</div>';
-            card += '</div>';
-
-            $('#searchResults').append(card);
-
-            // Отображаем модальное окно для подробной информации о номере
-            var modal = '<div class="modal fade" id="roomModal' + room.id + '" tabindex="-1" role="dialog" aria-labelledby="roomModalLabel" aria-hidden="true">';
-            modal += '<div class="modal-dialog" role="document">';
-            modal += '<div class="modal-content">';
-            modal += '<div class="modal-header">';
-            modal += '<h5 class="modal-title" id="roomModalLabel">' + room.name + '</h5>';
-            modal += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
-            modal += '<span aria-hidden="true">&times;</span>';
-            modal += '</button>';
-            modal += '</div>';
-            modal += '<div class="modal-body">';
-            modal += '<p>' + room.description + '</p>';
-            modal += '<p>Rating: ' + room.rating + '</p>';
-            modal += '</div>';
-            modal += '<div class="modal-footer">';
-            modal += '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>';
-            modal += '<button type="button" class="btn btn-primary">Book Now</button>';
-            modal += '</div>';
-            modal += '</div>';
-            modal += '</div>';
-            modal += '</div>';
-
-            $('#searchResults').append(modal);
-          }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          alert('Error')
-        }
-      }
-      )
-</script>
-
-<script>
-        // Функция для отображения результатов поиска
-        function showResults(results) {
-          // Очищаем контейнер для результатов поиска
-          $('#results-container').empty();
-
-          // Перебираем все результаты поиска и создаем для каждого карточку номера
-          results.forEach(function (result) {
-            // Создаем элемент div для карточки номера
-            var card = $('<div>').addClass('card');
-
-            // Создаем элемент img для фото номера
-            var img = $('<img>').addClass('card-img-top').attr('src', result.photo);
-
-            // Создаем элемент div для названия и характеристик номера
-            var cardBody = $('<div>').addClass('card-body');
-
-            // Создаем элемент h5 для названия номера
-            var title = $('<h5>').addClass('card-title').text(result.title);
-
-            // Создаем элемент p для характеристик номера
-            var characteristics = $('<p>').addClass('card-text').text(result.characteristics);
-
-            // Создаем элемент a для кнопки "больше информации"
-            var moreInfoButton = $('<a>').addClass('btn btn-primary').text('Больше информации');
-            moreInfoButton.on('click', function () {
-              // При нажатии на кнопку "больше информации" показываем дополнительный текст и кнопку "меньше информации"
-              characteristics.hide();
-              var moreInfoText = $('<p>').text(result.moreInfo);
-              var lessInfoButton = $('<a>').addClass('btn btn-secondary').text('Меньше информации');
-              lessInfoButton.on('click', function () {
-                // При нажатии на кнопку "меньше информации" скрываем дополнительный текст и кнопку "меньше информации"
-                moreInfoText.hide();
-                lessInfoButton.hide();
-                characteristics.show();
-              });
-              cardBody.append(moreInfoText, lessInfoButton);
-            });
-
-            // Создаем элемент p для цены номера
-            var price = $('<p>').addClass('card-text').text('Цена: ' + result.price);
-
-            // Создаем элемент a для кнопки "бронировать"
-            var bookButton = $('<a>').addClass('btn btn-success').text('Бронировать');
-
-            // Добавляем все элементы в карточку номера
-            cardBody.append(title, characteristics, moreInfoButton, price, bookButton);
-            card.append(img, cardBody);
-
-            // Добавляем карточку номера в контейнер для результатов поиска
-            $('#results-container').append(card);
-          });
-        }
-
-        // Обработчик события нажатия на кнопку "Поиск"
-        $('#search-button').on('click', function () {
-          // Получаем значения полей ввода
-          var checkInDate = $('#check-in-date').val();
-          var checkOutDate = $('#check-out-date').val();
-          var guests = $('#guests').val();
-          var roomType = $('#room-type').val();
-
-          // Отправляем запрос на сервер с помощью AJAX
-          $.ajax({
-            url: '/search',
-            method: 'GET',
-            data: {
-              checkInDate: checkInDate,
-              checkOutDate: checkOutDate,
-              guests: guests,
-              roomType: roomType
-            },
-            success: function (data
-            )
+</html>

@@ -1,7 +1,7 @@
 package com.peslayk.model;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "reservations")
@@ -19,9 +19,9 @@ public class Reservation {
     private Room room;
 
     @Column(name = "check_in_date", nullable = false)
-    private LocalDate checkInDate;
+    private Date checkInDate;
     @Column(name = "check_out_date", nullable = false)
-    private LocalDate checkOutDate;
+    private Date checkOutDate;
     @Column(nullable = false)
     private Boolean status;
     @Column(name = "guests", nullable = false)
@@ -32,7 +32,7 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(User user, Room room, LocalDate checkInDate, LocalDate checkOutDate,
+    public Reservation(User user, Room room, Date checkInDate, Date checkOutDate,
                        Boolean status, Integer guestsCount, Double totalCost) {
         this.user = user;
         this.room = room;
@@ -67,19 +67,19 @@ public class Reservation {
         this.room = room;
     }
 
-    public LocalDate getCheckInDate() {
+    public Date getCheckInDate() {
         return checkInDate;
     }
 
-    public void setCheckInDate(LocalDate checkInDate) {
+    public void setCheckInDate(Date checkInDate) {
         this.checkInDate = checkInDate;
     }
 
-    public LocalDate getCheckOutDate() {
+    public Date getCheckOutDate() {
         return checkOutDate;
     }
 
-    public void setCheckOutDate(LocalDate checkOutDate) {
+    public void setCheckOutDate(Date checkOutDate) {
         this.checkOutDate = checkOutDate;
     }
 

@@ -67,7 +67,6 @@
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Type</th>
-                        <th scope="col">Capacity</th>
                         <th scope="col">Price</th>
                         <th scope="col">Available</th>
                         <th scope="col">Rating</th>
@@ -82,8 +81,10 @@
                     <tr th:each="room : ${rooms}" style="background-color: rgba(245, 245, 245, 0.5)">
                         <td th:text="${room.idRoom}"></td>
                         <td th:text="${room.name}"></td>
+                        <td hidden th:text="${room.roomNumber}"></td>
                         <td th:text="${room.type}"></td>
-                        <td th:text="${room.capacity}"></td>
+                        <td hidden th:text="${room.capacity}"></td>
+                        <td hidden th:text="${room.beds}"></td>
                         <td th:text="${room.price}"></td>
                         <td th:text="${room.available} ? 'Yes' : 'No'"></td>
                         <td th:text="${room.description}"></td>
@@ -100,7 +101,7 @@
                         </td>
                         <td><a href="" th:href="@{/admin/rooms/deleteRoom/{idRoom}(idRoom=${room.idRoom})}"
                                 class="btn btn-danger">Delete</a></td>
-                    </tr>
+                        </tr>
                 </tbody>
             </table>
 
@@ -134,13 +135,21 @@
                             <label for="name">Name</label>
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group row">
+                            <div class="col-sm-4">
                             <label for="type">Type</label>
                             <select class="form-control" id="type" name="type" required>
                                 <option value="Standard">Standard</option>
                                 <option value="Lux">Lux</option>
                             </select>
+                            </div>
+
+                            <div class="col-sm-4 input-group">
+                            <label for="roomNumber">Room Number</label>
+                            <input type="number" class="form-control" id="roomNumber" name="roomNumber" required>
+                            </div>
                         </div>
+
                         <div class="form-group">
                             <label for="description">Description</label>
                             <textarea class="form-control" id="description" name="description" rows="3"
@@ -148,6 +157,10 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="beds" class="col-sm-2 col-form-label">Beds</label>
+                            <div class="col-sm-4">
+                                <input type="number" class="form-control" id="beds" name="beds" required>
+                            </div>
                             <label for="capacity" class="col-sm-2 col-form-label">Capacity</label>
                             <div class="col-sm-4 input-group">
                                 <span class="input-group-btn">
@@ -199,8 +212,10 @@
                 <div class="modal-body">
                     <p><strong>Id:</strong> <span id="roomId"></span></p>
                     <p><strong>Name:</strong> <span id="roomName"></span></p>
+                    <p><strong>Number:</strong> <span id="rNumber"></span></p>
                     <p><strong>Type:</strong> <span id="roomType"></span></p>
                     <p><strong>Capacity:</strong> <span id="roomCapacity"></span></p>
+                    <p><strong>Beds:</strong> <span id="roomBeds"></span></p>
                     <p><strong>Price:</strong> <span id="roomPrice"></span></p>
                     <p><strong>Available:</strong> <span id="roomAvailable"></span></p>
                     <p><strong>Description:</strong> <span id="roomDescription"></span></p>
@@ -231,8 +246,10 @@
                 // находим элементы в модальном окне, в которые будем выводить значения ячеек
                 const idElement = modal.querySelector('#roomId');
                 const nameElement = modal.querySelector('#roomName');
+                const numberElement = modal.querySelector('#rNumber');
                 const typeElement = modal.querySelector('#roomType');
                 const capacityElement = modal.querySelector('#roomCapacity');
+                const bedsElement = modal.querySelector('#roomBeds');
                 const priceElement = modal.querySelector('#roomPrice');
                 const availableElement = modal.querySelector('#roomAvailable');
                 const descriptionElement = modal.querySelector('#roomDescription');
@@ -240,11 +257,13 @@
                 // записываем значения ячеек в соответствующие элементы модального окна
                 idElement.textContent = cells[0].textContent;
                 nameElement.textContent = cells[1].textContent;
-                typeElement.textContent = cells[2].textContent;
-                capacityElement.textContent = cells[3].textContent;
-                priceElement.textContent = cells[4].textContent;
-                availableElement.textContent = cells[5].textContent;
-                descriptionElement.textContent = cells[6].textContent;
+                numberElement.textContent = cells[2].textContent;
+                typeElement.textContent = cells[3].textContent;
+                capacityElement.textContent = cells[4].textContent;
+                bedsElement.textContent = cells[5].textContent;
+                priceElement.textContent = cells[6].textContent;
+                availableElement.textContent = cells[7].textContent;
+                descriptionElement.textContent = cells[8].textContent;
             });
         });
     </script>

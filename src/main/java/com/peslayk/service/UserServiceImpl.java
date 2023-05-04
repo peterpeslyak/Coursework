@@ -61,16 +61,20 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public String deleteUserById(Long idUser) {
-        User user = getUserById(idUser);
-        if (user.getRole().equals("ROLE_ADMIN")) {
-            long countUsersWithRoleUser = userRepo.countByRole("ROLE_ADMIN");
-            if (countUsersWithRoleUser == 1) {
-                // Последний аккаунт с ролью ROLE_USER, не разрешаем удаление
-                return "You cannot delete last ADMIN account!";
+        Optional<User> userOptional = userRepo.findById(idUser);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (user.getRole().equals("ROLE_ADMIN")) {
+                long countUsersWithRoleUser = userRepo.countByRole("ROLE_ADMIN");
+                if (countUsersWithRoleUser == 1) {
+                    return "You cannot delete last ADMIN account!";
+                }
             }
+            userRepo.delete(user);
+            return "Account is deleted!";
+        } else {
+            return "Account not found!";
         }
-        userRepo.deleteById(idUser);
-        return "Account is deleted!";
     }
 
     @Override

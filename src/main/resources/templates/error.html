@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Error - InfinityHotel</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOUXw704+h835Lr+6QL9UvYjZE3I+UksdQRVXQ7jK8JzWNP"
+        crossorigin="anonymous">
+  <link rel="stylesheet" th:href="@{../css/style.css}">
+</head>
+<body>
+<header>
+  <!-- Navigation menu -->
+  <div th:replace="navigation.html"></div>
+</header>
+
+
+<div class="container" style="margin-top: 100px">
+  <div class="row">
+    <div class="col-md-6 mx-auto text-center mt-5">
+      <h1 class="display-4">Oops!</h1>
+      <h2 class="text-danger">Something went wrong...</h2>
+      <p class="lead">We are sorry for the inconvenience. Please try again later or contact us for further assistance</p>
+
+
+      <li> <a href="/" style="font-weight: bold"> Return to Home </a> </li>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -16,319 +16,335 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
 
-    * {
+    * { 
         padding: 0;
         margin: 0;
-        box-sizing: border-box;
-        font-family: 'Poppins', sans-serif;
-        text-decoration: none;
-        list-style: none;
+        box-sizing: border-box!important;
+        font-family: 'Poppins', sans-serif!important;
+        text-decoration: none!important;
+        list-style: none!important;
     }
 
     :root {
-        --hover-color: dodgerblue;
-        --main-color: #000000;
-    }
+        --hover-color: dodgerblue!important;
+        --main-color: #000000!important;
+        --white-color: #ffffff!important;
+    } 
 
     body {
         min-height: 100vh;
-        color: var(--main-color);
+        color: var(--main-color)!important;
     }
 
     header {
-        position: fixed;
-        width: 100%;
-        top: 0;
-        right: 0;
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: transparent;
-        padding: 15px 12%;
-        transition: all .50s ease;
-    }
+        position: fixed!important;
+        width: 100%!important;
+        top: 0!important;
+        right: 0!important;
+        z-index: 1000!important;
+        display: flex!important;
+        align-items: center!important;
+        justify-content: space-between!important;
+        background: transparent!important;
+        padding: 15px 12%!important;
+        transition: all .50s ease!important;    }
 
     .logo {
-        display: flex;
-        align-items: center;
+        display: flex!important;
+        align-items: center!important;
     }
 
     .logo i {
-        font-size: 30px;
-        color: var(--hover-color);
-        ;
+        font-size: 30px!important;
+        color: var(--main-color)!important;
+        transition: all .50s ease!important;
+
+    ;
+    }
+    .logo i:hover {
+        font-size: 30px!important;
+        color: var(--white-color)!important;
+        transition: all .50s ease!important;
+
+    ;
     }
 
     .logo h1 {
-        font-size: 30px;
-        color: var(--main-color);
-        font-width: 600;
+        font-size: 30px!important;
+        color: var(--main-color)!important;
+        font-width: 600!important;
+        transition: all .50s ease!important;
+
     }
 
     .logo h1:hover {
-        color: var(--hover-color);
+        color: var(--white-color)!important;
+        transition: all .50s ease!important;
+
     }
 
     .navbar {
-        display: flex;
+        display: flex!important;
     }
 
     .navbar a {
-        padding: 5px 0;
+        padding: 5px 0!important;
         margin: 0px 30px;
-        transition: all .50s ease;
-        color: var(--main-color);
+        transition: all .50s ease!important;
+        color: var(--main-color)!important;
     }
 
     .navbar a:hover {
-        color: var(--hover-color);
+        color: var(--white-color)!important;
     }
 
     .main {
-        display: flex;
-        align-items: center;
+        display: flex!important;
+        align-items: center!important;
     }
 
     .main a {
         margin-right: 25px;
         margin-left: 10px;
-        color: var(--main-color);
+        color: var(--main-color)!important;
     }
 
     .main a:hover {
-        transition: all .50s ease;
-        color: var(--hover-color);
+        transition: all .50s ease!important;
+        color: var(--white-color)!important;
     }
 
     .user {
-        display: flex;
-        align-items: center;
+        display: flex!important;
+        align-items: center!important;
     }
 
     #menu-icon {
-        font-size: 35px;
-        color: var(--main-color);
-        cursor: pointer;
-        z-index: 10001;
-        display: none;
+        font-size: 35px!important;
+        color: var(--main-color)!important;
+        cursor: pointer!important;
+        z-index: 10001!important;
+        display: none!important;
     }
 
     #menu-icon:hover {
-        color: var(--hover-color);
+        color: var(--white-color)!important;
     }
 
     @media (max-width: 1280px) {
         header {
-            padding: 14px 2%;
-            transition: .2s;
+            padding: 14px 2%!important;
+            transition: .2s!important;
         }
 
         .navbar a {
-            padding: 5px 0;
+            padding: 5px 0!important;
             margin: 0px 20px;
         }
     }
 
     @media (max-width: 1090px) {
         #menu-icon {
-            display: block;
+            display: block!important;
         }
 
         .navbar {
-            position: absolute;
-            top: 100%;
-            right: -100%;
-            width: 270px;
-            height: 33vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            border-radius: 10px;
-            transition: all .50s ease;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.6));
+            position: absolute!important;
+            top: 100%!important;
+            right: -100%!important;
+            width: 270px!important;
+            height: 33vh!important;
+            display: flex!important;
+            flex-direction: column!important;
+            justify-content: flex-start!important;
+            border-radius: 10px!important;
+            transition: all .50s ease!important;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.6))!important;
         }
 
         .navbar a {
-            display: block;
+            display: block!important;
             margin: 12px 0;
-            padding: 0px 25px;
-            transition: all .30s ease;
+            padding: 0px 25px!important;
+            transition: all .30s ease!important;
         }
 
         .navbar a:hover {
-            color: var(--hover-color);
+            color: var(--hover-color)!important;
         }
 
         .navbar.active {
-            color: var(--hover-color);
+            color: var(--main-color)!important;
         }
 
         .navbar.open {
-            right: 2%;
+            right: 2%!important;
         }
     }
 
 
     #user-icon {
-        font-size: 20px;
-        color: var(--main-color);
-        cursor: pointer;
-        z-index: 10001;
+        font-size: 20px!important;
+        color: var(--main-color)!important;
+        cursor: pointer!important;
+        z-index: 10001!important;
     }
 
     .dropdown {
-        position: absolute;
-        top: 100%;
-        right: -100%;
-        width: 270px;
-        height: 17vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        border-radius: 10px;
-        transition: all .50s ease;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.6));
+        position: absolute!important;
+        top: 100%!important;
+        right: -100%!important;
+        width: 270px!important;
+        height: 17vh!important;
+        display: flex!important;
+        flex-direction: column!important;
+        justify-content: flex-start!important;
+        border-radius: 10px!important;
+        transition: all .50s ease!important;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.6))!important;
     }
 
     .dropdown a {
-        display: block;
+        display: block!important;
         margin: 12px 0;
-        padding: 0px 25px;
-        transition: all .30s ease;
+        padding: 0px 25px!important;
+        transition: all .30s ease!important;
     }
 
     .dropdown a:hover {
-        color: var(--hover-color);
+        color: var(--hover-color)!important;
     }
 
     .dropdown.active {
-        color: var(--hover-color);
+        color: var(--main-color)!important;
     }
 
     .dropdown.open {
-        right: 2%;
+        right: 2%!important;
     }
 
     .ri-settings-4-line {
-        color: var(--main-color);
-        scale: 110%;
+        color: var(--main-color)!important;
+        scale: 110%!important;
     }
 
 
     .ri-history-line {
-        color: var(--main-color);
-        scale: 110%;
+        color: var(--main-color)!important;
+        scale: 110%!important;
 
     }
 
     .ri-logout-box-r-line {
-        color: var(--main-color);
-        scale: 110%;
+        color: var(--main-color)!important;
+        scale: 110%!important;
     }
 
     .main2 {
-        display: flex;
-        align-items: center;
+        display: flex!important;
+        align-items: center!important;
     }
 
     .main2 a {
-        margin-right: 25px;
-        margin-left: 10px;
-        color: var(--main-color);
+        margin-right: 25px!important;
+        margin-left: 10px!important;
+        color: var(--main-color)!important;
     }
 
     .main2 a:hover {
-        transition: all .50s ease;
-        color: var(--hover-color);
+        transition: all .50s ease!important;
+        color: var(--hover-color)!important;
     }
 </style>
 
 <body>
 
-    <div>
-        <nav>
-            <header>
+<div >
+    <nav>
+        <header style="background-color: rgba(255, 255, 255, 0.6)!important">
 
-                <a href="/" class="logo"><i class="ri-home-line"></i>
-                    <h1>InfinityHotel</h1>
-                </a>
+            <a href="/" class="logo"><i class="ri-home-line"></i>
+                <h1>InfinityHotel</h1>
+            </a>
 
-                <ul class="navbar">
-                    <li><a href="/" class="active">Home</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contacts</a></li>
-                    <li><a href="#">Blog</a></li>
+            <ul class="navbar">
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/rooms">Rooms</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contacts</a></li>
 
-                    <li th:if="${user_role == 'ROLE_ADMIN'}">
-                        <a href="/admin/" style="font-weight: bold"> Dashboard </a>
-                    </li>
-
-
+                <li th:if="${user_role == 'ROLE_ADMIN'}">
+                    <a href="/admin/" style="font-weight: bold;"> Dashboard </a>
+                </li>
 
 
-                </ul>
+
+
+            </ul>
+
+            <div class="main">
+                <div class="bx bx-menu" id="menu-icon"></div>
+            </div>
+
+            <th:block th:if="${user==NULL}">
 
                 <div class="main">
-                    <div class="bx bx-menu" id="menu-icon"></div>
+                    <a href="/signin">Login</a>
+                    <a href="/register">Register</a>
                 </div>
 
-                <th:block th:if="${user==NULL}">
+            </th:block>
 
-                    <div class="main">
-                        <a href="/signin">Login</a>
-                        <a href="/register">Register</a>
+            <th:block th:if="${user!=NULL}">
+
+                <div class="main2">
+                    <div class="ri-user-line" id="user-icon"> </div>
+                    <div class="user-menu">
+                        <a class="user" href="#">[[${user.firstName}]]</a>
+                        <ul class="dropdown">
+                            <li th:if="${user_role == 'ROLE_ADMIN'}">
+                                <a class="ri-settings-4-line" th:href="@{admin/profile}"> My Profile</a>
+                            </li>
+                            <li th:if="${user_role == 'ROLE_USER'}">
+                                <a class="ri-settings-4-line" th:href="@{/user/profile}"> My Profile</a>
+                            </li>
+                            <li>
+                                <a class="ri-history-line" href="#"> Booking history</a>
+                            </li>
+                            <li>
+                                <a class="ri-logout-box-r-line" href="/logout"> Logout</a>
+                            </li>
+
+                        </ul>
                     </div>
+                </div>
 
-                </th:block>
+            </th:block>
 
-                <th:block th:if="${user!=NULL}">
+        </header>
+    </nav>
+</div>
 
-                    <div class="main2">
-                        <div class="ri-user-line" id="user-icon"> </div>
-                        <div class="user-menu">
-                            <a class="user" href="#">[[${user.firstName}]]</a>
-                            <ul class="dropdown">
-                                <li>
-                                    <a class="ri-settings-4-line" th:href="@{profile}"> My Profile</a>
-                                </li>
-                                <li>
-                                    <a class="ri-history-line" href="#"> Booking history</a>
-                                </li>
-                                <li>
-                                    <a class="ri-logout-box-r-line" href="/logout"> Logout</a>
-                                </li>
+<!--js--->
+<script>
+    let menu = document.querySelector('#menu-icon');
+    let navbar = document.querySelector('.navbar');
 
-                            </ul>
-                        </div>
-                    </div>
-
-                </th:block>
-
-            </header>
-        </nav>
-    </div>
-
-    <!--js--->
-    <script>
-        let menu = document.querySelector('#menu-icon');
-        let navbar = document.querySelector('.navbar');
-
-        menu.onclick = () => {
-            menu.classList.toggle('bx-x');
-            navbar.classList.toggle('open');
-        }
-    </script>
+    menu.onclick = () => {
+        menu.classList.toggle('bx-x');
+        navbar.classList.toggle('open');
+    }
+</script>
 
 
-    <script>
-        let userMenu = document.querySelector('.user-menu');
-        let userDropdown = document.querySelector('.dropdown');
+<script>
+    let userMenu = document.querySelector('.user-menu');
+    let userDropdown = document.querySelector('.dropdown');
 
-        userMenu.onclick = () => {
-            userDropdown.classList.toggle('open');
-        }
-    </script>
+    userMenu.onclick = () => {
+        userDropdown.classList.toggle('open');
+    }
+</script>
 
 
 </body>

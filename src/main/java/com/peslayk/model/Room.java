@@ -34,10 +34,11 @@ public class Room {
     private boolean available;
     @Column(nullable = false)
     private String roomNumber;
+    @Column(nullable = false)
+    private Integer beds;
 
 
-    public Room(Amenities amenities, List<Reservation> reservationList, List<Reviews> reviews, String name,
-                String type, String description, Integer capacity, Double price, boolean available, String roomNumber) {
+    public Room(Amenities amenities, List<Reservation> reservationList, List<Reviews> reviews, String name, String type, String description, Integer capacity, Double price, boolean available, String roomNumber, Integer beds) {
         this.amenities = amenities;
         this.reservationList = reservationList;
         this.reviews = reviews;
@@ -48,6 +49,7 @@ public class Room {
         this.price = price;
         this.available = available;
         this.roomNumber = roomNumber;
+        this.beds = beds;
     }
 
     public Room() {
@@ -115,6 +117,14 @@ public class Room {
 
     public void setRoomNumber(String roomNumber) {
         this.roomNumber = roomNumber;
+    }
+
+    public Integer getBeds() {
+        return beds;
+    }
+
+    public void setBeds(Integer beds) {
+        this.beds = beds;
     }
 
     public Amenities getAmenities() {

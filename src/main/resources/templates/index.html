@@ -1,24 +1,159 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xml:th="http://www.thymeleaf.org">
+
+</html>
 
 <head>
     <meta charset="UTF-8">
-    <title>IndexPage</title>
-    <link rel="stylesheet" th:href="@{css/style.css}">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Infinity Hotel</title>
+    <!--Font awesome CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/css/stylesMain.css">
+    <link rel="stylesheet" href="/css/stylesMain.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+
 </head>
 
-<body>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(120deg, #2980b9, #8e44ad);
+        height: auto;
+        overflow: auto;
+    }
 
+    .container1 {
+        margin-left: 25%;
+        margin-right: 25%;
+        align-items: center;
+        align-content: center;
+    }
+
+    .form .input-group label,
+    .form .input-group input,
+    .form .input-group select .form .input-group option {
+        display: inline-block;
+        vertical-align: middle;
+        min-width: 150px;
+    }
+</style>
+
+
+<body>
     <header>
         <!-- Navigation menu -->
         <div th:replace="navigation.html"></div>
     </header>
 
-    <section id="main-content" class="main-content">
+    <main>
+        <div class="hero">
+            <div class="hero-bg">
+                <img src="/static/images/image_2.png">
+            </div>
+            <div class="container">
+                <div class="main-heading">
+                    <h1 class="title">Infinity Hotel</h1>
+                    <h2 class="subtitle">your path to endless relaxation</h2>
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </main>
 
+    <section class="booking">
+        <div class="container1">
+            <form action="" class="form">
+
+                <table class="table" style="text-align: center">
+                    <!-- Table -->
+                    <thead class="thead-light">
+                        <tr>
+                            <th>
+                                <label for="check-in" class="input-label">Check in</label>
+                            </th>
+                            <th>
+                                <label for="check-in" class="input-label">Check out</label>
+                            </th>
+                            <th>
+                                <label for="adults" class="input-label">Adults</label>
+                            </th>
+                            <th>
+                                <label for="children" class="input-label">Children</label>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody style="background-color: rgba(245, 245, 245, 0.5)">
+                        <tr>
+                            <th>
+                                <input type="date" class="input" id="check-in" name="check-in">
+                            </th>
+                            <th>
+                                <input type="date" class="input" id="check-out" name="check-out">
+                            </th>
+                            <th>
+                                <select class="options" id="adults" name="adults">
+                                    <option value="0">0</option>
+                                    <option value="0">1</option>
+                                    <option value="0">2</option>
+                                    <option value="0">3</option>
+                                    <option value="0">4</option>
+                                    <option value="0">5+</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select class="options" id="children" name="children">
+                                    <option value="0">0</option>
+                                    <option value="0">1</option>
+                                    <option value="0">2</option>
+                                    <option value="0">3</option>
+                                    <option value="0">4</option>
+                                    <option value="0">5+</option>
+                                </select>
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit" class="btn form-btn btn-purple">Search</button>
+            </form>
+        </div>
     </section>
 
+    <section>
+        <mat-card>
+            <mat-card-content>
+                <div style="background-color: white;">
+                    <div class="row">
+                        <div class="col-md-6" th:each="number : ${numbers}">
+                            <div class="card mb-3">
+                                <img th:src="${number.image}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Номер th:text="${number.id}"</h5>
+                                    <p class="card-text">Вместимость: th:text="${number.capacity}"</p>
+                                    <p class="card-text">Тип: th:text="${number.type}"</p>
+                                    <p class="card-text">Цена: th:text="${number.price}"</p>
+                                    <a href="#" class="btn btn-primary">Забронировать</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </section>
 
+    </main>
+
+
+
+    <script src="../static/js/main.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 
 </html>
