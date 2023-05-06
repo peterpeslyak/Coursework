@@ -39,6 +39,18 @@ public class RoomServiceImpl implements RoomService{
     }
 
     @Override
+    public List<Room> getAllAvailableRooms() {
+        List<Room> availableRooms = new ArrayList<>();
+        List<Room> rooms = roomRepo.findAll(); // Все номера
+        for (Room room : rooms) {
+            if (room.isAvailable()) {
+                availableRooms.add(room);
+            }
+        }
+        return availableRooms;
+    }
+
+    @Override
     public Room getRoomById(Long idRoom) {
         return roomRepo.findById(idRoom).get();
     }

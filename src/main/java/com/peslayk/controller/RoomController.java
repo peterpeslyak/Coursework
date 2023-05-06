@@ -30,6 +30,8 @@ import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -39,9 +41,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class RoomController {
-
-    @Autowired
-    private RoomRepository roomRepo;
     @Autowired
     private RoomService roomService;
     @Autowired
@@ -108,9 +107,9 @@ public class RoomController {
 
 
     @GetMapping("/rooms")
-    public String viewAllRooms(Model model) {
-        //List<Room> rooms = roomService.getAllRooms();
-        //model.addAttribute("rooms", rooms);
+    public String viewAllAvailableRooms(Model model) {
+        List<Room> rooms = roomService.getAllAvailableRooms();
+        model.addAttribute("rooms", rooms);
         return "/rooms";
     }
 
@@ -119,17 +118,17 @@ public class RoomController {
     @GetMapping("/rooms/searchRoom")
     public String findAvailableRoom(@RequestParam String checkIn,
                                     @RequestParam String checkOut,
-                                    @RequestParam Integer capacity,
+                                    @RequestParam Integer guests,
                                     Model model) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date checkInDate = dateFormat.parse(checkIn);
         Date checkOutDate = dateFormat.parse(checkOut);
-        System.out.println(checkOut+"---"+checkOut+"---"+capacity);
-        List<Room> rooms = roomService.findAvailableRooms(checkInDate, checkOutDate, capacity);
+        System.out.println(checkOut+"---" + checkOut + "---" + guests);
+        List<Room> rooms = roomService.findAvailableRooms(checkInDate, checkOutDate, guests);
         model.addAttribute("rooms", rooms);
         model.addAttribute("checkIn", checkIn);
         model.addAttribute("checkOut", checkOut);
-        model.addAttribute("capacity", capacity);
+        model.addAttribute("guests", guests);
         System.out.println(rooms);
         return "/rooms";
     }

@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
     integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 
 </head>
@@ -180,18 +182,18 @@
       capacityField.value++;
     });
 
-    var minusBtn = document.getElementById("minus-btn2");
-    var plusBtn = document.getElementById("plus-btn2");
-    var capacityField = document.getElementById("beds");
+    var minusBtn2 = document.getElementById("minus-btn2");
+    var plusBtn2 = document.getElementById("plus-btn2");
+    var capacityField2 = document.getElementById("beds");
 
-    minusBtn.addEventListener("click", function () {
-      if (capacityField.value > 1) {
-        capacityField.value--;
+    minusBtn2.addEventListener("click", function () {
+      if (capacityField2.value > 1) {
+        capacityField2.value--;
       }
     });
 
-    plusBtn.addEventListener("click", function () {
-      capacityField.value++;
+    plusBtn2.addEventListener("click", function () {
+      capacityField2.value++;
     });
   </script>
 

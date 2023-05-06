@@ -41,6 +41,12 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping(value = "/error")
+    public String notFound()
+    {
+        return "1error";
+    }
+
     @GetMapping(value = "/signin")
     public String login()
     {

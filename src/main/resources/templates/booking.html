@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+</html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" th:href="@{../css/style.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Booking – InfinityHotel</title>
+</head>
+
+<style>
+    body {
+        background: #f3f3f3;
+        height: auto;
+        overflow: auto;
+    }
+
+    .card {
+        box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+    }
+
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0 solid rgba(0, 0, 0, .125);
+        border-radius: 1rem;
+    }
+
+    .card-body {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        padding: 1.5rem 1.5rem;
+    }
+
+    .card-img-top,
+    .carousel,
+    .carousel-item,
+    .d-block {
+        max-width: 495px;
+        max-height: 275px;
+        min-width: 495px;
+        align-self: center !important;
+        border-radius: 3%;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .btn {
+        margin-bottom: 10px;
+    }
+</style>
+
+<header>
+    <!-- Navigation menu -->
+    <div th:replace="navigation.html"></div>
+</header>
+
+<body>
+
+    <div class="container">
+        <h1 class="mb-5" style="margin-top: 8%;">Booking</h1>
+        <div class="row" style="align-self: center !important;">
+            <!-- Left -->
+            <div class="col-lg-5">
+                <div class="card position-sticky top-0" style="margin-top: 5%;">
+                    <div class="p-3 bg-light bg-opacity-10">
+                        <div th:id="'carouselExample-'+${room.idRoom}" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active"
+                                    th:if="${room.imageMain} != '' and ${room.imageMain} != null">
+                                    <img th:src="@{/images/roomImg/{idRoom}/{imageMain}(idRoom=${room.idRoom},imageMain=${room.imageMain})}"
+                                        class="d-block" alt="...">
+                                </div>
+                                <div class="carousel-item"
+                                    th:if="${room.imageSecond} != '' and ${room.imageSecond} != null">
+                                    <img th:src="@{/images/roomImg/{idRoom}/{imageSecond}(idRoom=${room.idRoom},imageSecond=${room.imageSecond})}"
+                                        class="d-block" alt="...">
+                                </div>
+                                <div class="carousel-item"
+                                    th:if="${room.imageThird} != '' and ${room.imageThird} != null">
+                                    <img th:src="@{/images/roomImg/{idRoom}/{imageThird}(idRoom=${room.idRoom},imageThird=${room.imageThird})}"
+                                        class="d-block" alt="...">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button"
+                                th:data-bs-target="'carouselExample-'+${room.idRoom}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button"
+                                th:data-bs-target="'carouselExample-'+${room.idRoom}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <h5 class="card-title mb-3" style="margin-top: 4%;">[[${room.name}]]</h5>
+                        <div class="row align-items-start">
+                            <p class="card-text"><i class="ri-user-line"></i>Persons: [[${guests}]]</p>
+                        </div>
+                        <p class="card-text" style="font-size: 14px !important;">[[${room.description}]]</p>
+
+                        <div class="d-flex justify-content-between mb-1 small">
+                            <span><i class="ri-calendar-line"></i>Check in</span> <span>[[${checkIn}]] after
+                                14:00</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-1 small">
+                            <span><i class="ri-calendar-close-line"></i>Check out</span> <span>[[${checkOut}]] before
+                                12:00</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-4 small">
+                            <!-- <span>TOTAL</span> <strong class="text-dark">$224.50</strong> -->
+                            <span> </span> <strong class="text-dark"> [[${nights}]] nights – €[[${priceTotal}]]</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right -->
+
+            <div class="col-lg-6">
+                <div class="accordion-item mb-3" style="margin-top: 5%;">
+                    <h2 class="h5 px-4 py-3 accordion-header d-flex justify-content-between align-items-center">
+                        <div class="form-check w-100 collapsed" aria-expanded="false">
+                            <label class="form-check-label pt-1" for="payment1">
+                                Contact details
+                            </label>
+                        </div>
+                    </h2>
+                    <form th:action="@{/rooms/booking/payment}" method="post">
+                        <input type="hidden" th:value="${checkIn}" name="checkIn">
+                        <input type="hidden" th:value="${checkOut}" name="checkOut">
+                        <input type="hidden" th:value="${room.idRoom}" name="idRoom">
+                        <input type="hidden" th:value="${guests}" name="guests">
+                        <input type="hidden" th:value="${nights}" name="nights">
+                        <input type="hidden" th:value="${priceTotal}" name="priceTotal">
+
+                        <div id="collapseCC" class="accordion-collapse collapse show"
+                            data-bs-parent="#accordionPayment">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">First Name*</label>
+                                            <input type="text" class="form-control" name="firstName" required
+                                                pattern="[A-Za-zА-Яа-яёЁ]{2,}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Last Name*</label>
+                                            <input type="text" class="form-control" name="lastName" required
+                                                pattern="[A-Za-zА-Яа-яёЁ]{2,}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg">
+                                <div class="mb-3">
+                                    <label class="form-label">Phone*</label>
+                                    <input type="tel" class="form-control" name="phoneNumber" required
+                                        pattern="^\+?\d{12,13}$">
+                                </div>
+                            </div>
+                            <div class="col-lg">
+                                <div class="mb-3">
+                                    <label class="form-label">Email*</label>
+                                    <input type="email" class="form-control" name="email" required
+                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mt-2">Go to payment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    </div>
+    </div>
+
+    <script>
+        // получаем все элементы с классом "carousel"
+        var carousels = document.querySelectorAll('.carousel');
+
+        // перебираем каждую карусель
+        carousels.forEach(function (carousel) {
+            // получаем элементы карусели
+            var carouselInner = carousel.querySelector('.carousel-inner');
+            var carouselPrev = carousel.querySelector('.carousel-control-prev');
+            var carouselNext = carousel.querySelector('.carousel-control-next');
+
+            // получаем количество слайдов в карусели
+            var slides = carouselInner.querySelectorAll('.carousel-item');
+            var slideCount = slides.length;
+
+            // устанавливаем начальный активный слайд
+            var activeSlide = 0;
+            slides[activeSlide].classList.add('active');
+
+            // добавляем обработчики событий для кнопок навигации
+            carouselPrev.addEventListener('click', function () {
+                // скрываем текущий активный слайд
+                slides[activeSlide].classList.remove('active');
+                // уменьшаем индекс активного слайда
+                activeSlide--;
+                // если индекс меньше 0, устанавливаем его в последний слайд
+                if (activeSlide < 0) {
+                    activeSlide = slideCount - 1;
+                }
+                // показываем новый активный слайд
+                slides[activeSlide].classList.add('active');
+            });
+
+            carouselNext.addEventListener('click', function () {
+                // скрываем текущий активный слайд
+                slides[activeSlide].classList.remove('active');
+                // увеличиваем индекс активного слайда
+                activeSlide++;
+                // если индекс больше последнего слайда, устанавливаем его в 0
+                if (activeSlide >= slideCount) {
+                    activeSlide = 0;
+                }
+                // показываем новый активный слайд
+                slides[activeSlide].classList.add('active');
+            });
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+        integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
+        integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha384-3J3o6pGbm6L9vo+4XQ6b2Y6JnDY5W/pevB1lzNM2K9z0R/5BzwJXOYwqpfD0jc/+" crossorigin="anonymous">
+        </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.min.js"
+        integrity="sha512-nE+SoQwzhB58N7gCB0pkpG0bg7jT/ynrJf0FGl1Ce54jPRfzFrtwrEXGji3xiq9kOvE6UfhR6dfNgOJ2Abx5dQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</body>
+
+</html>

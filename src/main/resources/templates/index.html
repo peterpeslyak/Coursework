@@ -99,7 +99,7 @@
                                     required>
                             </th>
                             <th>
-                                <select class="options" id="capacity" name="capacity" required>
+                                <select class="options" id="guests" name="guests" required>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -143,7 +143,52 @@
 
     </main>
 
-
+    <script>
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById('checkIn').setAttribute('min', today);
+        document.getElementById('checkOut').setAttribute('min', today);
+    
+        function validateDates() {
+          var checkInDate = document.getElementById('checkIn').value;
+          var checkOutDate = document.getElementById('checkOut').value;
+    
+          if (checkInDate >= today && checkOutDate >= today && checkInDate <= checkOutDate) {
+            document.getElementById('submit-btn').disabled = false;
+          } else {
+            document.getElementById('submit-btn').disabled = true;
+          }
+        }
+    
+        document.getElementById('checkIn').addEventListener('change', validateDates);
+        document.getElementById('checkOut').addEventListener('change', validateDates);
+      </script>
+    
+      <script>
+        const checkInInput = document.getElementById("checkIn");
+        const checkOutInput = document.getElementById("checkOut");
+    
+        // Add event listener to check-in date input
+        checkInInput.addEventListener("change", function () {
+          // Get selected check-in date
+          const selectedDate = new Date(checkInInput.value);
+    
+          // Set min date for check-out input to be the day after the selected check-in date
+          const nextDay = new Date(selectedDate);
+          nextDay.setDate(selectedDate.getDate() + 1);
+          checkOutInput.min = nextDay.toISOString().split("T")[0];
+        });
+    
+        // Add event listener to check-out date input
+        checkOutInput.addEventListener("change", function () {
+          // Get selected check-out date
+          const selectedDate = new Date(checkOutInput.value);
+    
+          // Set min date for check-in input to be the day before the selected check-out date
+          const previousDay = new Date(selectedDate);
+          previousDay.setDate(selectedDate.getDate() - 1);
+          checkInInput.max = previousDay.toISOString().split("T")[0];
+        });
+      </script>
 
     <script src="../static/js/main.js"></script>
     <script src="/js/main.js"></script>

@@ -51,6 +51,9 @@
       align-self: center !important;
       border-radius: 3%;
       margin-top: 5px;
+      margin-bottom: 5px;
+      margin-left: 0;
+      margin-right: 0;
 
     }
 
@@ -129,7 +132,7 @@
                     <label for="checkOut" class="input-label">Check out</label>
                   </th>
                   <th>
-                    <label for="capacity" class="input-label">Persons</label>
+                    <label for="guests" class="input-label">Persons</label>
                   </th>
                   <th>
                   </th>
@@ -147,13 +150,13 @@
                   </th>
 
                   <th>
-                    <select class="options" id="capacity" name="capacity" required>
-                      <option value="1" th:value="1" th:selected="${capacity == 1}">1</option>
-                      <option value="2" th:value="2" th:selected="${capacity == 2}">2</option>
-                      <option value="3" th:value="3" th:selected="${capacity == 3}">3</option>
-                      <option value="4" th:value="4" th:selected="${capacity == 4}">4</option>
-                      <option value="5" th:value="5" th:selected="${capacity == 5}">5</option>
-                      <option value="6" th:value="6" th:selected="${capacity == 6}">6</option>
+                    <select class="options" id="guests" name="guests" required>
+                      <option value="1" th:value="1" th:selected="${guests == 1}">1</option>
+                      <option value="2" th:value="2" th:selected="${guests == 2}">2</option>
+                      <option value="3" th:value="3" th:selected="${guests == 3}">3</option>
+                      <option value="4" th:value="4" th:selected="${guests == 4}">4</option>
+                      <option value="5" th:value="5" th:selected="${guests == 5}">5</option>
+                      <option value="6" th:value="6" th:selected="${guests == 6}">6</option>
                     </select>
                   </th>
                   <th>
@@ -216,7 +219,13 @@
               <p class="card-text-footer"><small class="text-muted">per room/nightly. [[${room.type}]] type
                   room</small>
               </p>
-              <a href="#" class="btn btn-custom">Book</a>
+              <form th:action="@{/rooms/booking}" method="post">
+                <input type="hidden" name="guests" th:value="${guests}">
+                <input type="hidden" name="idRoom" th:value="${room.idRoom}">
+                <input type="hidden" name="checkIn" th:value="${checkIn}">
+                <input type="hidden" name="checkOut" th:value="${checkOut}">
+                <button type="submit" class="btn btn-custom">Book</button>
+              </form>
             </div>
           </div>
         </div>
@@ -229,7 +238,7 @@
   <script>
     let checkIn = document.getElementById('checkIn');
     let checkOut = document.getElementById('checkOut');
-    let capacity = document.getElementById('capacity');
+    let guests = document.getElementById('guests');
 
     if (serverData.checkIn) {
       checkIn.value = serverData.checkIn;
@@ -239,8 +248,8 @@
       checkOut.value = serverData.checkOut;
     }
 
-    if (serverData.capacity) {
-      capacity.value = serverData.capacity;
+    if (serverData.guests) {
+      guests.value = serverData.guests;
     }
   </script>
 
