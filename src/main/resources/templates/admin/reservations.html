@@ -10,71 +10,293 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
         integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <title>Dashboard - Reservations</title>
 </head>
 
 <body>
+
     <style>
         body {
             margin: 0;
             padding: 0;
             background: linear-gradient(120deg, #2980b9, #8e44ad);
-            height: 100vh;
-            overflow: hidden;
+            min-height: 800px;
+            height: auto;
+            overflow: auto;
+        }
+
+        #minus-btn:hover {
+            color: #2980b9;
+        }
+
+        #plus-btn:hover {
+            color: #2980b9;
+        }
+
+        .container1 {
+            margin-left: 110px;
+            margin-right: 110px;
+            max-width: 100%;
         }
     </style>
 
-    <header>
-        <!-- Navigation menu -->
-        <div th:replace="navigationAdmin.html"></div>
-    </header>
+    <!-- Navigation menu -->
+    <div class="navBarAdmin" th:replace="navigationAdmin.html"></div>
 
-    <div class="jumbotron text-center" style="background: rgba(255,255,255,0.3)">
-        <h1 class="display-4">Reservations</h1>
-        <p>Manage all reservations on the dashboard</p>
+
+    <div class="contentMain">
+        <div class="jumbotron text-center" style="background: rgba(255,255,255,0.3)">
+            <!-- Tittle -->
+            <h1 class="display-4">Reservations</h1>
+            <p>View and manage reservations</p>
+        </div>
+
+        <div class="container1">
+
+            <a th:href="@{/admin/}" class="btn btn-light">Dashboard</a>
+            <a data-toggle="modal" data-target="#addRoomModal" style="margin: 20px 0; color: white"
+                class="btn btn-primary">Add Reservation</a>
+            <a th:href="@{/admin/rooms}" style="margin: 20px 0" class="btn btn-primary">Rooms</a>
+            <a th:href="@{/admin/reviews/}" style="margin: 20px 0" class="btn btn-primary">Reviews</a>
+
+            <table class="table" style="text-align: center">
+                <!-- Table -->
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Room Number</th>
+                        <th scope="col">User Name</th>
+                        <th scope="col">Check In</th>
+                        <th scope="col">Check Out</th>
+                        <th scope="col">Guests</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
+                        <th scope="col">Info</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="reservation : ${reservations}" style="background-color: rgba(245, 245, 245, 0.5)">
+                        <td th:text="${reservation.idReservation}"></td>
+                        <td th:text="${reservation.room.roomNumber}" th:class="font-weight-bold"></td>
+                        <td th:text="${reservation.user.firstName + ' ' + reservation.user.lastName}"></td>
+                        <td th:text="${#dates.format(reservation.checkInDate, 'yyyy-MM-dd')}"
+                            th:class="font-weight-bold"></td>
+                        <td th:text="${#dates.format(reservation.checkOutDate, 'yyyy-MM-dd')}"
+                            th:class="font-weight-bold"></td>
+                        <td th:text="${reservation.guestsCount}" th:class="font-weight-bold"></td>
+                        <td th:text="${reservation.totalCost}"></td>
+
+                        <form id="updateReservationStatus" th:action="@{admin/rooms/updateReservationStatus}"
+                            method="post">
+                            <td>
+                                <input type="hidden" name="reservation.room.roomId"
+                                    th:value="${reservation.room.idRoom}" />
+                                <select class="form-control" name="status" required>
+                                    <option value="NEW" th:selected="${reservation.status == 'NEW'}">NEW</option>
+                                    <option value="CONFIRMED" th:selected="${reservation.status == 'CONFIRMED'}">
+                                        CONFIRMED</option>
+                                    <option value="CANCELLED" th:selected="${reservation.status == 'CANCELLED'}">
+                                        CANCELLED</option>
+                                    <option value="COMPLETED" th:selected="${reservation.status == 'COMPLETED'}">
+                                        COMPLETED</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-warning">Update</button>
+                            </td>
+                        </form>
+                        <td>
+                            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#roomInfoModal"
+                                data-name="${room.name}" data-type="${room.type}" data-description="${room.description}"
+                                data-rating="${room.rating}">
+                                Info
+                            </button>
+                        <td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div class="container">
+    <script>
+        $(document).ready(function () {
+            ;
+            $('table.updateBTN').on('click', function () {
+                var idRoom = $(this).parent().find('#idRoom').val();
+                alert(idRoom);
+            });
+        });
+    </script>
 
-        <a th:href="@{/admin/rooms/addRoom}" style="margin: 20px 0" class="btn btn-primary">idk</a>
+    <!-- Add Room Modal -->
+    <div class="modal fade" id="addRoomModal" tabindex="-1" role="dialog" aria-labelledby="addRoomModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addRoomModalLabel">Add New Room</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addRoomForm" th:action="@{/saveRoom}" method="post">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <label for="type">Type</label>
+                                <select class="form-control" id="type" name="type" required>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Lux">Lux</option>
+                                </select>
+                            </div>
 
-        <table class="table" style="text-align: center">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Second Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Phone Number</th>
-                    <th scope="col">Role</th>
+                            <div class="col-sm-4 input-group">
+                                <label for="roomNumber">Room Number</label>
+                                <input type="number" class="form-control" id="roomNumber" name="roomNumber" required>
+                            </div>
+                        </div>
 
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"
+                                required></textarea>
+                        </div>
 
-                    <th scope="col">Delete</th>
-                </tr>
-            </thead>
-            <tbody>
+                        <div class="form-group row">
+                            <label for="beds" class="col-sm-2 col-form-label">Beds</label>
+                            <div class="col-sm-4">
+                                <input type="number" class="form-control" id="beds" name="beds" required>
+                            </div>
+                            <label for="capacity" class="col-sm-2 col-form-label">Capacity</label>
+                            <div class="col-sm-4 input-group">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" id="minus-btn"><i
+                                            class="fa fa-minus"></i></button>
+                                </span>
+                                <input type="number" class="form-control" id="capacity" name="capacity" value="1"
+                                    required>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" id="plus-btn"><i
+                                            class="fa fa-plus"></i></button>
+                                </span>
+                            </div>
 
+                            <label for="price" class="col-sm-2 col-form-label">Price</label>
+                            <div class="col-sm-4">
+                                <input type="number" class="form-control" id="price" name="price" step="0.01" required>
+                            </div>
+                        </div>
 
-
-
-                <tr th:each="user, iStat : ${users}" style="background-color: rgba(245, 245, 245, 0.5)">
-                    <th scope="row" th:text="${iStat.index + 1}">1</th>
-                    <td th:text="${user.firstName}">Peter</td>
-                    <td th:text="${user.secondName}">Peslyak</td>
-                    <td th:text="${user.Email}">petrpeslyak@gmail.com</td>
-                    <td th:text="${user.phoneNumber}">+375298480117</td>
-
-                    <td><a href="" th:href="@{/admin/rooms/info/{id}(id=${room.idRoom})}"
-                            class="btn btn-primary">th:text="${user.role}"</a></td>
-                    <td><a href="" th:href="@{/admin/rooms/delete/{id}(id=${room.idRoom})}"
-                            class="btn btn-danger">Delete</a></td>
-                </tr>
-            </tbody>
-        </table>
+                        <div class="form-group">
+                            <label for="available">Availability</label>
+                            <select class="form-control" id="available" name="available" required>
+                                <option value="true">Available</option>
+                                <option value="false">Not Available</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success" form="addRoomForm">Add</button>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- Info Modal -->
+    <div class="modal fade" id="roomInfoModal" tabindex="-1" role="dialog" aria-labelledby="roomInfoModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="roomInfoModalLabel">Resevation Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Id:</strong> <span id="roomId"></span></p>
+                    <p><strong>Name:</strong> <span id="roomName"></span></p>
+                    <p><strong>Number:</strong> <span id="rNumber"></span></p>
+                    <p><strong>Type:</strong> <span id="roomType"></span></p>
+                    <p><strong>Capacity:</strong> <span id="roomCapacity"></span></p>
+                    <p><strong>Beds:</strong> <span id="roomBeds"></span></p>
+                    <p><strong>Price:</strong> <span id="roomPrice"></span></p>
+                    <p><strong>Available:</strong> <span id="roomAvailable"></span></p>
+                    <p><strong>Description:</strong> <span id="roomDescription"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script>
+        // получаем список кнопок "Info" из таблицы
+        const infoButtons = document.querySelectorAll('button[data-target="#roomInfoModal"]');
+
+        // добавляем обработчик клика на каждую кнопку "Info"
+        infoButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // получаем строку таблицы, которая содержит данные комнаты
+                const roomRow = button.closest('tr');
+
+                // получаем все значения ячеек строки
+                const cells = roomRow.querySelectorAll('td');
+
+                // получаем модальное окно, в которое будем выводить данные комнаты
+                const modal = document.getElementById('roomInfoModal');
+
+                // находим элементы в модальном окне, в которые будем выводить значения ячеек
+                const idElement = modal.querySelector('#roomId');
+                const nameElement = modal.querySelector('#roomName');
+                const numberElement = modal.querySelector('#rNumber');
+                const typeElement = modal.querySelector('#roomType');
+                const capacityElement = modal.querySelector('#roomCapacity');
+                const bedsElement = modal.querySelector('#roomBeds');
+                const priceElement = modal.querySelector('#roomPrice');
+                const availableElement = modal.querySelector('#roomAvailable');
+                const descriptionElement = modal.querySelector('#roomDescription');
+
+                // записываем значения ячеек в соответствующие элементы модального окна
+                idElement.textContent = cells[0].textContent;
+                nameElement.textContent = cells[1].textContent;
+                numberElement.textContent = cells[2].textContent;
+                typeElement.textContent = cells[3].textContent;
+                capacityElement.textContent = cells[4].textContent;
+                bedsElement.textContent = cells[5].textContent;
+                priceElement.textContent = cells[6].textContent;
+                availableElement.textContent = cells[7].textContent;
+                descriptionElement.textContent = cells[8].textContent;
+            });
+        });
+    </script>
+
+
+    <script>
+        var minusBtn = document.getElementById("minus-btn");
+        var plusBtn = document.getElementById("plus-btn");
+        var capacityField = document.getElementById("capacity");
+
+        minusBtn.addEventListener("click", function () {
+            if (capacityField.value > 1) {
+                capacityField.value--;
+            }
+        });
+
+        plusBtn.addEventListener("click", function () {
+            capacityField.value++;
+        });
     </script>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

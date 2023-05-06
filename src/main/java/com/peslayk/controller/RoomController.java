@@ -6,20 +6,36 @@ import com.peslayk.model.User;
 import com.peslayk.repository.RoomRepository;
 import com.peslayk.repository.UserRepository;
 import com.peslayk.service.RoomService;
+import com.peslayk.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 
 @Controller
 public class RoomController {
@@ -44,11 +60,13 @@ public class RoomController {
     // For Admin
 
     @PostMapping("/saveRoom")
-    public String saveRoom(@ModelAttribute("room") Room room) {
-        System.out.println(room);
+    public String saveRoom(@ModelAttribute("room") Room room, HttpSession session){
         roomService.saveRoom(room);
+        session.setAttribute("msg", "Create a folder for room: id:" + room.getIdRoom());
+
         return "redirect:/admin/rooms";
     }
+
 
     @GetMapping("admin/rooms")
     public String getAllRooms(Model model) {
@@ -75,12 +93,14 @@ public class RoomController {
                              @ModelAttribute("room") Room room,
                              Model model, HttpSession session) {
         roomService.editRoom(idRoom, room);
+        session.setAttribute("msg", "Room info is updated: id:" + idRoom);
         return "redirect:/admin/rooms";
     }
 
     @GetMapping(value = "admin/rooms/deleteRoom/{idRoom}")
-    public String deleteRoom(@PathVariable Long idRoom) {
+    public String deleteRoom(@PathVariable Long idRoom, HttpSession session) {
         roomService.deleteRoom(idRoom);
+        session.setAttribute("msg", "Room is deleted: id:" + idRoom);
         return "redirect:/admin/rooms";
     }
 
@@ -107,6 +127,9 @@ public class RoomController {
         System.out.println(checkOut+"---"+checkOut+"---"+capacity);
         List<Room> rooms = roomService.findAvailableRooms(checkInDate, checkOutDate, capacity);
         model.addAttribute("rooms", rooms);
+        model.addAttribute("checkIn", checkIn);
+        model.addAttribute("checkOut", checkOut);
+        model.addAttribute("capacity", capacity);
         System.out.println(rooms);
         return "/rooms";
     }

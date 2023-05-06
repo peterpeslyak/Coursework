@@ -37,7 +37,9 @@
     #plus-btn:hover {
       color: #2980b9;
     }
-    
+    .card.xl{
+      min-width: 1400px;
+    }
   </style>
 
   <header>
@@ -45,82 +47,107 @@
     <div th:replace="navigationAdmin.html"></div>
   </header>
 
-  <div class="container p-5">
+  <div class="container p-5" style="margin-left: -15px;">
     <div class="row">
-      <div class="card">
-        <div class="center">
+      <div class="card xl">
+        <div class="center" style="align-self: center !important;">
           <h1 class="text-center">Edit Room id.<span th:text="${idRoom}"></span></h1>
           <div class="card-body">
             <form th:action="@{/admin/rooms/editRoom/update/{idRoom} (idRoom=${room.idRoom})}" th:object="${room}"
               method="POST">
+              <div class="row">
+                <div class="col">
+                  <input type="hidden" name="name" th:field="*{idRoom}" class="form-control" required />
 
-              <input type="hidden" name="name" th:field="*{idRoom}" class="form-control" required />
+                  <div class="form-group">
+                    <label for="available">Availability</label>
+                    <select class="form-control" id="available" name="available" th:field="*{available}" required>
+                      <option value="true">Available</option>
+                      <option value="false">Not Available</option>
+                    </select>
+                  </div>
 
-              <div class="form-group">
-                <label for="available">Availability</label>
-                <select class="form-control" id="available" name="available" th:field="*{available}" required>
-                  <option value="true">Available</option>
-                  <option value="false">Not Available</option>
-                </select>
-              </div>
+                  <div class="form-group">
+                    <label for="roomNumber">Room number</label>
+                    <input type="number" class="form-control" id="roomNumber" name="roomNumber" th:field="*{roomNumber}"
+                      required>
+                  </div>
 
-              <div class="form-group">
-                <label for="roomNumber">Room number</label>
-                <input type="number" class="form-control" id="roomNumber" name="roomNumber" th:field="*{roomNumber}"
-                  required>
-              </div>
+                  <div class="form-group">
+                    <label>Name </label>
+                    <input type="text" name="name" th:field="*{name}" class="form-control" required />
+                  </div>
 
-              <div class="form-group">
-                <label>Name </label>
-                <input type="text" name="name" th:field="*{name}" class="form-control" required />
-              </div>
+                  <div class="form-group">
+                    <label for="type">Type</label>
+                    <select class="form-control" id="type" name="type" th:field="*{type}" required>
+                      <option value="Standard">Standard</option>
+                      <option value="Lux">Lux</option>
+                    </select>
+                  </div>
 
-              <div class="form-group">
-                <label for="type">Type</label>
-                <select class="form-control" id="type" name="type" th:field="*{type}" required>
-                  <option value="Standard">Standard</option>
-                  <option value="Lux">Lux</option>
-                </select>
-              </div>
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" name="description" maxlength="160" th:field="*{description}"
+                      rows="3" required></textarea>
+                  </div>
 
-              <div class="form-group">
-                <label for="description">Description</label>
-                <textarea class="form-control" id="description" name="description" th:field="*{description}" rows="3"
-                  required></textarea>
-              </div>
+                  <div class="form-group row">
 
-              <div class="form-group row">
+                    <label for="capacity" class="col-sm-2 col-form-label">Capacity</label>
+                    <div class="col-sm-4 input-group">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" id="minus-btn"><i
+                            class="fa fa-minus"></i></button>
+                      </span>
+                      <input type="number" class="form-control" id="capacity" name="capacity" th:field="*{capacity}"
+                        required>
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" id="plus-btn"><i class="fa fa-plus"></i></button>
+                      </span>
+                    </div>
 
-                <label for="capacity" class="col-sm-2 col-form-label">Capacity</label>
-                <div class="col-sm-4 input-group">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" id="minus-btn"><i class="fa fa-minus"></i></button>
-                  </span>
-                  <input type="number" class="form-control" id="capacity" name="capacity" th:field="*{capacity}"
-                    required>
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" id="plus-btn"><i class="fa fa-plus"></i></button>
-                  </span>
+                    <label for="capacity" class="col-sm-2 col-form-label">Beds</label>
+                    <div class="col-sm-4 input-group">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" id="minus-btn2"><i
+                            class="fa fa-minus"></i></button>
+                      </span>
+                      <input type="number" class="form-control" id="beds" name="beds" th:field="*{beds}" required>
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" id="plus-btn2"><i class="fa fa-plus"></i></button>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="number" class="form-control" id="price" name="price" th:field="*{price}" required>
+                  </div>
                 </div>
+                <div class="col">
+                  <h5>Type in pictures names – image.png/jpg/jpeg</h5>
+                  <div class="form-group raw">
+                    <div class="mb-3">
+                      <label for="imageMain" class="form-label">Main image 9x5</label>
+                      <input class="form-control" type="text" id="imageMain" name="imageMain" th:value="*{imageMain}"
+                        pattern="^.+\.(png|jpeg|jpg)$">
+                    </div>
 
-                <label for="capacity" class="col-sm-2 col-form-label">Beds</label>
-                <div class="col-sm-4 input-group">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" id="minus-btn"><i class="fa fa-minus"></i></button>
-                  </span>
-                  <input type="number" class="form-control" id="beds" name="beds" th:field="*{beds}" required>
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" id="plus-btn"><i class="fa fa-plus"></i></button>
-                  </span>
+                    <div class="mb-3">
+                      <label for="imageSecond" class="form-label">Second image 9x5</label>
+                      <input class="form-control" type="text" id="imageSecond" name="imageSecond" th:value="*{imageSecond}"
+                        pattern="^.+\.(png|jpeg|jpg)$">
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="imageThird" class="form-label">Third image 9x5</label>
+                      <input class="form-control" type="text" id="imageThird" name="imageThird" th:value="*{imageThird}"
+                        pattern="^.+\.(png|jpeg|jpg)$">
+                    </div>
+                  </div>
                 </div>
               </div>
-
-
-              <div class="form-group">
-                <label for="price">Price</label>
-                <input type="number" class="form-control" id="price" name="price" th:field="*{price}" required>
-              </div>
-
               <div class="box-footer">
                 <button type="submit" class="btn btn-success">
                   Save
@@ -142,6 +169,20 @@
     var minusBtn = document.getElementById("minus-btn");
     var plusBtn = document.getElementById("plus-btn");
     var capacityField = document.getElementById("capacity");
+
+    minusBtn.addEventListener("click", function () {
+      if (capacityField.value > 1) {
+        capacityField.value--;
+      }
+    });
+
+    plusBtn.addEventListener("click", function () {
+      capacityField.value++;
+    });
+
+    var minusBtn = document.getElementById("minus-btn2");
+    var plusBtn = document.getElementById("plus-btn2");
+    var capacityField = document.getElementById("beds");
 
     minusBtn.addEventListener("click", function () {
       if (capacityField.value > 1) {

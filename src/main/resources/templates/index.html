@@ -69,58 +69,51 @@
 
     <section class="booking">
         <div class="container1">
-            <form action="" class="form">
+            <form action="/rooms/searchRoom" class="form">
 
                 <table class="table" style="text-align: center">
                     <!-- Table -->
                     <thead class="thead-light">
                         <tr>
                             <th>
-                                <label for="check-in" class="input-label">Check in</label>
+                                <label for="checkIn" class="input-label">Check in</label>
                             </th>
                             <th>
-                                <label for="check-in" class="input-label">Check out</label>
+                                <label for="checkOut" class="input-label">Check out</label>
                             </th>
                             <th>
-                                <label for="adults" class="input-label">Adults</label>
+                                <label for="capacity" class="input-label">Persons</label>
                             </th>
                             <th>
-                                <label for="children" class="input-label">Children</label>
                             </th>
                         </tr>
                     </thead>
                     <tbody style="background-color: rgba(245, 245, 245, 0.5)">
                         <tr>
                             <th>
-                                <input type="date" class="input" id="check-in" name="check-in">
+                                <input type="date" class="input" id="checkIn" name="checkIn" placeholder="yyyy-MM-dd"
+                                    required>
                             </th>
                             <th>
-                                <input type="date" class="input" id="check-out" name="check-out">
+                                <input type="date" class="input" id="checkOut" name="checkOut" placeholder="yyyy-MM-dd"
+                                    required>
                             </th>
                             <th>
-                                <select class="options" id="adults" name="adults">
-                                    <option value="0">0</option>
-                                    <option value="0">1</option>
-                                    <option value="0">2</option>
-                                    <option value="0">3</option>
-                                    <option value="0">4</option>
-                                    <option value="0">5+</option>
+                                <select class="options" id="capacity" name="capacity" required>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
                                 </select>
                             </th>
                             <th>
-                                <select class="options" id="children" name="children">
-                                    <option value="0">0</option>
-                                    <option value="0">1</option>
-                                    <option value="0">2</option>
-                                    <option value="0">3</option>
-                                    <option value="0">4</option>
-                                    <option value="0">5+</option>
-                                </select>
+                                <button type="submit" class="btn btn-custom">Search</button>
                             </th>
                         </tr>
                     </tbody>
                 </table>
-                <button type="submit" class="btn form-btn btn-purple">Search</button>
             </form>
         </div>
     </section>

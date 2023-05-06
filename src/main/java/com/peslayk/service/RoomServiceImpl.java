@@ -6,9 +6,15 @@ import com.peslayk.repository.ReservationRepository;
 import com.peslayk.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +31,7 @@ public class RoomServiceImpl implements RoomService{
     public Room saveRoom(Room room) {
         return roomRepo.save(room);
     }
+
 
     @Override
     public List<Room> getAllRooms() {
@@ -72,7 +79,7 @@ public class RoomServiceImpl implements RoomService{
         List<Room> rooms = roomRepo.findAll(); // Все номера
         System.out.println(rooms);
         for (Room room : rooms) {
-            if (room.isAvailable() && room.getCapacity() >= capacity) { // Проверка на соответствие параметрам поиска
+            if (room.getName().equalsIgnoreCase("Penthouse") || room.isAvailable() && room.getCapacity() >= capacity && room.getCapacity() <= capacity + 1) { // Проверка на соответствие параметрам поиска
                 System.out.println("Parameters ++ " + room);
                 boolean isBooked = false;
                 for (Reservation reservation : room.getReservationList()) {
@@ -94,4 +101,6 @@ public class RoomServiceImpl implements RoomService{
         System.out.println(availableRooms);
         return availableRooms;
     }
+
+
 }

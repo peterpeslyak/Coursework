@@ -23,7 +23,7 @@ public class Reservation {
     @Column(name = "check_out_date", nullable = false)
     private Date checkOutDate;
     @Column(nullable = false)
-    private Boolean status;
+    private String status;
     @Column(name = "guests", nullable = false)
     private Integer guestsCount;
     @Column(nullable = false)
@@ -33,7 +33,7 @@ public class Reservation {
     }
 
     public Reservation(User user, Room room, Date checkInDate, Date checkOutDate,
-                       Boolean status, Integer guestsCount, Double totalCost) {
+                       String status, Integer guestsCount, Double totalCost) {
         this.user = user;
         this.room = room;
         this.checkInDate = checkInDate;
@@ -83,11 +83,11 @@ public class Reservation {
         this.checkOutDate = checkOutDate;
     }
 
-    public Boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

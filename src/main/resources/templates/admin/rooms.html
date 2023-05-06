@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
         integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <title>Dashboard - Users</title>
 </head>
@@ -39,6 +41,16 @@
             margin-right: 110px;
             max-width: 100%;
         }
+
+        .card-img-top,
+        .carousel,
+        .carousel-item,
+        .d-block {
+            max-width: 430px;
+            max-height: 240px;
+            min-width: 430px;
+            align-self: center !important;
+        }
     </style>
 
     <!-- Navigation menu -->
@@ -57,15 +69,22 @@
             <a th:href="@{/admin/}" class="btn btn-light">Dashboard</a>
             <a data-toggle="modal" data-target="#addRoomModal" style="margin: 20px 0; color: white"
                 class="btn btn-primary">Add Room</a>
-            <a th:href="@{/admin/}" style="margin: 20px 0" class="btn btn-primary">Check Reservations</a>
+            <a th:href="@{/admin/reservations}" style="margin: 20px 0" class="btn btn-primary">Check Reservations</a>
             <a th:href="@{/admin/reviews/}" style="margin: 20px 0" class="btn btn-primary">Reviews</a>
 
             <table class="table" style="text-align: center">
                 <!-- Table -->
                 <thead class="thead-light">
                     <tr>
+                        <th:block th:if="${session.msg}">
+                            <p class="text-center fs-4 text-success" th:text="${session.msg}"></p>
+                            <th:block th:text="${#session.removeAttribute('msg')}"></th:block>
+                        </th:block>
+                    </tr>
+                    <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Name</th>
+                        <th scope="col">Number</th>
                         <th scope="col">Type</th>
                         <th scope="col">Price</th>
                         <th scope="col">Available</th>
@@ -81,13 +100,16 @@
                     <tr th:each="room : ${rooms}" style="background-color: rgba(245, 245, 245, 0.5)">
                         <td th:text="${room.idRoom}"></td>
                         <td th:text="${room.name}"></td>
-                        <td hidden th:text="${room.roomNumber}"></td>
+                        <td th:text="${room.roomNumber}"></td>
                         <td th:text="${room.type}"></td>
                         <td hidden th:text="${room.capacity}"></td>
                         <td hidden th:text="${room.beds}"></td>
                         <td th:text="${room.price}"></td>
                         <td th:text="${room.available} ? 'Yes' : 'No'"></td>
                         <td th:text="${room.description}"></td>
+                        <td hidden th:text="${room.imageMain}"></td>
+                        <td hidden th:text="${room.imageSecond}"></td>
+                        <td hidden th:text="${room.imageThird}"></td>
 
                         <td>
                             <button type="button" class="btn btn-light" data-toggle="modal" data-target="#roomInfoModal"
@@ -101,7 +123,7 @@
                         </td>
                         <td><a href="" th:href="@{/admin/rooms/deleteRoom/{idRoom}(idRoom=${room.idRoom})}"
                                 class="btn btn-danger">Delete</a></td>
-                        </tr>
+                    </tr>
                 </tbody>
             </table>
 
@@ -121,7 +143,7 @@
     <!-- Add Room Modal -->
     <div class="modal fade" id="addRoomModal" tabindex="-1" role="dialog" aria-labelledby="addRoomModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addRoomModalLabel">Add New Room</h5>
@@ -130,63 +152,96 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="addRoomForm" th:action="@{/saveRoom}" method="post">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-4">
-                            <label for="type">Type</label>
-                            <select class="form-control" id="type" name="type" required>
-                                <option value="Standard">Standard</option>
-                                <option value="Lux">Lux</option>
-                            </select>
-                            </div>
+                    <form id="addRoomForm" th:action="@{/saveRoom}" method="post" enctype="multipart/form-data"
+                        th:object="${room}">
 
-                            <div class="col-sm-4 input-group">
-                            <label for="roomNumber">Room Number</label>
-                            <input type="number" class="form-control" id="roomNumber" name="roomNumber" required>
-                            </div>
-                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
 
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="3"
-                                required></textarea>
-                        </div>
+                                <div class="form-group row">
+                                    <label for="type" class="col-sm-2 col-form-label">Type</label>
+                                    <div class="col-sm-4 input-group">
+                                        <select class="form-control" id="type" name="type" required>
+                                            <option value="Standard">Standard</option>
+                                            <option value="Lux">Lux</option>
+                                        </select>
+                                    </div>
 
-                        <div class="form-group row">
-                            <label for="beds" class="col-sm-2 col-form-label">Beds</label>
-                            <div class="col-sm-4">
-                                <input type="number" class="form-control" id="beds" name="beds" required>
-                            </div>
-                            <label for="capacity" class="col-sm-2 col-form-label">Capacity</label>
-                            <div class="col-sm-4 input-group">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" id="minus-btn"><i
-                                            class="fa fa-minus"></i></button>
-                                </span>
-                                <input type="number" class="form-control" id="capacity" name="capacity" value="1"
-                                    required>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" id="plus-btn"><i
-                                            class="fa fa-plus"></i></button>
-                                </span>
-                            </div>
+                                    <label for="roomNumber" class="col-sm-2 col-form-label">Number</label>
+                                    <div class="col-sm-4">
+                                        <input type="number" class="form-control" id="roomNumber" name="roomNumber"
+                                            step="1" required>
+                                    </div>
+                                </div>
 
-                            <label for="price" class="col-sm-2 col-form-label">Price</label>
-                            <div class="col-sm-4">
-                                <input type="number" class="form-control" id="price" name="price" step="0.01" required>
-                            </div>
-                        </div>
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" id="description" name="description" rows="3" maxlength="160" required></textarea>
+                                  </div>                                  
 
-                        <div class="form-group">
-                            <label for="available">Availability</label>
-                            <select class="form-control" id="available" name="available" required>
-                                <option value="true">Available</option>
-                                <option value="false">Not Available</option>
-                            </select>
+                                <div class="form-group row">
+                                    <label for="beds" class="col-sm-2 col-form-label">Beds</label>
+                                    <div class="col-sm-4">
+                                        <input type="number" class="form-control" id="beds" name="beds" required>
+                                    </div>
+                                    <label for="capacity" class="col-sm-2 col-form-label">Capacity</label>
+                                    <div class="col-sm-4 input-group">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" id="minus-btn"><i
+                                                    class="fa fa-minus"></i></button>
+                                        </span>
+                                        <input type="number" class="form-control" id="capacity" name="capacity"
+                                            value="1" required>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" id="plus-btn"><i
+                                                    class="fa fa-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="price" class="col-sm-2 col-form-label">Price</label>
+                                    <div class="col-sm-4">
+                                        <input type="number" class="form-control" id="price" name="price" step="0.01"
+                                            required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="available">Availability</label>
+                                    <select class="form-control" id="available" name="available" required>
+                                        <option value="true">Available</option>
+                                        <option value="false">Not Available</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <h5>Type in pictures names – image.png/jpg/jpeg</h5>
+                                <h5>Make sure to put images to this rooms folder</h5>
+                                <div class="form-group raw">
+                                    <div class="mb-3">
+                                        <label for="imageMain" class="form-label">Main image 9x5</label>
+                                        <input class="form-control" type="text" id="imageMain" name="imageMain"
+                                            pattern="^.+\.(png|jpeg|jpg)$">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="imageSecond" class="form-label">Second image 9x5</label>
+                                        <input class="form-control" type="text" id="imageSecond" name="imageSecond"
+                                            pattern="^.+\.(png|jpeg|jpg)$">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="imageThird" class="form-label">Third image 9x5</label>
+                                        <input class="form-control" type="text" id="imageThird" name="imageThird"
+                                            pattern="^.+\.(png|jpeg|jpg)$">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -210,15 +265,19 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p><strong>Id:</strong> <span id="roomId"></span></p>
-                    <p><strong>Name:</strong> <span id="roomName"></span></p>
-                    <p><strong>Number:</strong> <span id="rNumber"></span></p>
-                    <p><strong>Type:</strong> <span id="roomType"></span></p>
-                    <p><strong>Capacity:</strong> <span id="roomCapacity"></span></p>
-                    <p><strong>Beds:</strong> <span id="roomBeds"></span></p>
-                    <p><strong>Price:</strong> <span id="roomPrice"></span></p>
-                    <p><strong>Available:</strong> <span id="roomAvailable"></span></p>
-                    <p><strong>Description:</strong> <span id="roomDescription"></span></p>
+                    <div class="row">
+                        <div class="col">
+                            <p><strong>Id:</strong> <span id="roomId"></span></p>
+                            <p><strong>Name:</strong> <span id="roomName"></span></p>
+                            <p><strong>Number:</strong> <span id="rNumber"></span></p>
+                            <p><strong>Type:</strong> <span id="roomType"></span></p>
+                            <p><strong>Capacity:</strong> <span id="roomCapacity"></span></p>
+                            <p><strong>Beds:</strong> <span id="roomBeds"></span></p>
+                            <p><strong>Price:</strong> <span id="roomPrice"></span></p>
+                            <p><strong>Available:</strong> <span id="roomAvailable"></span></p>
+                            <p><strong>Description:</strong> <span id="roomDescription"></span></p>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
@@ -267,6 +326,7 @@
             });
         });
     </script>
+
 
 
     <script>

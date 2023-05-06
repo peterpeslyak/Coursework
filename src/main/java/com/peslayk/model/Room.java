@@ -1,5 +1,7 @@
 package com.peslayk.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -36,9 +38,19 @@ public class Room {
     private String roomNumber;
     @Column(nullable = false)
     private Integer beds;
+    @Column(nullable = false)
+    private String imageMain;
+
+    @Column
+    private String imageSecond;
+
+    @Column
+    private String imageThird;
 
 
-    public Room(Amenities amenities, List<Reservation> reservationList, List<Reviews> reviews, String name, String type, String description, Integer capacity, Double price, boolean available, String roomNumber, Integer beds) {
+    public Room(Amenities amenities, List<Reservation> reservationList, List<Reviews> reviews, String name,
+                String type, String description, Integer capacity, Double price, boolean available,
+                String roomNumber, Integer beds, String imageMain, String imageSecond, String imageThird) {
         this.amenities = amenities;
         this.reservationList = reservationList;
         this.reviews = reviews;
@@ -50,6 +62,9 @@ public class Room {
         this.available = available;
         this.roomNumber = roomNumber;
         this.beds = beds;
+        this.imageMain = imageMain;
+        this.imageSecond = imageSecond;
+        this.imageThird = imageThird;
     }
 
     public Room() {
@@ -125,6 +140,30 @@ public class Room {
 
     public void setBeds(Integer beds) {
         this.beds = beds;
+    }
+
+    public String getImageMain() {
+        return imageMain;
+    }
+
+    public void setImageMain(String imageMain) {
+        this.imageMain = imageMain;
+    }
+
+    public String getImageSecond() {
+        return imageSecond;
+    }
+
+    public void setImageSecond(String imageSecond) {
+        this.imageSecond = imageSecond;
+    }
+
+    public String getImageThird() {
+        return imageThird;
+    }
+
+    public void setImageThird(String imageThird) {
+        this.imageThird = imageThird;
     }
 
     public Amenities getAmenities() {

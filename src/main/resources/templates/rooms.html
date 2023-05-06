@@ -59,7 +59,7 @@
       min-width: 460px;
       max-width: 460px;
       border-radius: 3%;
-      height: 500px;
+      height: 510px;
       margin: 1%;
       box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.161);
     }
@@ -109,7 +109,7 @@
     <div class="jumbotron text-center" style="background: rgba(255,255,255,0.3)">
       <!-- Tittle -->
       <h1 class="display-4" style="margin-top: 80px">Rooms</h1>
-      <p>Manage all rooms on the dashboard</p>
+      <p>Find a perfect room for your vacation</p>
     </div>
 
     <div class="container1">
@@ -138,19 +138,22 @@
               <tbody style="background-color: rgba(245, 245, 245, 0.5)">
                 <tr>
                   <th>
-                    <input type="date" class="input" id="checkIn" name="checkIn" placeholder="yyyy-MM-dd" required>
+                    <input type="date" class="input" id="checkIn" name="checkIn" placeholder="yyyy-MM-dd"
+                      min="${T(java.time.LocalDate).now().plusDays(1)}" required th:value="${checkIn}">
                   </th>
                   <th>
-                    <input type="date" class="input" id="checkOut" name="checkOut" placeholder="yyyy-MM-dd" required>
+                    <input type="date" class="input" id="checkOut" name="checkOut" placeholder="yyyy-MM-dd"
+                      min="${T(java.time.LocalDate).now().plusDays(1)}" required th:value="${checkOut}">
                   </th>
+
                   <th>
                     <select class="options" id="capacity" name="capacity" required>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
+                      <option value="1" th:value="1" th:selected="${capacity == 1}">1</option>
+                      <option value="2" th:value="2" th:selected="${capacity == 2}">2</option>
+                      <option value="3" th:value="3" th:selected="${capacity == 3}">3</option>
+                      <option value="4" th:value="4" th:selected="${capacity == 4}">4</option>
+                      <option value="5" th:value="5" th:selected="${capacity == 5}">5</option>
+                      <option value="6" th:value="6" th:selected="${capacity == 6}">6</option>
                     </select>
                   </th>
                   <th>
@@ -163,40 +166,34 @@
         </div>
       </section>
 
-
-
-
       <div class="container-fluid">
-
         <div class="row">
           <div class="card" th:each="room : ${rooms}">
-            <div id="carouselExampleIndicators${room.idRoom}" class="carousel slide" data-bs-ride="carousel">
-              <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleIndicators${room.idRoom}" data-bs-slide-to="0"
-                  class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators${room.idRoom}" data-bs-slide-to="1"
-                  aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators${room.idRoom}" data-bs-slide-to="2"
-                  aria-label="Slide 3"></button>
-              </div>
+            <div th:id="'carouselExample-'+${room.idRoom}" class="carousel slide" data-bs-ride="carousel">
               <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img src="../images/image_1.png" class="d-block" alt="...">
+                <div class="carousel-item active" th:if="${room.imageMain} != '' and ${room.imageMain} != null">
+                  <img
+                    th:src="@{/images/roomImg/{idRoom}/{imageMain}(idRoom=${room.idRoom},imageMain=${room.imageMain})}"
+                    class="d-block" alt="...">
                 </div>
-                <div class="carousel-item">
-                  <img src="../images/image_3.png" class="d-block" alt="...">
+                <div class="carousel-item" th:if="${room.imageSecond} != '' and ${room.imageSecond} != null">
+                  <img
+                    th:src="@{/images/roomImg/{idRoom}/{imageSecond}(idRoom=${room.idRoom},imageSecond=${room.imageSecond})}"
+                    class="d-block" alt="...">
                 </div>
-                <div class="carousel-item">
-                  <img src="../images/image_4.png" class="d-block" alt="...">
+                <div class="carousel-item" th:if="${room.imageThird} != '' and ${room.imageThird} != null">
+                  <img
+                    th:src="@{/images/roomImg/{idRoom}/{imageThird}(idRoom=${room.idRoom},imageThird=${room.imageThird})}"
+                    class="d-block" alt="...">
                 </div>
               </div>
-              <button class="carousel-control-prev" type="button"
-                data-bs-target="#carouselExampleIndicators${room.idRoom}" data-bs-slide="prev">
+              <button class="carousel-control-prev" type="button" th:data-bs-target="'carouselExample-'+${room.idRoom}"
+                data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
               </button>
-              <button class="carousel-control-next" type="button"
-                data-bs-target="#carouselExampleIndicators${room.idRoom}" data-bs-slide="next">
+              <button class="carousel-control-next" type="button" th:data-bs-target="'carouselExample-'+${room.idRoom}"
+                data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
               </button>
@@ -207,12 +204,11 @@
                 <div class="col">
                   <p class="card-text"><i class="ri-user-line"></i>Maximum persons: [[${room.capacity}]]</p>
                 </div>
-
                 <div class="col">
-                  <p class="card-text"><i class="ri-hotel-bed-line"></i>Beds available: [[${room.price}]]</p>
+                  <p class="card-text"><i class="ri-hotel-bed-line"></i>Beds available: [[${room.beds}]]</p>
                 </div>
               </div>
-              <p class="card-text">[[${room.description}]]</p>
+              <p class="card-text" style="font-size: 14px !important;">[[${room.description}]]</p>
             </div>
             <div class="card-footer" style="background-color: white;">
               <p class="card-text-footer"><small class="text-muted">From</small></p>
@@ -227,17 +223,141 @@
       </div>
     </div>
   </div>
+  </div>
+  </div>
 
+  <script>
+    let checkIn = document.getElementById('checkIn');
+    let checkOut = document.getElementById('checkOut');
+    let capacity = document.getElementById('capacity');
 
+    if (serverData.checkIn) {
+      checkIn.value = serverData.checkIn;
+    }
 
+    if (serverData.checkOut) {
+      checkOut.value = serverData.checkOut;
+    }
 
-  <!-- ROOM CARD WITH 3 PICTURES AND DESCRIPTION -->
-  <!-- <img src="../images/image_3.png" class="card-img-top" alt="..."> -->
+    if (serverData.capacity) {
+      capacity.value = serverData.capacity;
+    }
+  </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+  <script>
+    // получаем все элементы с классом "carousel"
+    var carousels = document.querySelectorAll('.carousel');
+
+    // перебираем каждую карусель
+    carousels.forEach(function (carousel) {
+      // получаем элементы карусели
+      var carouselInner = carousel.querySelector('.carousel-inner');
+      var carouselPrev = carousel.querySelector('.carousel-control-prev');
+      var carouselNext = carousel.querySelector('.carousel-control-next');
+
+      // получаем количество слайдов в карусели
+      var slides = carouselInner.querySelectorAll('.carousel-item');
+      var slideCount = slides.length;
+
+      // устанавливаем начальный активный слайд
+      var activeSlide = 0;
+      slides[activeSlide].classList.add('active');
+
+      // добавляем обработчики событий для кнопок навигации
+      carouselPrev.addEventListener('click', function () {
+        // скрываем текущий активный слайд
+        slides[activeSlide].classList.remove('active');
+        // уменьшаем индекс активного слайда
+        activeSlide--;
+        // если индекс меньше 0, устанавливаем его в последний слайд
+        if (activeSlide < 0) {
+          activeSlide = slideCount - 1;
+        }
+        // показываем новый активный слайд
+        slides[activeSlide].classList.add('active');
+      });
+
+      carouselNext.addEventListener('click', function () {
+        // скрываем текущий активный слайд
+        slides[activeSlide].classList.remove('active');
+        // увеличиваем индекс активного слайда
+        activeSlide++;
+        // если индекс больше последнего слайда, устанавливаем его в 0
+        if (activeSlide >= slideCount) {
+          activeSlide = 0;
+        }
+        // показываем новый активный слайд
+        slides[activeSlide].classList.add('active');
+      });
+    });
+  </script>
+
+  <script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('checkIn').setAttribute('min', today);
+    document.getElementById('checkOut').setAttribute('min', today);
+
+    function validateDates() {
+      var checkInDate = document.getElementById('checkIn').value;
+      var checkOutDate = document.getElementById('checkOut').value;
+
+      if (checkInDate >= today && checkOutDate >= today && checkInDate <= checkOutDate) {
+        document.getElementById('submit-btn').disabled = false;
+      } else {
+        document.getElementById('submit-btn').disabled = true;
+      }
+    }
+
+    document.getElementById('checkIn').addEventListener('change', validateDates);
+    document.getElementById('checkOut').addEventListener('change', validateDates);
+  </script>
+
+  <script>
+    const checkInInput = document.getElementById("checkIn");
+    const checkOutInput = document.getElementById("checkOut");
+
+    // Add event listener to check-in date input
+    checkInInput.addEventListener("change", function () {
+      // Get selected check-in date
+      const selectedDate = new Date(checkInInput.value);
+
+      // Set min date for check-out input to be the day after the selected check-in date
+      const nextDay = new Date(selectedDate);
+      nextDay.setDate(selectedDate.getDate() + 1);
+      checkOutInput.min = nextDay.toISOString().split("T")[0];
+    });
+
+    // Add event listener to check-out date input
+    checkOutInput.addEventListener("change", function () {
+      // Get selected check-out date
+      const selectedDate = new Date(checkOutInput.value);
+
+      // Set min date for check-in input to be the day before the selected check-out date
+      const previousDay = new Date(selectedDate);
+      previousDay.setDate(selectedDate.getDate() - 1);
+      checkInInput.max = previousDay.toISOString().split("T")[0];
+    });
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
     crossorigin="anonymous"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.3/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+    integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
+    integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha384-3J3o6pGbm6L9vo+4XQ6b2Y6JnDY5W/pevB1lzNM2K9z0R/5BzwJXOYwqpfD0jc/+" crossorigin="anonymous">
+    </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.min.js"
+    integrity="sha512-nE+SoQwzhB58N7gCB0pkpG0bg7jT/ynrJf0FGl1Ce54jPRfzFrtwrEXGji3xiq9kOvE6UfhR6dfNgOJ2Abx5dQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 
 </html>
