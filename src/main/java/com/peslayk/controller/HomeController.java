@@ -44,7 +44,7 @@ public class HomeController {
     @GetMapping(value = "/error")
     public String notFound()
     {
-        return "1error";
+        return "error";
     }
 
     @GetMapping(value = "/signin")

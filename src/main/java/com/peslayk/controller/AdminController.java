@@ -83,14 +83,19 @@ public class AdminController {
 
     @PostMapping("/admin/users/updateRole")
     public String updateRole(@RequestParam ("userId") Long idUser,
-                             @RequestParam ("role") String role, HttpSession session) {
+                             @RequestParam ("role") String role, HttpSession session, Principal p) {
         User oldUser = userRepo.findById(idUser).get();
+
+        String email = p.getName();
+        User loginUser = userRepo.findByEmail(email);
+
         boolean isAdmin = oldUser.getRole().equals("ROLE_ADMIN");
+
         System.out.println(oldUser.getRole() + "--change to--" + role);
         if(userService.updateRole(idUser, role)!=null){
             System.out.println("Role hanged!");
             System.out.println(oldUser.getRole());
-            if (isAdmin) {
+            if (!isAdmin && loginUser.getIdUser().equals(oldUser.getIdUser())) {
                 session.invalidate();
                 System.out.println("Admin is auto-logout");
                 return "redirect:/signin";

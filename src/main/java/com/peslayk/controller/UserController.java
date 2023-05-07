@@ -51,7 +51,7 @@ public class UserController {
         return "user/change_password";
     }
 
-    @PostMapping(value = "/user/profile/updatePassword")
+    @PostMapping(value = "/changePassword/updatePassword")
     public String changePassword(Principal p, @RequestParam("oldPass") String oldPass,
                                  @RequestParam("newPass") String newPass, HttpSession session){
         String email = p.getName();
