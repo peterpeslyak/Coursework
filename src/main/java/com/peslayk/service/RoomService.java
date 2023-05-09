@@ -26,4 +26,6 @@ public interface RoomService {
     public List<Room> findAvailableRooms(Date checkIn, Date checkOut, Integer capacity);
 
     List<Room> getAllAvailableRooms();
+
+
 }

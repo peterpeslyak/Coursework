@@ -1,6 +1,8 @@
 package com.peslayk.service;
 
+import com.peslayk.model.Reservation;
 import com.peslayk.model.User;
+import com.peslayk.repository.ReservationRepository;
 import com.peslayk.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +19,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private BCryptPasswordEncoder passwordEncode;
+
+    @Autowired
+    ReservationRepository reservationRepo;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepo) {
@@ -69,6 +74,10 @@ public class UserServiceImpl implements UserService{
                 if (countUsersWithRoleUser == 1) {
                     return "You cannot delete last ADMIN account!";
                 }
+            }
+            List<Reservation> reservations = reservationRepo.findByUser(user);
+            for (Reservation reservation : reservations) {
+                reservationRepo.delete(reservation);
             }
             userRepo.delete(user);
             return "Account is deleted!";

@@ -303,7 +303,7 @@
                         <a class="user" href="#">[[${user.firstName}]]</a>
                         <ul class="dropdown">
                             <li th:if="${user_role == 'ROLE_ADMIN'}">
-                                <a class="ri-settings-4-line" th:href="@{admin/profile}"> My Profile</a>
+                                <a class="ri-settings-4-line" th:href="@{/admin/profile}"> My Profile</a>
                             </li>
                             <li th:if="${user_role == 'ROLE_USER'}">
                                 <a class="ri-settings-4-line" th:href="@{/user/profile}"> My Profile</a>

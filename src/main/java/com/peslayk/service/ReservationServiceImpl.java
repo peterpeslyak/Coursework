@@ -20,6 +20,10 @@ public class ReservationServiceImpl implements ReservationService{
 
     @Autowired
     ReservationRepository reservationRepo;
+
+    @Autowired
+    RoomService roomService;
+
     @Autowired
     private UserRepository userRepo;
 
@@ -36,17 +40,31 @@ public class ReservationServiceImpl implements ReservationService{
             Date checkInDate = dateFormat.parse(checkIn);
             Date checkOutDate = dateFormat.parse(checkOut);
 
-            Reservation reservation = new Reservation();
+            List<Room> availableRooms = roomService.findAvailableRooms(checkInDate, checkOutDate, guests);
 
-            reservation.setCheckInDate(checkInDate);
-            reservation.setCheckOutDate(checkOutDate);
-            reservation.setUser(user);
-            reservation.setRoom(room);
-            reservation.setGuestsCount(guests);
-            reservation.setTotalCost(priceTotal);
-            reservation.setStatus("NEW");
+            boolean isAvailable = false;
 
-            return reservationRepo.save(reservation);
+            for (Room room1 : availableRooms) {
+                if (room1.getIdRoom().equals(room.getIdRoom())) {
+                    isAvailable = true;
+                }
+            }
+
+            if(isAvailable){
+                Reservation reservation = new Reservation();
+
+                reservation.setCheckInDate(checkInDate);
+                reservation.setCheckOutDate(checkOutDate);
+                reservation.setUser(user);
+                reservation.setRoom(room);
+                reservation.setGuestsCount(guests);
+                reservation.setTotalCost(priceTotal);
+                reservation.setStatus("NEW");
+
+                return reservationRepo.save(reservation);
+            } else {
+                return null;
+            }
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

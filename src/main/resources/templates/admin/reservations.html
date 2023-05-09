@@ -74,8 +74,6 @@
                         <th scope="col">Total</th>
                         <th scope="col">Status</th>
                         <th scope="col"></th>
-                        <th scope="col">Info</th>
-                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -109,13 +107,7 @@
                                 <button type="submit" class="btn btn-warning">Update</button>
                             </td>
                         </form>
-                        <td>
-                            <button type="button" class="btn btn-light" data-toggle="modal" data-target="#roomInfoModal"
-                                data-name="${room.name}" data-type="${room.type}" data-description="${room.description}"
-                                data-rating="${room.rating}">
-                                Info
-                            </button>
-                        <td>
+
                     </tr>
                 </tbody>
             </table>
@@ -225,14 +217,12 @@
                 </div>
                 <div class="modal-body">
                     <p><strong>Id:</strong> <span id="roomId"></span></p>
-                    <p><strong>Name:</strong> <span id="roomName"></span></p>
-                    <p><strong>Number:</strong> <span id="rNumber"></span></p>
-                    <p><strong>Type:</strong> <span id="roomType"></span></p>
-                    <p><strong>Capacity:</strong> <span id="roomCapacity"></span></p>
+                    <p><strong>Number:</strong> <span id="roomName"></span></p>
+                    <p><strong>Guest Name:</strong> <span id="rNumber"></span></p>
+                    <p><strong>Check In:</strong> <span id="roomType"></span></p>
+                    <p><strong>Check Out:</strong> <span id="roomCapacity"></span></p>
                     <p><strong>Beds:</strong> <span id="roomBeds"></span></p>
-                    <p><strong>Price:</strong> <span id="roomPrice"></span></p>
-                    <p><strong>Available:</strong> <span id="roomAvailable"></span></p>
-                    <p><strong>Description:</strong> <span id="roomDescription"></span></p>
+                    <p><strong>Total:</strong> <span id="roomPrice"></span></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
@@ -240,48 +230,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        // получаем список кнопок "Info" из таблицы
-        const infoButtons = document.querySelectorAll('button[data-target="#roomInfoModal"]');
-
-        // добавляем обработчик клика на каждую кнопку "Info"
-        infoButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // получаем строку таблицы, которая содержит данные комнаты
-                const roomRow = button.closest('tr');
-
-                // получаем все значения ячеек строки
-                const cells = roomRow.querySelectorAll('td');
-
-                // получаем модальное окно, в которое будем выводить данные комнаты
-                const modal = document.getElementById('roomInfoModal');
-
-                // находим элементы в модальном окне, в которые будем выводить значения ячеек
-                const idElement = modal.querySelector('#roomId');
-                const nameElement = modal.querySelector('#roomName');
-                const numberElement = modal.querySelector('#rNumber');
-                const typeElement = modal.querySelector('#roomType');
-                const capacityElement = modal.querySelector('#roomCapacity');
-                const bedsElement = modal.querySelector('#roomBeds');
-                const priceElement = modal.querySelector('#roomPrice');
-                const availableElement = modal.querySelector('#roomAvailable');
-                const descriptionElement = modal.querySelector('#roomDescription');
-
-                // записываем значения ячеек в соответствующие элементы модального окна
-                idElement.textContent = cells[0].textContent;
-                nameElement.textContent = cells[1].textContent;
-                numberElement.textContent = cells[2].textContent;
-                typeElement.textContent = cells[3].textContent;
-                capacityElement.textContent = cells[4].textContent;
-                bedsElement.textContent = cells[5].textContent;
-                priceElement.textContent = cells[6].textContent;
-                availableElement.textContent = cells[7].textContent;
-                descriptionElement.textContent = cells[8].textContent;
-            });
-        });
-    </script>
-
 
     <script>
         var minusBtn = document.getElementById("minus-btn");

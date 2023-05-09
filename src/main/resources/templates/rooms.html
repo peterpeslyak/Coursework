@@ -224,7 +224,9 @@
                 <input type="hidden" name="idRoom" th:value="${room.idRoom}">
                 <input type="hidden" name="checkIn" th:value="${checkIn}">
                 <input type="hidden" name="checkOut" th:value="${checkOut}">
+                <th:block th:if="${checkIn!=NULL}">
                 <button type="submit" class="btn btn-custom">Book</button>
+                </th:block>
               </form>
             </div>
           </div>

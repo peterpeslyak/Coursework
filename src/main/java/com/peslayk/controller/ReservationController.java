@@ -170,8 +170,9 @@ public class ReservationController {
         System.out.println(idUser);
 
         Room room = roomService.getRoomById(idRoom);
-
-        reservationService.newReservation(checkIn, checkOut, room, user1, guests, priceTotal);
+        if (reservationService.newReservation(checkIn, checkOut, room, user1, guests, priceTotal) == null) {
+            session.setAttribute("reservationMsg", "Reservation cannot be complete. Check out if this room is still available...");
+        }
         if (newAcc!=null){
             model.addAttribute("newAcc", "Yes");
             session.setAttribute("msg", newAcc);
@@ -189,28 +190,5 @@ public class ReservationController {
         }
         return "resirect:/paymentSuccess";
     }
-
-    /*
-    @GetMapping(value = "admin/rooms/{idRoom}")
-    public String getRoomById(@PathVariable Long idRoom, Model model) {
-        Room room = roomService.getRoomById(idRoom);
-        model.addAttribute("room", room);
-        return "room-details";
-    }
-
-    @RequestMapping(value = "admin/rooms/editRoom/{idRoom}")
-    public String editRoom(@PathVariable Long idRoom, Model model) {
-        model.addAttribute("room", roomService.getRoomById(idRoom));
-        return "admin/editRoom";
-    }
-
-    @PostMapping(value = "/admin/rooms/editRoom/update/{idRoom}")
-    public String updateRoom(@PathVariable Long idRoom,
-                             @ModelAttribute("room") Room room,
-                             Model model, HttpSession session) {
-        roomService.editRoom(idRoom, room);
-        return "redirect:/admin/rooms";
-    }
-     */
 
 }

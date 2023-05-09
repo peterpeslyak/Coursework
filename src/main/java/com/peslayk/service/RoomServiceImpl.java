@@ -13,10 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class RoomServiceImpl implements RoomService{
@@ -87,18 +84,31 @@ public class RoomServiceImpl implements RoomService{
     public List<Room> findAvailableRooms(Date checkInDate, Date checkOutDate, Integer capacity) {
         List<Room> availableRooms = new ArrayList<>();
 
-        // Находим все номера без бронирований в указанный период
+        if (checkInDate.after(checkOutDate)) {
+            return availableRooms;
+        }
+
         List<Room> rooms = roomRepo.findAll(); // Все номера
         System.out.println(rooms);
         for (Room room : rooms) {
-            if (room.getName().equalsIgnoreCase("Penthouse") || room.isAvailable() && room.getCapacity() >= capacity && room.getCapacity() <= capacity + 1) { // Проверка на соответствие параметрам поиска
+            if (room.getName().equalsIgnoreCase("Penthouse") || (room.isAvailable() && room.getCapacity() >= capacity && room.getCapacity() <= capacity + 1)) { // Проверка на соответствие параметрам поиска
                 System.out.println("Parameters ++ " + room);
                 boolean isBooked = false;
                 for (Reservation reservation : room.getReservationList()) {
-                    if ((checkInDate.before(reservation.getCheckOutDate()) && checkInDate.after(reservation.getCheckInDate())) ||
-                            (checkOutDate.before(reservation.getCheckOutDate()) && checkOutDate.after(reservation.getCheckInDate())) ||
-                            (checkInDate.before(reservation.getCheckInDate()) && checkOutDate.after(reservation.getCheckOutDate())) ||
-                            (checkInDate.equals(reservation.getCheckInDate()) && checkOutDate.equals(reservation.getCheckOutDate()))) {
+                    Date reservationCheckInDate = reservation.getCheckInDate();
+                    Date reservationCheckOutDate = reservation.getCheckOutDate();
+
+                    if (reservationCheckInDate == null || reservationCheckOutDate == null) {
+                        continue;
+                    }
+
+                    if ((checkInDate.before(reservationCheckOutDate) && checkOutDate.after(reservationCheckOutDate)) ||
+                            (checkInDate.before(reservationCheckInDate) && checkOutDate.after(reservationCheckInDate)) ||
+                            (checkInDate.after(reservationCheckInDate) && checkOutDate.before(reservationCheckOutDate)) ||
+                            (checkInDate.equals(reservationCheckInDate) && checkOutDate.equals(reservationCheckOutDate)) ||
+                            (checkInDate.after(reservationCheckInDate) && checkOutDate.equals(reservationCheckOutDate)) ||
+                            (checkInDate.equals(reservationCheckInDate) && checkOutDate.before(reservationCheckOutDate))
+                    ) {
                         isBooked = true;
                         System.out.println("Is booked" + room.getIdRoom());
                         break;
@@ -115,4 +125,27 @@ public class RoomServiceImpl implements RoomService{
     }
 
 
+    public Room findAvailableRoom(Long idRoom, Date checkInDate, Date checkOutDate) {
+        // Находим номер по его idRoom и проверяем доступность в указанный период
+        Optional<Room> roomOptional = roomRepo.findById(idRoom);
+        if (roomOptional.isPresent()) {
+            Room room = roomOptional.get();
+            boolean isBooked = false;
+            for (Reservation reservation : room.getReservationList()) {
+                if ((checkInDate.before(reservation.getCheckOutDate()) && checkInDate.after(reservation.getCheckInDate())) ||
+                        (checkOutDate.before(reservation.getCheckOutDate()) && checkOutDate.after(reservation.getCheckInDate())) ||
+                        (checkInDate.before(reservation.getCheckInDate()) && checkOutDate.after(reservation.getCheckOutDate())) ||
+                        (checkInDate.equals(reservation.getCheckInDate()) && checkOutDate.equals(reservation.getCheckOutDate()))) {
+                    isBooked = true;
+                    System.out.println("Is booked" + room.getIdRoom());
+                    break;
+                }
+            }
+            if (!isBooked) {
+                System.out.println("Is available " + room.getIdRoom());
+                return room;
+            }
+        }
+        return null;
+    }
 }

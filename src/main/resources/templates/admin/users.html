@@ -66,7 +66,6 @@
                     <th scope="col">Email</th>
                     <th scope="col">Phone Number</th>
                     <th scope="col">Booking History</th>
-                    <th scope="col">Info</th>
                     <th scope="col">Role</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
@@ -84,9 +83,7 @@
                     <td>
                         <button type="button" class="btn btn-light">History</button>
                     </td>
-                    <td>
-                        <button type="button" class="btn btn-light">Info</button>
-                    </td>
+
                     <form id="updateRoleForm" th:action="@{admin/users/updateRole}" method="post">
                         <td>
                             <input type="hidden" name="userId" th:value="${user.idUser}" />
